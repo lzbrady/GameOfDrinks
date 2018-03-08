@@ -1,3 +1,5 @@
+import firebase from 'firebase'
+
 var config = {
     apiKey: "AIzaSyCTBmCz83tzekEsWpYbgk94bNo_0j37trQ",
     authDomain: "the-drinking-game-1.firebaseapp.com",
