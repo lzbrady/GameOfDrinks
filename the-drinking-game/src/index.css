@@ -1,9 +1,15 @@
 body {
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
 }
 
 .hide {
-  display: none;
+    display: none;
+}
+
+.error-message {
+    text-align: center;
+    color: red;
+    font-weight: bold;
 }

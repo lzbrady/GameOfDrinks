@@ -1,0 +1,109 @@
+.player-list {
+    position: relative;
+    width: 20em;
+    height: 20em;
+    padding: 2.8em;
+    /*2.8em = 2em*1.4 (2em = half the width of a link with img, 1.4 = sqrt(2))*/
+    border: dashed 1px;
+    border-radius: 50%;
+    margin: 1.75em auto 0;
+    margin-bottom: 50px;
+}
+
+.a-player-in-list {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 4em;
+    height: 4em;
+    margin: -2em;
+    border-radius: 50%;
+    border: 1px dotted black;
+    line-height: 4em;
+    background-color: white;
+}
+
+.deg0 {
+    transform: translate(12em);
+}
+
+.deg1 {
+    transform: rotate(45deg) translate(12em) rotate(-45deg);
+}
+
+.deg2 {
+    transform: rotate(90deg) translate(12em) rotate(-90deg);
+}
+
+.deg3 {
+    transform: rotate(135deg) translate(12em) rotate(-135deg);
+}
+
+.deg4 {
+    transform: translate(-12em);
+}
+
+.deg5 {
+    transform: rotate(225deg) translate(12em) rotate(-225deg);
+}
+
+.deg6 {
+    transform: rotate(270deg) translate(12em) rotate(-270deg);
+}
+
+.deg7 {
+    transform: rotate(315deg) translate(12em) rotate(-315deg);
+}
+
+.middle-icon {
+    width: 10em;
+    height: 5.92em;
+    position: absolute;
+    top: calc(50% - 5.4em);
+    left: calc(50% - 5em);
+}
+
+.start-game-btn,
+.leave-game-btn {
+    width: 200px;
+    height: 50px;
+    font-size: 1.4rem;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    display: block;
+    margin: 15px auto;
+}
+
+.start-game-btn {
+    background-color: #b4943e;
+}
+
+.start-game-btn:hover {
+    background-color: #846d2f;
+}
+
+.start-game-btn:focus,
+.leave-game-btn:focus {
+    outline: none;
+}
+
+.leave-game-btn {
+    background-color: #ff0000;
+}
+
+.leave-game-btn:hover {
+    background-color: #aa1212;
+}
+
+.my-name {
+    background-color: #f0c34c;
+}
+
+.game-code {
+    font-size: 69px;
+    position: relative;
+    text-align: center;
+    line-height: 4em;
+}
