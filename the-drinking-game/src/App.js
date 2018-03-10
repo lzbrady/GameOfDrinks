@@ -5,6 +5,7 @@ import './App.css';
 
 import MainPage from './main-page';
 import GameLoad from './Game/game-load';
+import DevGames from './DevGames/dev-game-main';
 
 class App extends Component {
   render() {
@@ -14,6 +15,7 @@ class App extends Component {
           <div className="content">
             <Route exact path="/" component={MainPage}/>
             <Route path='/lobby/:String' component={GameLoad}/>
+            <Route path='/devgames' component={DevGames}/>
           </div>
         </div>
       </HashRouter>
