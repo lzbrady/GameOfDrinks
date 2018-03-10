@@ -1,19 +1,27 @@
 import fire from './fire';
+import {nhieRandomNumber} from './database-nhie';
 
 export function createGame(playerName) {
     //TODO: Ensure game code doesn't exist already
     let gameCode = generateGameCode();
-    fire
+    let ref = fire
         .database()
         .ref('games')
-        .child(gameCode)
-        .set({[playerName]: true});
+        .child(gameCode);
+    ref.set({[playerName]: true});
+    ref
+        .child('redirect')
+        .set(false);
+    ref
+        .child('metadata')
+        .child('nhie')
+        .set(nhieRandomNumber());
     return gameCode;
 }
 
+
 export function joinGame(playerName, gameCode) {
-    //TODO: Ensure player name doesn't already exist
-    //TODO: Should we ensure game lobby exists
+    //TODO: Check to make sure players < 8
     let fireRef = fire
         .database()
         .ref('games')
@@ -76,4 +84,13 @@ function generateGameCode() {
         text += possible.charAt(Math.floor(Math.random() * possible.length));
     
     return text;
+}
+
+export function redirect(gameCode, redirectTo) {
+    return fire
+        .database()
+        .ref('games')
+        .child(gameCode)
+        .child('redirect')
+        .set(redirectTo);
 }

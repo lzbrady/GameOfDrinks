@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import fire from '../Backend/fire';
-import {removePlayer} from '../Backend/database';
+import {removePlayer, redirect} from '../Backend/database';
 import middlePic from '../Images/middle-icon.png';
+import {Link} from "react-router-dom";
 
 import './game-load.css';
 
@@ -16,16 +17,21 @@ class GameLoad extends Component {
             playerName: ""
         }
 
-        this.startGame = this
-            .startGame
-            .bind(this);
         this.leaveGame = this
             .leaveGame
+            .bind(this);
+
+        this.startGame = this
+            .startGame
             .bind(this);
     }
 
     startGame() {
-        console.log("TODO: Start Game");
+        redirect(this.state.gameCode, `/play/${this.state.gameCode}/games/`).then((rtn) => {
+            setTimeout(() => {
+                redirect(this.state.gameCode, false);
+            }, 100);
+        });
     }
 
     leaveGame() {
@@ -51,12 +57,15 @@ class GameLoad extends Component {
             if (snapshot.val() !== null) {
                 let newPlayers = [];
                 let num = 0;
-                snapshot.forEach(function (childSnapshot) {
-                    if (num < 8) {
+                snapshot.forEach((childSnapshot) => {
+                    if (num < 8 && childSnapshot.key !== 'redirect' && childSnapshot.key !== 'metadata') {
                         newPlayers.push(childSnapshot.key);
                         num++;
-                    } else {
-                        console.log("TODO: Too many players");
+                    } else if (childSnapshot.key === 'redirect' && childSnapshot.val()) {
+                        this
+                            .props
+                            .history
+                            .push(childSnapshot.val());
                     }
                 });
                 this.setState({players: newPlayers});
@@ -88,7 +97,9 @@ class GameLoad extends Component {
                                 key={player}>{player}</p>
                         }))}
                     </div>
+                    {/* <Link to='/games' className="link"> */}
                     <button className="start-game-btn" onClick={this.startGame}>Start Game</button>
+                    {/* </Link> */}
                     <button className="leave-game-btn" onClick={this.leaveGame}>Leave Game</button>
                 </div>
             </div>

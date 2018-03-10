@@ -13,3 +13,27 @@ body {
     color: red;
     font-weight: bold;
 }
+
+.link {
+    text-decoration: none;
+}
+
+.end-round {
+    width: 200px;
+    height: 50px;
+    font-size: 1.4rem;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    display: block;
+    margin: 15px auto;
+    background-color: #b4943e;
+}
+
+.end-round:hover {
+    background-color: #846d2f;
+}
+
+button:focus {
+    outline: none;
+}
