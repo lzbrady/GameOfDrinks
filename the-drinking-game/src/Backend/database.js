@@ -8,17 +8,20 @@ export function createGame(playerName) {
         .database()
         .ref('games')
         .child(gameCode);
-    ref.set({[playerName]: true});
+    ref.set({[playerName]: 0});
     ref
         .child('redirect')
         .set(false);
+    ref
+        .child('drinks')
+        .child('No One')
+        .set(true);
     ref
         .child('metadata')
         .child('nhie')
         .set(nhieRandomNumber());
     return gameCode;
 }
-
 
 export function joinGame(playerName, gameCode) {
     //TODO: Check to make sure players < 8
@@ -40,6 +43,11 @@ export function joinGame(playerName, gameCode) {
 }
 
 function checkPlayerNameExists(playerName, gameCode) {
+    // TODO: make this work
+    if (playerName === 'redirect' || playerName === 'metadata' || playerName === 'drinks') {
+        console.log("ERROR");
+        return {error: "Invalid Player Name"};
+    }
     // Check if player exists
     let playerRef = fire
         .database()
@@ -63,7 +71,7 @@ function actuallyJoinGame(playerName, gameCode) {
         .ref('games')
         .child(gameCode)
         .child(playerName)
-        .set(true);
+        .set(0);
     return {success: true};
 }
 
@@ -93,4 +101,52 @@ export function redirect(gameCode, redirectTo) {
         .child(gameCode)
         .child('redirect')
         .set(redirectTo);
+}
+
+export function getDrinks(gameCode) {
+    let ref = fire
+        .database()
+        .ref('games')
+        .child(gameCode)
+        .child('drinks');
+    return ref
+        .once('value')
+        .then((snapshot) => {
+            return snapshot;
+        })
+}
+
+export function updateDrinks(gameCode, username) {
+    let ref = fire
+        .database()
+        .ref('games')
+        .child(gameCode)
+        .child('drinks')
+        .child(username)
+        .set(true);
+
+    fire
+        .database()
+        .ref('games')
+        .child(gameCode)
+        .child('drinks')
+        .child('No One')
+        .set(false);
+}
+
+export function resetDrinks(gameCode) {
+    fire
+        .database()
+        .ref('games')
+        .child(gameCode)
+        .child('drinks')
+        .remove();
+
+    let ref = fire
+        .database()
+        .ref('games')
+        .child(gameCode)
+        .child('drinks')
+        .child('No One')
+        .set(true);
 }

@@ -41,7 +41,7 @@ class MainPage extends Component {
                 this.setState({error: ""});
                 localStorage.setItem("username", this.state.playerName.trim());
                 // Must attempt to read to persist
-                localStorage.getItem('localKey');
+                localStorage.getItem('username');
                 let code = createGame(this.state.playerName);
                 this.setState({error: ""});
                 this
@@ -60,7 +60,7 @@ class MainPage extends Component {
             this.setState({error: ""});
             localStorage.setItem("username", this.state.playerName.trim());
             // Must attempt to read to persist
-            localStorage.getItem('localKey');
+            localStorage.getItem('username');
             joinGame(this.state.playerName, this.state.gameCode).then((rtn) => {
                 if (rtn.success) {
                     this

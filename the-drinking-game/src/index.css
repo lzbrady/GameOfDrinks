@@ -18,7 +18,7 @@ body {
     text-decoration: none;
 }
 
-.end-round {
+.game-answer {
     width: 200px;
     height: 50px;
     font-size: 1.4rem;
@@ -30,10 +30,18 @@ body {
     background-color: #b4943e;
 }
 
-.end-round:hover {
+.game-answer:hover {
     background-color: #846d2f;
 }
 
 button:focus {
     outline: none;
+}
+
+.timer-text {
+    font-size: 36px;
+}
+
+.answer-confirmation {
+    font-size: 40px;
 }
