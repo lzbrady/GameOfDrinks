@@ -30,7 +30,7 @@ class GameLoad extends Component {
         redirect(this.state.gameCode, `/play/${this.state.gameCode}/games/`).then((rtn) => {
             setTimeout(() => {
                 redirect(this.state.gameCode, false);
-            }, 100);
+            }, 1);
         });
     }
 

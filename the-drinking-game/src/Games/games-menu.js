@@ -60,7 +60,7 @@ class GamesMenu extends Component {
         redirect(this.state.gameCode, `/play/${this.state.gameCode}/games/${to}`).then((rtn) => {
             setTimeout(() => {
                 redirect(this.state.gameCode, false);
-            }, 10);
+            }, 1);
         });
     }
 

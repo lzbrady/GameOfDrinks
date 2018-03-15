@@ -57,9 +57,10 @@ class NeverHaveIEver extends Component {
                 redirect(gameCode, `/play/${gameCode}/games/`).then((rtn) => {
                     setTimeout(() => {
                         redirect(gameCode, false);
-                    }, 100);
+                    }, 1);
                 });
             } else {
+                resetDrinks(gameCode);
                 playRound(gameCode).then((card) => {
                     this.setState({card: card});
                     this.setState({timeLeft: 10});
@@ -74,7 +75,8 @@ class NeverHaveIEver extends Component {
         getDrinks(this.state.gameCode).then((snapshot) => {
             let scores = [];
             for (let key in snapshot.val()) {
-                if (snapshot.val().hasOwnProperty(key)) {
+                console.log("Val", snapshot.val()[key]);
+                if (snapshot.val().hasOwnProperty(key) && snapshot.val()[key]) {
                     scores.push(key);
                 }
             }
@@ -104,16 +106,20 @@ class NeverHaveIEver extends Component {
                     : "timer-text"}>{this.state.timeLeft}</h3>
                 <div
                     className={(this.state.timeLeft < 0 || this.state.timeLeft > 10)
-                    ? "scoreboard"
+                    ? "drink-table"
                     : "hide"}>
+                    <h1>Drink:</h1>
                     {this
                         .state
                         .drinks
                         .map((player) => {
-                            return <h3 key={player}>{player}</h3>;
+                            return <h3 className="drink-table-person" key={player}>{player}</h3>;
                         })}
                 </div>
-                <div className="nhie-card">
+                <div
+                    className={(this.state.timeLeft < 0 || this.state.timeLeft > 10)
+                    ? "hide"
+                    : "nhie-card"}>
                     <h3>Drink if you have...</h3>
                     <p className="nhie-content">{this.state.card}</p>
                     <p className="nhie-catch">*If nobody has, then everybody drinks</p>

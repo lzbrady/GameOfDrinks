@@ -45,3 +45,12 @@ button:focus {
 .answer-confirmation {
     font-size: 40px;
 }
+
+.drink-table {
+    text-align: center;
+}
+
+.drink-table-person {
+    margin: 7px;
+    font-size: 24px;
+}
