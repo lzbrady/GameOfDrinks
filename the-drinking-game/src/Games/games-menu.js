@@ -4,6 +4,7 @@ import {redirect} from '../Backend/database';
 import fire from '../Backend/fire';
 
 import NeverHaveIEver from './never-have-i-ever';
+import MostLikelyTo from './most-likely-to';
 
 class GamesMenu extends Component {
 
@@ -75,12 +76,20 @@ class GamesMenu extends Component {
                                 onClick={(e) => this.routeChange('never-have-i-ever')}
                                 to={`/play/${this.state.gameCode}/games/never-have-i-ever`}
                                 className="games-menu-list-item">Never Have I Ever</Link>
+                            <Link
+                                onClick={(e) => this.routeChange('most-likely-to')}
+                                to={`/play/${this.state.gameCode}/games/most-likely-to`}
+                                className="games-menu-list-item">Most Likely To</Link>
                         </div>}
                         <div>
                             <Route
                                 exact
                                 path="/play/:String/games/never-have-i-ever"
                                 component={NeverHaveIEver}/>
+                            <Route
+                                exact
+                                path="/play/:String/games/most-likely-to"
+                                component={MostLikelyTo}/>
                         </div>
                     </div>
                 </div>

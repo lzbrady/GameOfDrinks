@@ -1,5 +1,6 @@
 import fire from './fire';
 import {nhieRandomNumber} from './database-nhie';
+import {mltRandomNumber} from './database-mlt';
 
 export function createGame(playerName) {
     //TODO: Ensure game code doesn't exist already
@@ -20,6 +21,10 @@ export function createGame(playerName) {
         .child('metadata')
         .child('nhie')
         .set(nhieRandomNumber());
+    ref
+        .child('metadata')
+        .child('mlt')
+        .set(mltRandomNumber());
     return gameCode;
 }
 
@@ -149,4 +154,14 @@ export function resetDrinks(gameCode) {
         .child('drinks')
         .child('No One')
         .set(true);
+}
+
+export function getPlayers(gameCode) {
+    let ref = fire
+        .database()
+        .ref('games')
+        .child(gameCode);
+    return ref.once('value', (snapshot) => {
+        return snapshot;
+    });
 }

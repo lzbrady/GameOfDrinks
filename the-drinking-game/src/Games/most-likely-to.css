@@ -1,0 +1,23 @@
+.mlt-card {
+    text-decoration: underline;
+    font-size: 32px;
+}
+
+.mlt-players {}
+
+.mlt-player {
+    border: 1px solid black;
+    width: 186px;
+    margin: 12px auto;
+    overflow: hidden;
+    border-radius: 12px;
+    padding: 14px;
+    background-color: #0c3154;
+    font-size: 24px;
+    color: white;
+    cursor: pointer;
+}
+
+.mlt-player:hover {
+    background-color: #071c2f;
+}    
