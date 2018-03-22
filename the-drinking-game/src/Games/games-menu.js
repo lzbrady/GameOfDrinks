@@ -5,6 +5,7 @@ import fire from '../Backend/fire';
 
 import NeverHaveIEver from './never-have-i-ever';
 import MostLikelyTo from './most-likely-to';
+import CaptionContest from './caption-contest';
 
 class GamesMenu extends Component {
 
@@ -80,6 +81,10 @@ class GamesMenu extends Component {
                                 onClick={(e) => this.routeChange('most-likely-to')}
                                 to={`/play/${this.state.gameCode}/games/most-likely-to`}
                                 className="games-menu-list-item">Most Likely</Link>
+                            <Link
+                                onClick={(e) => this.routeChange('caption-contest')}
+                                to={`/play/${this.state.gameCode}/games/caption-contest`}
+                                className="games-menu-list-item">Caption Contest</Link>
                         </div>}
                         <div>
                             <Route
@@ -90,6 +95,10 @@ class GamesMenu extends Component {
                                 exact
                                 path="/play/:String/games/most-likely-to"
                                 component={MostLikelyTo}/>
+                            <Route
+                                exact
+                                path="/play/:String/games/caption-contest"
+                                component={CaptionContest}/>
                         </div>
                     </div>
                 </div>

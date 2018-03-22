@@ -57,7 +57,7 @@ class GameLoad extends Component {
                 let newPlayers = [];
                 let num = 0;
                 snapshot.forEach((childSnapshot) => {
-                    if (num < 8 && childSnapshot.key !== 'redirect' && childSnapshot.key !== 'metadata' && childSnapshot.key !== 'drinks') {
+                    if (num < 8 && childSnapshot.key !== 'redirect' && childSnapshot.key !== 'metadata' && childSnapshot.key !== 'drinks' && childSnapshot.key !== 'captions') {
                         newPlayers.push(childSnapshot.key);
                         num++;
                     } else if (childSnapshot.key === 'redirect' && childSnapshot.val()) {

@@ -1,6 +1,7 @@
 import fire from './fire';
 import {nhieRandomNumber} from './database-nhie';
 import {mltRandomNumber} from './database-mlt';
+import {ccRandomNumber} from './database-cc';
 
 const HIGHEST_VOTE_SCORE = 20;
 
@@ -20,6 +21,10 @@ export function createGame(playerName) {
         .child('No One')
         .set(true);
     ref
+        .child('captions')
+        .child('No One')
+        .set(true);
+    ref
         .child('metadata')
         .child('nhie')
         .set(nhieRandomNumber());
@@ -27,6 +32,10 @@ export function createGame(playerName) {
         .child('metadata')
         .child('mlt')
         .set(mltRandomNumber());
+    ref
+        .child('metadata')
+        .child('cc')
+        .set(ccRandomNumber());
     return gameCode;
 }
 
@@ -125,7 +134,7 @@ export function updateScore(username, gameCode, newScore) {
                 .ref('games')
                 .child(gameCode)
                 .child(username)
-                .set(parseInt(snapshot.val()) + newScore);
+                .set(parseInt(snapshot.val(), 10) + newScore);
         });
 }
 
@@ -160,19 +169,19 @@ export function updateDrinks(gameCode, username) {
         .set(false);
 }
 
-export function resetDrinks(gameCode) {
+export function resetValues(gameCode, value) {
     fire
         .database()
         .ref('games')
         .child(gameCode)
-        .child('drinks')
+        .child(value)
         .remove();
 
     fire
         .database()
         .ref('games')
         .child(gameCode)
-        .child('drinks')
+        .child(value)
         .child('No One')
         .set(true);
 }

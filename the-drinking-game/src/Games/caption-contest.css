@@ -1,0 +1,37 @@
+.cc-card {
+    position: relative;
+    width: 100%;
+}
+
+.cc-content {
+    width: 96%;
+    margin: auto;
+}
+
+.cc-picture {
+    width: 96%;
+    margin: auto;
+    max-height: 500px;
+}
+
+.cc-input {
+    width: 65%;
+    height: 87px;
+    margin: 5px;
+    border: 2px solid black;
+    font-size: 16px;
+}
+
+.caption {
+    background-color: #b4943e;
+    width: 90%;
+    margin: 14px auto;
+    padding: 6px;
+    border-radius: 12px;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+.caption:hover {
+    background-color: #846d2f;
+}

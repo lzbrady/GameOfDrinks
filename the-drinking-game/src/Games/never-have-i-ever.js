@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 
 import {playRound, finishRound} from '../Backend/database-nhie';
-import {redirect, resetDrinks, getDrinks} from '../Backend/database';
+import {redirect, resetValues, getDrinks} from '../Backend/database';
 
 import './never-have-i-ever.css';
 
@@ -54,14 +54,14 @@ class NeverHaveIEver extends Component {
                 clearInterval(timer);
                 clearInterval(scoreTimer);
                 clearInterval(gameTimer);
-                resetDrinks(gameCode);
+                resetValues(gameCode, 'drinks');
                 redirect(gameCode, `/play/${gameCode}/games/`).then((rtn) => {
                     setTimeout(() => {
                         redirect(gameCode, false);
                     }, 1);
                 });
             } else {
-                resetDrinks(gameCode);
+                resetValues(gameCode, 'drinks');
                 playRound(gameCode).then((card) => {
                     this.setState({card: card});
                     this.setState({timeLeft: 10});
@@ -127,7 +127,9 @@ class NeverHaveIEver extends Component {
                 <p
                     className={this.state.answered
                     ? "answer-confirmation"
-                    : "hide"}>Answered <span role="img">&#9989;</span></p>
+                    : "hide"}>Answered
+                    <span aria-labelledby="jsx-a11y/accessible-emoji" role="img">&#9989;</span>
+                </p>
                 <button
                     className={this.state.answered
                     ? "hide"

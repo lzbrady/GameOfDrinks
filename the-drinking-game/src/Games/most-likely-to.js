@@ -53,7 +53,7 @@ class MostLikelyTo extends Component {
             if (snapshot.val() !== null) {
                 let players = [];
                 snapshot.forEach((childSnapshot) => {
-                    if (childSnapshot.key !== 'redirect' && childSnapshot.key !== 'metadata' && childSnapshot.key !== 'drinks') {
+                    if (childSnapshot.key !== 'redirect' && childSnapshot.key !== 'metadata' && childSnapshot.key !== 'drinks' && childSnapshot.key !== 'captions') {
                         players.push(childSnapshot.key);
                     }
                 });
@@ -138,7 +138,9 @@ class MostLikelyTo extends Component {
                 <p
                     className={this.state.answered
                     ? "answer-confirmation"
-                    : "hide"}>Answered &#9989;</p>
+                    : "hide"}>Answered
+                    <span aria-labelledby="jsx-a11y/accessible-emoji" role="img">&#9989;</span>
+                </p>
             </div>
         )
     }
