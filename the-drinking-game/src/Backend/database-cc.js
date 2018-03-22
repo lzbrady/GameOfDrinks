@@ -55,8 +55,8 @@ export function submitCaption(caption, gameCode) {
 
     return ref
         .child('captions')
-        .child(caption)
-        .set(username);
+        .child(username)
+        .set(caption);
 }
 
 export function getAllCaptions(gameCode) {
@@ -65,6 +65,15 @@ export function getAllCaptions(gameCode) {
         .ref('games')
         .child(gameCode)
         .child('captions');
+
+    // Seems like as decent a place as any to reset this
+    fire
+        .database()
+        .ref('games')
+        .child(gameCode)
+        .child('metadata')
+        .child('cc')
+        .set(ccRandomNumber());
 
     return ref
         .once('value')
@@ -81,10 +90,13 @@ export function submitVote(caption, gameCode) {
 
     return ref
         .child('captions')
-        .child(caption)
         .once('value')
         .then((snapshot) => {
-            votePlayer(gameCode, snapshot.val());
+            snapshot.forEach((childSnapshot) => {
+                if (childSnapshot.val() === caption) {
+                    votePlayer(gameCode, childSnapshot.key);
+                }
+            });
         });
 }
 
@@ -101,15 +113,10 @@ export function getWinningCaption(gameCode, username) {
             if (snapshot.val() !== null) {
                 let cap = "Could not find caption";
                 snapshot.forEach((childSnapshot) => {
-                    console.log("val", childSnapshot.val());
-                    console.log("key", childSnapshot.key);
-                    console.log("Username", username);
-                    if (childSnapshot.val() === username) {
-                        console.log("Matched");
-                        cap = childSnapshot.key;
+                    if (childSnapshot.key === username) {
+                        cap = childSnapshot.val();
                     }
                 });
-                console.log("Cap", cap);
                 return cap;
             } else {
                 return "Could not find caption";

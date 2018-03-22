@@ -18,7 +18,8 @@ class CaptionContest extends Component {
             gameCode: "",
             caption: "",
             captions: [],
-            voted: false
+            voted: false,
+            votable: true
         }
 
         this.submitAnswer = this
@@ -73,6 +74,7 @@ class CaptionContest extends Component {
             clearInterval(timer);
             resetValues(gameCode, 'captions');
             resetVotes(gameCode);
+            this.setState({caption: ""});
             redirect(gameCode, `/play/${gameCode}/games/`).then((rtn) => {
                 setTimeout(() => {
                     redirect(gameCode, false);
@@ -87,9 +89,19 @@ class CaptionContest extends Component {
             for (let key in snapshot) {
                 if (snapshot.hasOwnProperty(key) && snapshot[key]) {
                     if (key === "No One") {
-                        captions.push("No captions submitted...everyone drink!");
+                        this.setState({votable: false});
+
+                        setTimeout(() => {
+                            redirect(this.state.gameCode, `/play/${this.state.gameCode}/games/`).then((rtn) => {
+                                setTimeout(() => {
+                                    redirect(this.state.gameCode, false);
+                                }, 1);
+                            });
+                        }, 4000);
                     } else {
-                        captions.push(key);
+                        if (this.state.caption !== snapshot[key]) {
+                            captions.push(snapshot[key]);
+                        }
                     }
                 }
             }
@@ -99,14 +111,12 @@ class CaptionContest extends Component {
 
     getWinner() {
         getMostVoted(this.state.gameCode).then((voted) => {
-            console.log("Voted", voted);
             for (let i = 0; i < voted.length; i++) {
                 getWinningCaption(this.state.gameCode, voted[i]).then((caption) => {
                     let cap = {
                         player: voted[i],
                         caption: caption
                     };
-                    console.log("Cap", cap);
                     let oldDrinks = this.state.drinks;
                     oldDrinks.push(cap);
                     this.setState({drinks: oldDrinks});
@@ -117,7 +127,6 @@ class CaptionContest extends Component {
 
     submitAnswer() {
         submitCaption(this.state.caption, this.state.gameCode).then(() => {
-            this.setState({caption: ""});
             this.setState({answered: true});
         });
     }
@@ -134,7 +143,7 @@ class CaptionContest extends Component {
     render() {
         return (
             <div className="caption-contest">
-                <h1>Caption Content</h1>
+                <h1>Caption Contest</h1>
                 <h3
                     className={(this.state.timeLeft < 0 || this.state.timeLeft > 15)
                     ? "hide"
@@ -142,7 +151,9 @@ class CaptionContest extends Component {
                 <h3
                     className={(this.state.timeLeft < -10 || this.state.timeLeft > -1)
                     ? "hide"
-                    : "timer-text"}>{this.state.timeLeft + 10}</h3>
+                    : "timer-text"}>{!this.state.votable
+                        ? ""
+                        : (this.state.timeLeft + 10)}</h3>
 
                 <div
                     className={(this.state.timeLeft < -10)
@@ -154,10 +165,15 @@ class CaptionContest extends Component {
                         .drinks
                         .map((player) => {
                             return <h3 className="drink-table-person" key={player.player}>{player.player}
-                                <span>{player.caption}</span>
+                                <span className="drink-table-person-info">{player.caption}</span>
                             </h3>;
                         })}
                 </div>
+
+                <h3
+                    className={this.state.votable
+                    ? "hide"
+                    : "error-message"}>No captions submitted...everyone drink!</h3>
 
                 <div
                     className={(this.state.timeLeft > -10)
@@ -192,17 +208,18 @@ class CaptionContest extends Component {
                         <span aria-labelledby="jsx-a11y/accessible-emoji" role="img">&#9989;</span>
                     </p>
                     <div
-                        className={((this.state.timeLeft < 0 || this.state.timeLeft > 15) && !this.state.voted)
+                        className={((this.state.timeLeft < 0 || this.state.timeLeft > 15) && !this.state.voted && this.state.votable)
                         ? "captions"
                         : "hide"}>
+                        <h3
+                            className={this.state.captions.length === 0
+                            ? "error-message"
+                            : "hide"}>No one else submitted a caption, take a drink on us bud.</h3>
                         {this
                             .state
                             .captions
-                            .map((caption) => {
-                                return <h3
-                                    onClick={e => this.voteCaption({caption})}
-                                    className="caption"
-                                    key={caption}>{caption}</h3>;
+                            .map((caption, index) => {
+                                return <h3 onClick={e => this.voteCaption({caption})} className="caption" key={index}>{caption}</h3>;
                             })}
                     </div>
                 </div>

@@ -60,3 +60,10 @@ button:focus {
     margin: 7px;
     font-size: 24px;
 }
+
+.drink-table-person-info {
+    display: block;
+    color: #555555;
+    font-size: 20px;
+    font-style: italic;
+}
