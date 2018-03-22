@@ -2,6 +2,8 @@ import fire from './fire';
 import {nhieRandomNumber} from './database-nhie';
 import {mltRandomNumber} from './database-mlt';
 
+const HIGHEST_VOTE_SCORE = 20;
+
 export function createGame(playerName) {
     //TODO: Ensure game code doesn't exist already
     let gameCode = generateGameCode();
@@ -108,6 +110,25 @@ export function redirect(gameCode, redirectTo) {
         .set(redirectTo);
 }
 
+export function updateScore(username, gameCode, newScore) {
+    let ref = fire
+        .database()
+        .ref('games')
+        .child(gameCode)
+        .child(username);
+
+    ref
+        .once('value')
+        .then((snapshot) => {
+            fire
+                .database()
+                .ref('games')
+                .child(gameCode)
+                .child(username)
+                .set(parseInt(snapshot.val()) + newScore);
+        });
+}
+
 export function getDrinks(gameCode) {
     let ref = fire
         .database()
@@ -122,7 +143,7 @@ export function getDrinks(gameCode) {
 }
 
 export function updateDrinks(gameCode, username) {
-    let ref = fire
+    fire
         .database()
         .ref('games')
         .child(gameCode)
@@ -147,7 +168,7 @@ export function resetDrinks(gameCode) {
         .child('drinks')
         .remove();
 
-    let ref = fire
+    fire
         .database()
         .ref('games')
         .child(gameCode)
@@ -164,4 +185,71 @@ export function getPlayers(gameCode) {
     return ref.once('value', (snapshot) => {
         return snapshot;
     });
+}
+
+export function votePlayer(gameCode, player) {
+    let ref = fire
+        .database()
+        .ref('games')
+        .child(gameCode)
+        .child('metadata')
+        .child('votes')
+        .child(player);
+
+    ref
+        .once('value')
+        .then((snapshot) => {
+            if (snapshot.val() !== null) {
+                updateVotes(ref, snapshot.val());
+            } else {
+                ref.set(1);
+            }
+        });
+}
+
+function updateVotes(ref, oldScore) {
+    ref.set(oldScore + 1);
+}
+
+export function getMostVoted(gameCode) {
+    let ref = fire
+        .database()
+        .ref('games')
+        .child(gameCode)
+        .child('metadata')
+        .child('votes');
+
+    return ref
+        .once('value')
+        .then((snapshot) => {
+            let votes = [];
+            let highestVoteCount = 0;
+            votes.push("No one voted, everyone drink!");
+            if (snapshot.val() !== null) {
+                snapshot.forEach((childSnapshot) => {
+                    if (highestVoteCount === childSnapshot.val()) {
+                        votes.push(childSnapshot.key);
+                    } else if (highestVoteCount < childSnapshot.val()) {
+                        votes = [];
+                        votes.push(childSnapshot.key);
+                        highestVoteCount = childSnapshot.val();
+                    }
+                });
+            }
+            let username = localStorage.getItem('username');
+            if (votes.includes(username)) {
+                updateScore(username, gameCode, HIGHEST_VOTE_SCORE);
+            }
+            return votes;
+        });
+}
+
+export function resetVotes(gameCode) {
+    fire
+        .database()
+        .ref('games')
+        .child(gameCode)
+        .child('metadata')
+        .child('votes')
+        .remove();
 }

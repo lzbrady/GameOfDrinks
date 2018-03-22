@@ -52,6 +52,7 @@ class NeverHaveIEver extends Component {
         var gameTimer = setInterval(() => {
             if (i >= 2) {
                 clearInterval(timer);
+                clearInterval(scoreTimer);
                 clearInterval(gameTimer);
                 resetDrinks(gameCode);
                 redirect(gameCode, `/play/${gameCode}/games/`).then((rtn) => {
@@ -75,7 +76,6 @@ class NeverHaveIEver extends Component {
         getDrinks(this.state.gameCode).then((snapshot) => {
             let scores = [];
             for (let key in snapshot.val()) {
-                console.log("Val", snapshot.val()[key]);
                 if (snapshot.val().hasOwnProperty(key) && snapshot.val()[key]) {
                     scores.push(key);
                 }
@@ -127,7 +127,7 @@ class NeverHaveIEver extends Component {
                 <p
                     className={this.state.answered
                     ? "answer-confirmation"
-                    : "hide"}>Answered &#9989;</p>
+                    : "hide"}>Answered <span role="img">&#9989;</span></p>
                 <button
                     className={this.state.answered
                     ? "hide"

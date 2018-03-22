@@ -79,7 +79,7 @@ class GamesMenu extends Component {
                             <Link
                                 onClick={(e) => this.routeChange('most-likely-to')}
                                 to={`/play/${this.state.gameCode}/games/most-likely-to`}
-                                className="games-menu-list-item">Most Likely To</Link>
+                                className="games-menu-list-item">Most Likely</Link>
                         </div>}
                         <div>
                             <Route

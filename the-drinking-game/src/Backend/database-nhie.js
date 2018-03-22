@@ -1,6 +1,6 @@
 import fire from './fire';
 
-import {updateDrinks} from './database';
+import {updateDrinks, updateScore} from './database';
 
 const childrenSize = 51;
 
@@ -32,16 +32,12 @@ function getCard(num) {
 export function finishRound(points, gameCode) {
     if (points > 0) {
         let username = localStorage.getItem('username');
-        let ref = fire
+        fire
             .database()
             .ref('games')
             .child(gameCode)
             .child(username);
-        ref
-            .once('value')
-            .then((snapshot) => {
-                updateScore(ref, parseInt(snapshot.val()), points * 20);
-            });
+        updateScore(username, gameCode, points * 20);
         updateDrinks(gameCode, username);
     }
 
@@ -52,10 +48,6 @@ export function finishRound(points, gameCode) {
         .child('metadata')
         .child('nhie')
         .set(nhieRandomNumber());
-}
-
-function updateScore(ref, oldScore, newScore) {
-    ref.set(oldScore + newScore);
 }
 
 export function nhieRandomNumber() {

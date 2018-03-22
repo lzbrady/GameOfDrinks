@@ -1,11 +1,9 @@
 import fire from './fire';
 
-import {updateDrinks} from './database';
-
 const childrenSize = 5;
 
 export function playRound(gameCode) {
-    return fire
+    let ref = fire
         .database()
         .ref('games')
         .child(gameCode)
@@ -13,11 +11,12 @@ export function playRound(gameCode) {
         .child('mlt')
         .once('value')
         .then((data) => {
-            return getCard(data.val());
+            return getCard(gameCode, data.val());
         });
+    return ref;
 }
 
-function getCard(num) {
+function getCard(gameCode, num) {
     let ref = fire
         .database()
         .ref('most-likely-to')
@@ -25,37 +24,15 @@ function getCard(num) {
     return ref
         .once('value')
         .then((snapshot) => {
+            fire
+                .database()
+                .ref('games')
+                .child(gameCode)
+                .child('metadata')
+                .child('mlt')
+                .set(mltRandomNumber());
             return snapshot.val();
         });
-}
-
-export function finishRound(points, gameCode) {
-    if (points > 0) {
-        let username = localStorage.getItem('username');
-        let ref = fire
-            .database()
-            .ref('games')
-            .child(gameCode)
-            .child(username);
-        ref
-            .once('value')
-            .then((snapshot) => {
-                updateScore(ref, parseInt(snapshot.val()), points * 20);
-            });
-        updateDrinks(gameCode, username);
-    }
-
-    return fire
-        .database()
-        .ref('games')
-        .child(gameCode)
-        .child('metadata')
-        .child('nhie')
-        .set(mltRandomNumber());
-}
-
-function updateScore(ref, oldScore, newScore) {
-    ref.set(oldScore + newScore);
 }
 
 export function mltRandomNumber() {

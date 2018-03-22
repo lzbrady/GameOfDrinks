@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import fire from '../Backend/fire';
 import {removePlayer, redirect} from '../Backend/database';
 import middlePic from '../Images/middle-icon.png';
-import {Link} from "react-router-dom";
 
 import './game-load.css';
 
