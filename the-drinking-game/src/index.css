@@ -1,3 +1,7 @@
+html {
+    background-color: #f7f7f7;
+}
+
 body {
     margin: 0;
     padding: 0;
@@ -17,7 +21,18 @@ body {
 .games-menu-list-item {
     display: block;
     font-size: 18px;
-    margin: 11px;
+    text-decoration: none;
+    background-color: #ffffff;
+    padding: 15px;
+    width: 300px;
+    height: auto;
+    margin: 20px auto;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    color: #1E5199;
+}
+
+.games-menu-list-item:hover {
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
 }
 
 .link {
@@ -33,11 +48,12 @@ body {
     cursor: pointer;
     display: block;
     margin: 15px auto;
-    background-color: #b4943e;
+    background-color: #1E5199;
+    color: #f7f7f7;
 }
 
 .game-answer:hover {
-    background-color: #846d2f;
+    background-color: #13335f;
 }
 
 button:focus {
@@ -66,4 +82,10 @@ button:focus {
     color: #555555;
     font-size: 20px;
     font-style: italic;
+}
+
+.game-title {
+    font-size: 26px;
+    font-weight: normal;
+    text-decoration: underline;
 }

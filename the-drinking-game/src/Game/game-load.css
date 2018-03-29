@@ -77,11 +77,12 @@
 }
 
 .start-game-btn {
-    background-color: #b4943e;
+    background-color: #1E5199;
+    color: #f7f7f7;
 }
 
 .start-game-btn:hover {
-    background-color: #846d2f;
+    background-color: #13335f;
 }
 
 .start-game-btn:focus,
@@ -98,7 +99,8 @@
 }
 
 .my-name {
-    background-color: #f0c34c;
+    background-color: #1e5199;
+    color: #f7f7f7;
 }
 
 .game-code {

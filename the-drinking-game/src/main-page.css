@@ -21,22 +21,23 @@
     border-radius: 12px;
     display: block;
     margin: 15px auto;
-    background-color: #b4943e;
+    background-color: #1E5199;
 }
 
 .main-page-button {
-    background-color: #b4943e;
+    background-color: #1E5199;
+    color: #f7f7f7;
     cursor: pointer;
 }
 
 .main-page-disabled-button {
-    background-color: #968b6d;
-    color: #4d4d4d;
+    background-color: #4c607b;
+    color: #c2c2c2;
     cursor: not-allowed;
 }
 
 .main-page-button:hover {
-    background-color: #846d2f;
+    background-color: #13335f;
 }
 
 .main-page-button:focus {
@@ -57,4 +58,8 @@
     height: 30px;
     font-size: 20px;
     padding: 2px;
+}
+
+.paypal {
+    margin: 45px auto;
 }

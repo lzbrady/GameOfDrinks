@@ -23,7 +23,8 @@
 }
 
 .caption {
-    background-color: #b4943e;
+    background-color: #1E5199;
+    color: #f7f7f7;
     width: 90%;
     margin: 14px auto;
     padding: 6px;
@@ -33,5 +34,5 @@
 }
 
 .caption:hover {
-    background-color: #846d2f;
+    background-color: #13335f;
 }

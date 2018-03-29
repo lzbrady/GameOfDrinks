@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 
 import {playRound, finishRound} from '../Backend/database-nhie';
 import {redirect, resetValues, getDrinks} from '../Backend/database';
+import {browserHistory} from 'react-router';
 
 import './never-have-i-ever.css';
 
@@ -38,7 +39,7 @@ class NeverHaveIEver extends Component {
             this.setState({
                 timeLeft: this.state.timeLeft - 1
             });
-        }, 1000);
+        }, 1000000);
 
         var scoreTimer = setInterval(() => {
             this.refreshScores();
@@ -70,6 +71,13 @@ class NeverHaveIEver extends Component {
             }
             i++;
         }, 14000);
+
+        // window.onhashchange  = (e) => {
+        //     clearInterval(timer);
+        //     clearInterval(scoreTimer);
+        //     clearInterval(gameTimer);
+        //     return true;
+        // }
     }
 
     refreshScores() {
@@ -99,7 +107,7 @@ class NeverHaveIEver extends Component {
     render() {
         return (
             <div className="never-have-i-ever">
-                <h1>Never Have I Ever</h1>
+                <h1 className="game-title">Never Have I Ever</h1>
                 <h3
                     className={(this.state.timeLeft < 0 || this.state.timeLeft > 10)
                     ? "hide"

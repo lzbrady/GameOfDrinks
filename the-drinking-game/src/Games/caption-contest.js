@@ -143,7 +143,7 @@ class CaptionContest extends Component {
     render() {
         return (
             <div className="caption-contest">
-                <h1>Caption Contest</h1>
+                <h1 className="game-title">Caption Contest</h1>
                 <h3
                     className={(this.state.timeLeft < 0 || this.state.timeLeft > 15)
                     ? "hide"

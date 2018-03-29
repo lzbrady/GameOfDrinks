@@ -52,6 +52,7 @@ class GamesMenu extends Component {
 
     onBackButtonEvent = (e) => {
         e.preventDefault();
+        console.log("BACK BUTTON");
         this.setState({
             showMenu: !this.state.showMenu
         });

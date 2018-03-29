@@ -98,7 +98,7 @@ class MostLikelyTo extends Component {
     render() {
         return (
             <div className="most-likely-to">
-                <h1>Most Likely To</h1>
+                <h1 className="game-title">Most Likely To</h1>
                 <h3
                     className={(this.state.timeLeft < 0 || this.state.timeLeft > 10)
                     ? "hide"
