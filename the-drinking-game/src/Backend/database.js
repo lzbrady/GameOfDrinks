@@ -2,6 +2,7 @@ import fire from './fire';
 import {nhieRandomNumber} from './database-nhie';
 import {mltRandomNumber} from './database-mlt';
 import {ccRandomNumber} from './database-cc';
+import {generateNewTriviaQuestion} from './database-trivia';
 
 const HIGHEST_VOTE_SCORE = 20;
 
@@ -13,29 +14,50 @@ export function createGame(playerName) {
         .ref('games')
         .child(gameCode);
     ref.set({[playerName]: 0});
+
+    // Redirect
     ref
         .child('redirect')
         .set(false);
+
+    // List of people drinking
     ref
         .child('drinks')
         .child('No One')
         .set(true);
+
+    // List of captions
     ref
         .child('captions')
         .child('No One')
         .set(true);
+
+    // Number indicating which never have I ever question to pull
     ref
         .child('metadata')
         .child('nhie')
         .set(nhieRandomNumber());
+
+    // Number indicating which most likely to question to pull
     ref
         .child('metadata')
         .child('mlt')
         .set(mltRandomNumber());
+
+    // Number indicating which caption contest image to pull
     ref
         .child('metadata')
         .child('cc')
         .set(ccRandomNumber());
+
+    // Trivia in JSON form
+    generateNewTriviaQuestion().then((json) => {
+        ref
+            .child('metadata')
+            .child('trivia')
+            .set(json);
+    });
+
     return gameCode;
 }
 
