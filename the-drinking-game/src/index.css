@@ -89,3 +89,16 @@ button:focus {
     font-weight: normal;
     text-decoration: underline;
 }
+
+.title-with-tooltip {
+    display: inline-block;
+}
+
+.icon {
+    margin-left: 5px;
+    vertical-align: baseline;
+}
+
+.tooltip {
+    font-size: 18px !important;
+}

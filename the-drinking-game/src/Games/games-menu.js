@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Route, HashRouter, Link} from "react-router-dom";
 import {redirect} from '../Backend/database';
+import ReactTooltip from 'react-tooltip'
 import fire from '../Backend/fire';
 
 import NeverHaveIEver from './never-have-i-ever';
@@ -8,6 +9,8 @@ import MostLikelyTo from './most-likely-to';
 import CaptionContest from './caption-contest';
 import Trivia from './trivia';
 import RollTheDice from './roll-the-dice';
+
+import MdInfoOutline from 'react-icons/lib/md/info-outline';
 
 class GamesMenu extends Component {
 
@@ -76,7 +79,14 @@ class GamesMenu extends Component {
                     <div className="content">
                         <h1>The Game</h1>
                         {this.state.showMenu && <div className="games-menu-list">
-                            <h3>Play a Mini Game</h3>
+                            <h3 className="title-with-tooltip">Play a Mini Game</h3>
+                            <MdInfoOutline data-tip data-for='mini-game' className="icon"/>
+
+                            <ReactTooltip className="tooltip" id="mini-game" place="bottom" type="info" effect="solid">
+                                <span>Points arent tracked,</span><br/>
+                                <span>but you can still drink!</span>
+                            </ReactTooltip>
+
                             <Link
                                 onClick={(e) => this.routeChange('never-have-i-ever')}
                                 to={`/play/${this.state.gameCode}/games/never-have-i-ever`}
