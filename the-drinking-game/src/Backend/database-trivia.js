@@ -111,3 +111,17 @@ export function finishRound(gameCode) {
         return getDrinks(gameCode);
     });
 }
+
+export function getCorrectAnswer(gameCode) {
+    return fire
+        .database()
+        .ref('games')
+        .child(gameCode)
+        .child('metadata')
+        .child('trivia')
+        .child('correct_answer')
+        .once('value')
+        .then((snapshot) => {
+            return snapshot.val();
+        });
+}

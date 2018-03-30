@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 
-import {redirect, resetValues, getDrinks} from '../Backend/database';
-import {getTriviaInfo, answerQuestion, finishRound} from '../Backend/database-trivia';
+import {redirect, resetValues} from '../Backend/database';
+import {getTriviaInfo, answerQuestion, finishRound, getCorrectAnswer} from '../Backend/database-trivia';
 
 import './trivia.css';
 
@@ -17,7 +17,8 @@ class Trivia extends Component {
             gameCode: "",
             question: "",
             answers: [],
-            difficulty: ""
+            difficulty: "",
+            correctAnswer: ""
         }
 
         this.createMarkup = this
@@ -95,10 +96,13 @@ class Trivia extends Component {
             }
             this.setState({drinks: scores});
         });
+        getCorrectAnswer(this.state.gameCode).then((snapshot) => {
+            this.setState({correctAnswer: snapshot});
+        });
     }
 
-    createMarkup() {
-        return {__html: this.state.question};
+    createMarkup(toMark) {
+        return {__html: toMark};
     }
 
     answer(answer) {
@@ -116,6 +120,13 @@ class Trivia extends Component {
                     className={(this.state.timeLeft < 0 || this.state.timeLeft > 10)
                     ? "hide"
                     : "timer-text"}>{this.state.timeLeft}</h3>
+
+                <div
+                    className={(this.state.timeLeft < 0 || this.state.timeLeft > 10)
+                    ? "trivia-correct-answer"
+                    : "hide"}>Correct Answer:
+                    <br/>{this.state.correctAnswer}</div>
+
                 <div
                     className={(this.state.timeLeft < 0 || this.state.timeLeft > 10)
                     ? "drink-table"
@@ -133,7 +144,9 @@ class Trivia extends Component {
                     className={(this.state.timeLeft >= 0 && this.state.timeLeft <= 10)
                     ? "trivia-card"
                     : "hide"}>
-                    <p className="trivia-question" dangerouslySetInnerHTML={this.createMarkup()}/>
+                    <p
+                        className="trivia-question"
+                        dangerouslySetInnerHTML={this.createMarkup(this.state.question)}/>
                     <div
                         className={this.state.answered
                         ? "hide"
@@ -142,7 +155,11 @@ class Trivia extends Component {
                             .state
                             .answers
                             .map((answer) => {
-                                return <p className="trivia-answer" key={answer} onClick={e => this.answer(answer)}>{answer}</p>;
+                                return <p
+                                    className="trivia-answer"
+                                    key={answer}
+                                    onClick={e => this.answer(answer)}
+                                    dangerouslySetInnerHTML={this.createMarkup(answer)}/>;
                             })}
                     </div>
 

@@ -21,3 +21,9 @@
 .trivia-answer:hover {
     background-color: #13335f;
 }
+
+.trivia-correct-answer {
+    font-size: 26px;
+    font-weight: bold;
+    color: #00b800;
+}
