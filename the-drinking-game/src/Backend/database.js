@@ -3,6 +3,7 @@ import {nhieRandomNumber} from './database-nhie';
 import {mltRandomNumber} from './database-mlt';
 import {ccRandomNumber} from './database-cc';
 import {generateNewTriviaQuestion} from './database-trivia';
+import {rtdRandomNumber} from './database-rtd';
 
 const HIGHEST_VOTE_SCORE = 20;
 
@@ -57,6 +58,12 @@ export function createGame(playerName) {
             .child('trivia')
             .set(json);
     });
+
+    // Number indicating which 'Command' to pull
+    ref
+        .child('metadata')
+        .child('rtd')
+        .set(rtdRandomNumber());
 
     return gameCode;
 }

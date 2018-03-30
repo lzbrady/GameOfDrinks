@@ -7,6 +7,7 @@ import NeverHaveIEver from './never-have-i-ever';
 import MostLikelyTo from './most-likely-to';
 import CaptionContest from './caption-contest';
 import Trivia from './trivia';
+import RollTheDice from './roll-the-dice';
 
 class GamesMenu extends Component {
 
@@ -73,7 +74,7 @@ class GamesMenu extends Component {
             <HashRouter>
                 <div className="App">
                     <div className="content">
-                        <h1>The  Game</h1>
+                        <h1>The Game</h1>
                         {this.state.showMenu && <div className="games-menu-list">
                             <h3>Play a Mini Game</h3>
                             <Link
@@ -92,6 +93,10 @@ class GamesMenu extends Component {
                                 onClick={(e) => this.routeChange('trivia')}
                                 to={`/play/${this.state.gameCode}/games/trivia`}
                                 className="games-menu-list-item">Trivia</Link>
+                            <Link
+                                onClick={(e) => this.routeChange('roll-the-dice')}
+                                to={`/play/${this.state.gameCode}/games/roll-the-dice`}
+                                className="games-menu-list-item">Play with Fate</Link>
                         </div>}
                         <div>
                             <Route
@@ -107,6 +112,7 @@ class GamesMenu extends Component {
                                 path="/play/:String/games/caption-contest"
                                 component={CaptionContest}/>
                             <Route exact path="/play/:String/games/trivia" component={Trivia}/>
+                            <Route exact path="/play/:String/games/roll-the-dice" component={RollTheDice}/>
                         </div>
                     </div>
                 </div>
