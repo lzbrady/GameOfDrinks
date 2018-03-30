@@ -96,7 +96,7 @@ button:focus {
 
 .icon {
     margin-left: 5px;
-    vertical-align: baseline;
+    vertical-align: baseline !important;
 }
 
 .tooltip {

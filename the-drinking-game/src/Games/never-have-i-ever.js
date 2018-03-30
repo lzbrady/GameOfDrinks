@@ -38,17 +38,19 @@ class NeverHaveIEver extends Component {
             this.setState({
                 timeLeft: this.state.timeLeft - 1
             });
-        }, 1000000);
+        }, 1000);
 
-        var scoreTimer = setInterval(() => {
-            this.refreshScores();
-        }, 10000);
+        let i = 0;
+        for (let i = 0; i < 3; i++) {
+            var scoreTimer = setTimeout(() => {
+                this.refreshScores();
+            }, ((10000 * (i + 1)) + (4000 * i)));
+        }
 
         playRound(gameCode).then((card) => {
             this.setState({card: card});
         });
 
-        let i = 0;
         var gameTimer = setInterval(() => {
             if (i >= 2) {
                 clearInterval(timer);
@@ -71,12 +73,8 @@ class NeverHaveIEver extends Component {
             i++;
         }, 14000);
 
-        // window.onhashchange  = (e) => {
-        //     clearInterval(timer);
-        //     clearInterval(scoreTimer);
-        //     clearInterval(gameTimer);
-        //     return true;
-        // }
+        // window.onhashchange  = (e) => {     clearInterval(timer);
+        // clearInterval(scoreTimer);     clearInterval(gameTimer);     return true; }
     }
 
     refreshScores() {
