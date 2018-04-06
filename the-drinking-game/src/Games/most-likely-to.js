@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 
 import {playRound} from '../Backend/database-mlt';
-import {redirect, getPlayers, votePlayer, getMostVoted, resetVotes} from '../Backend/database';
+import {redirect, getPlayers, votePlayer, getMostVoted, resetVotes, isFullGame} from '../Backend/database';
+import {nextRound} from '../Backend/database-main';
 
 import './most-likely-to.css';
 
@@ -34,6 +35,13 @@ class MostLikelyTo extends Component {
             .pathname
             .substring(6, 11);
         this.setState({gameCode: gameCode});
+
+        isFullGame(gameCode).then((isFullGame) => {
+            if (isFullGame) {
+                this.setState({redirectTo: 'main-game'});
+            }
+        });
+        nextRound(gameCode, 3);
 
         var timer = setInterval(() => {
             if (this.state.timeLeft === 1) {

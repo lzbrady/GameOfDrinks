@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 
 import {playRound, finishRound} from '../Backend/database-nhie';
-import {redirect, resetValues, getDrinks} from '../Backend/database';
+import {redirect, resetValues, getDrinks, isFullGame} from '../Backend/database';
+import {nextRound} from '../Backend/database-main';
 
 import './never-have-i-ever.css';
 
@@ -14,7 +15,8 @@ class NeverHaveIEver extends Component {
             timeLeft: 10,
             answered: false,
             drinks: [],
-            gameCode: ""
+            gameCode: "",
+            redirectTo: ""
         }
 
         this.finish = this
@@ -33,6 +35,13 @@ class NeverHaveIEver extends Component {
             .pathname
             .substring(6, 11);
         this.setState({gameCode: gameCode});
+
+        isFullGame(gameCode).then((isFullGame) => {
+            if (isFullGame) {
+                this.setState({redirectTo: 'main-game'});
+            }
+        });
+        nextRound(gameCode, 2);
 
         var timer = setInterval(() => {
             this.setState({
@@ -57,7 +66,7 @@ class NeverHaveIEver extends Component {
                 clearInterval(scoreTimer);
                 clearInterval(gameTimer);
                 resetValues(gameCode, 'drinks');
-                redirect(gameCode, `/play/${gameCode}/games/`).then((rtn) => {
+                redirect(gameCode, `/play/${gameCode}/games/${this.state.redirectTo}`).then((rtn) => {
                     setTimeout(() => {
                         redirect(gameCode, false);
                     }, 1);
@@ -129,22 +138,27 @@ class NeverHaveIEver extends Component {
                     <p className="nhie-content">{this.state.card}</p>
                     <p className="nhie-catch">*If nobody has, then everybody drinks</p>
                 </div>
-                <p
-                    className={this.state.answered
-                    ? "answer-confirmation"
-                    : "hide"}>Answered
-                    <span aria-labelledby="jsx-a11y/accessible-emoji" role="img">&#9989;</span>
-                </p>
-                <button
-                    className={this.state.answered
+                <div
+                    className={(this.state.timeLeft < 0 || this.state.timeLeft > 10)
                     ? "hide"
-                    : "game-answer"}
-                    onClick={e => this.finish(1)}>Yes</button>
-                <button
-                    className={this.state.answered
-                    ? "hide"
-                    : "game-answer"}
-                    onClick={e => this.finish(0)}>No</button>
+                    : ""}>
+                    <p
+                        className={this.state.answered
+                        ? "answer-confirmation"
+                        : "hide"}>Answered
+                        <span aria-labelledby="jsx-a11y/accessible-emoji" role="img">&#9989;</span>
+                    </p>
+                    <button
+                        className={this.state.answered
+                        ? "hide"
+                        : "game-answer"}
+                        onClick={e => this.finish(1)}>Yes</button>
+                    <button
+                        className={this.state.answered
+                        ? "hide"
+                        : "game-answer"}
+                        onClick={e => this.finish(0)}>No</button>
+                </div>
             </div>
         );
     }

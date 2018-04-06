@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Route, HashRouter, Link} from "react-router-dom";
-import {redirect, isFullGame} from '../Backend/database';
+import {redirect} from '../Backend/database';
 import ReactTooltip from 'react-tooltip'
 import fire from '../Backend/fire';
 
@@ -43,6 +43,7 @@ class GamesMenu extends Component {
             .child(gameCode)
             .child('redirect');
 
+        // Listener for redirects
         gameRef.on('value', (snapshot) => {
             if (snapshot.key === 'redirect' && snapshot.val()) {
                 this
@@ -51,16 +52,18 @@ class GamesMenu extends Component {
                     .push(snapshot.val());
             }
         });
-
-        isFullGame(gameCode).then((isFullGame) => {
-            if (isFullGame) {
-                redirect(this.state.gameCode, `/play/${this.state.gameCode}/games/main-game`).then((rtn) => {
-                    setTimeout(() => {
-                        redirect(this.state.gameCode, false);
-                    }, 1);
-                });
-            }
-        });
+        // Listener for if full game is being played
+        fire
+            .database()
+            .ref('games')
+            .child(gameCode)
+            .child('metadata')
+            .child('isFullGame')
+            .on('value', (snapshot) => {
+                if (snapshot.val()) {
+                    this.setState({playingFullGame: true});
+                }
+            });
 
         this.setState({gameCode: gameCode});
         if (this.props.location.pathname.substring(11) === '/games/') {

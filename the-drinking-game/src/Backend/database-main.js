@@ -31,3 +31,13 @@ function getGame(round) {
         game: gameAtRound[round - 1]
     };
 }
+
+export function nextRound(gameCode, nextRound) {
+    fire
+        .database()
+        .ref('games')
+        .child(gameCode)
+        .child('metadata')
+        .child('round')
+        .set(nextRound);
+}

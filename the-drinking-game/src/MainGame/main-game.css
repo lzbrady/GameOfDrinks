@@ -1,0 +1,27 @@
+.round-table {
+    margin: 50px auto;
+    width: 96%;
+}
+
+.round-table-row {
+    background-color: lightblue;
+    font-size: 1rem;
+    text-align: left;
+    width: 300px;
+    margin: auto;
+}
+
+.round-table-entry-round {
+    display: inline-block;
+    margin: 10px 40px;
+}
+
+.round-table-entry {
+    display: inline-block;
+}
+
+.current-row {
+    background-color: orange;
+    font-size: 1.25rem;
+    font-weight: bold;
+}
