@@ -65,6 +65,24 @@ export function createGame(playerName) {
         .child('rtd')
         .set(rtdRandomNumber());
 
+    // String indicating username of player to do a command
+    ref
+        .child('metadata')
+        .child('player')
+        .set(playerName);
+
+    // Round number
+    ref
+        .child('metadata')
+        .child('round')
+        .set(1);
+
+    // Boolean indicating if full game is being played
+    ref
+        .child('metadata')
+        .child('isFullGame')
+        .set(false);
+
     return gameCode;
 }
 
@@ -290,4 +308,17 @@ export function resetVotes(gameCode) {
         .child('metadata')
         .child('votes')
         .remove();
+}
+
+export function isFullGame(gameCode) {
+    return fire
+        .database()
+        .ref('games')
+        .child(gameCode)
+        .child('metadata')
+        .child('isFullGame')
+        .once('value')
+        .then((snapshot) => {
+            return snapshot.val();
+        });
 }

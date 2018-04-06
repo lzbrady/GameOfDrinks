@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Route, HashRouter, Link} from "react-router-dom";
-import {redirect} from '../Backend/database';
+import {redirect, isFullGame} from '../Backend/database';
 import ReactTooltip from 'react-tooltip'
 import fire from '../Backend/fire';
 
@@ -9,6 +9,8 @@ import MostLikelyTo from './most-likely-to';
 import CaptionContest from './caption-contest';
 import Trivia from './trivia';
 import RollTheDice from './roll-the-dice';
+
+import MainGame from '../MainGame/main-game';
 
 import MdInfoOutline from 'react-icons/lib/md/info-outline';
 
@@ -19,7 +21,8 @@ class GamesMenu extends Component {
 
         this.state = {
             showMenu: true,
-            gameCode: ""
+            gameCode: "",
+            playingFullGame: false
         }
 
         this.routeChange = this
@@ -33,11 +36,13 @@ class GamesMenu extends Component {
             .location
             .pathname
             .substring(6, 11);
+
         let gameRef = fire
             .database()
             .ref('games')
             .child(gameCode)
             .child('redirect');
+
         gameRef.on('value', (snapshot) => {
             if (snapshot.key === 'redirect' && snapshot.val()) {
                 this
@@ -46,12 +51,24 @@ class GamesMenu extends Component {
                     .push(snapshot.val());
             }
         });
+
+        isFullGame(gameCode).then((isFullGame) => {
+            if (isFullGame) {
+                redirect(this.state.gameCode, `/play/${this.state.gameCode}/games/main-game`).then((rtn) => {
+                    setTimeout(() => {
+                        redirect(this.state.gameCode, false);
+                    }, 1);
+                });
+            }
+        });
+
         this.setState({gameCode: gameCode});
         if (this.props.location.pathname.substring(11) === '/games/') {
             this.setState({showMenu: true});
         } else {
             this.setState({showMenu: false});
         }
+
         window.onpopstate = this.onBackButtonEvent;
     }
 
@@ -65,6 +82,9 @@ class GamesMenu extends Component {
 
     routeChange(to) {
         this.setState({showMenu: false});
+        if (to === 'main-game') {
+            this.setState({playingFullGame: true});
+        }
         redirect(this.state.gameCode, `/play/${this.state.gameCode}/games/${to}`).then((rtn) => {
             setTimeout(() => {
                 redirect(this.state.gameCode, false);
@@ -78,11 +98,34 @@ class GamesMenu extends Component {
                 <div className="App">
                     <div className="content">
                         <h1>The Game</h1>
-                        {this.state.showMenu && <div className="games-menu-list">
+                        {!this.state.playingFullGame && this.state.showMenu && <div className="games-menu-list">
+                            <h3 className="title-with-tooltip">Play the Full Game</h3>
+                            <MdInfoOutline data-tip data-for='main-game' className="icon"/>
+
+                            <Link
+                                onClick={(e) => this.routeChange('main-game')}
+                                to={`/play/${this.state.gameCode}/games/main-game`}
+                                className="games-menu-list-item">Start Game</Link>
+
+                            <ReactTooltip
+                                className="tooltip"
+                                id="main-game"
+                                place="bottom"
+                                type="info"
+                                effect="solid">
+                                <span>Cycles through the mini games.</span><br/>
+                                <span>Points are tracked and drinks are drank!</span>
+                            </ReactTooltip>
+
                             <h3 className="title-with-tooltip">Play a Mini Game</h3>
                             <MdInfoOutline data-tip data-for='mini-game' className="icon"/>
 
-                            <ReactTooltip className="tooltip" id="mini-game" place="bottom" type="info" effect="solid">
+                            <ReactTooltip
+                                className="tooltip"
+                                id="mini-game"
+                                place="bottom"
+                                type="info"
+                                effect="solid">
                                 <span>Points arent tracked,</span><br/>
                                 <span>but you can still drink!</span>
                             </ReactTooltip>
@@ -123,6 +166,7 @@ class GamesMenu extends Component {
                                 component={CaptionContest}/>
                             <Route exact path="/play/:String/games/trivia" component={Trivia}/>
                             <Route exact path="/play/:String/games/roll-the-dice" component={RollTheDice}/>
+                            <Route exact path="/play/:String/games/main-game" component={MainGame}/>
                         </div>
                     </div>
                 </div>

@@ -33,18 +33,16 @@ function getCard(gameCode, num) {
 }
 
 function assignPlayer(gameCode, card) {
-    return getPlayers(gameCode).then((snapshot) => {
-        if (snapshot.val() !== null) {
-            let players = [];
-            snapshot.forEach((childSnapshot) => {
-                if (childSnapshot.key !== 'redirect' && childSnapshot.key !== 'metadata' && childSnapshot.key !== 'drinks' && childSnapshot.key !== 'captions') {
-                    players.push(childSnapshot.key);
-                }
-            });
-            let newCard = getRandomPlayer(players) + card.substring(6);
-            return newCard;
-        }
-    });
+    return fire
+        .database()
+        .ref('games')
+        .child(gameCode)
+        .child('metadata')
+        .child('player')
+        .once('value')
+        .then((snapshot) => {
+            return snapshot.val() + card.substring(6);
+        });
 }
 
 function getRandomPlayer(players) {
@@ -63,4 +61,23 @@ export function newCommand(gameCode) {
         .child('metadata')
         .child('rtd')
         .set(rtdRandomNumber());
+
+    getPlayers(gameCode).then((snapshot) => {
+        if (snapshot.val() !== null) {
+            let players = [];
+            snapshot.forEach((childSnapshot) => {
+                if (childSnapshot.key !== 'redirect' && childSnapshot.key !== 'metadata' && childSnapshot.key !== 'drinks' && childSnapshot.key !== 'captions') {
+                    players.push(childSnapshot.key);
+                }
+            });
+            let newPlayer = getRandomPlayer(players);
+            fire
+                .database()
+                .ref('games')
+                .child(gameCode)
+                .child('metadata')
+                .child('player')
+                .set(newPlayer);
+        }
+    });
 }
