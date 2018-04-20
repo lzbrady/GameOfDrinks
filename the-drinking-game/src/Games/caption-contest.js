@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 
-import {redirect, resetValues, getMostVoted, resetVotes} from '../Backend/database';
+import {redirect, resetValues, getMostVoted, resetVotes, isFullGame} from '../Backend/database';
 import {playRound, submitCaption, getAllCaptions, submitVote, getWinningCaption} from '../Backend/database-cc';
+import {nextRound} from '../Backend/database-main';
 
 import './caption-contest.css';
 
@@ -51,6 +52,13 @@ class CaptionContest extends Component {
             .substring(6, 11);
         this.setState({gameCode: gameCode});
 
+        isFullGame(gameCode).then((isFullGame) => {
+            if (isFullGame) {
+                this.setState({redirectTo: 'main-game'});
+            }
+        });
+        nextRound(gameCode, 4);
+
         var timer = setInterval(() => {
             this.setState({
                 timeLeft: this.state.timeLeft - 1
@@ -75,7 +83,7 @@ class CaptionContest extends Component {
             resetValues(gameCode, 'captions');
             resetVotes(gameCode);
             this.setState({caption: ""});
-            redirect(gameCode, `/play/${gameCode}/games/`).then((rtn) => {
+            redirect(gameCode, `/play/${gameCode}/games/${this.state.redirectTo}`).then((rtn) => {
                 setTimeout(() => {
                     redirect(gameCode, false);
                 }, 1);

@@ -1,7 +1,14 @@
 import React, {Component} from 'react';
 
 import {playRound} from '../Backend/database-mlt';
-import {redirect, getPlayers, votePlayer, getMostVoted, resetVotes, isFullGame} from '../Backend/database';
+import {
+    redirect,
+    getPlayers,
+    votePlayer,
+    getMostVoted,
+    resetVotes,
+    isFullGame
+} from '../Backend/database';
 import {nextRound} from '../Backend/database-main';
 
 import './most-likely-to.css';
@@ -74,7 +81,7 @@ class MostLikelyTo extends Component {
             if (i >= 2) {
                 clearInterval(timer);
                 clearInterval(gameTimer);
-                redirect(gameCode, `/play/${gameCode}/games/`).then((rtn) => {
+                redirect(gameCode, `/play/${gameCode}/games/${this.state.redirectTo}`).then((rtn) => {
                     setTimeout(() => {
                         redirect(gameCode, false);
                     }, 1);

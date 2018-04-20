@@ -191,6 +191,15 @@ export function getDrinks(gameCode) {
         .ref('games')
         .child(gameCode)
         .child('drinks');
+
+    fire
+        .database()
+        .ref('games')
+        .child(gameCode)
+        .child('metadata')
+        .child('nhie')
+        .set(nhieRandomNumber());
+
     return ref
         .once('value')
         .then((snapshot) => {

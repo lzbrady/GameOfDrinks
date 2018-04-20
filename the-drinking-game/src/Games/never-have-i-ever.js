@@ -105,9 +105,8 @@ class NeverHaveIEver extends Component {
             .pathname
             .substring(6, 11);
 
-        finishRound(answer, gameCode).then(() => {
-            this.setState({answered: true});
-        });
+        finishRound(answer, gameCode);
+        this.setState({answered: true});
     }
 
     render() {

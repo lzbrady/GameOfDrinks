@@ -40,14 +40,6 @@ export function finishRound(points, gameCode) {
         updateScore(username, gameCode, points * 20);
         updateDrinks(gameCode, username);
     }
-
-    return fire
-        .database()
-        .ref('games')
-        .child(gameCode)
-        .child('metadata')
-        .child('nhie')
-        .set(nhieRandomNumber());
 }
 
 export function nhieRandomNumber() {

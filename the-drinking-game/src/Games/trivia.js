@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 
-import {redirect, resetValues} from '../Backend/database';
+import {redirect, resetValues, isFullGame} from '../Backend/database';
 import {getTriviaInfo, answerQuestion, finishRound, getCorrectAnswer} from '../Backend/database-trivia';
+import {nextRound} from '../Backend/database-main';
 
 import './trivia.css';
 
@@ -42,6 +43,13 @@ class Trivia extends Component {
             .substring(6, 11);
         this.setState({gameCode: gameCode});
 
+        isFullGame(gameCode).then((isFullGame) => {
+            if (isFullGame) {
+                this.setState({redirectTo: 'main-game'});
+            }
+        });
+        nextRound(gameCode, 5);
+
         // Timer for timer...
         var timer = setInterval(() => {
             this.setState({
@@ -69,7 +77,7 @@ class Trivia extends Component {
                 clearInterval(scoreTimer);
                 clearInterval(gameTimer);
                 resetValues(gameCode, 'drinks');
-                redirect(gameCode, `/play/${gameCode}/games/`).then((rtn) => {
+                redirect(gameCode, `/play/${gameCode}/games/${this.state.redirectTo}`).then((rtn) => {
                     setTimeout(() => {
                         redirect(gameCode, false);
                     }, 1);
