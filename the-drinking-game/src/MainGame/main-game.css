@@ -1,19 +1,35 @@
 .round-table {
     margin: 50px auto;
     width: 96%;
+    background-color: #ffffff91;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
 
 .round-table-row {
-    background-color: lightblue;
     font-size: 1rem;
     text-align: left;
-    width: 300px;
+    width: 90%;
     margin: auto;
+    border-bottom: 1px solid #0000002e;
+}
+
+.round-heading,
+.game-heading {
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.round-heading {
+    margin: 10px 13px;
+}
+
+.game-heading {
+    margin: 10px 35px;
 }
 
 .round-table-entry-round {
     display: inline-block;
-    margin: 10px 40px;
+    margin: 10px 60px 10px 40px;
 }
 
 .round-table-entry {
@@ -21,8 +37,7 @@
 }
 
 .current-row {
-    background-color: orange;
-    font-size: 1.25rem;
+    background-color: #1e51993b;
     font-weight: bold;
 }
 

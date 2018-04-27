@@ -123,8 +123,8 @@ class MainGame extends Component {
 
                     <div className="round-table">
                         <div className="round-table-row">
-                            <p className="round-table-entry">Round</p>
-                            <p className="round-table-entry">Game</p>
+                            <p className="round-table-entry round-heading">Round</p>
+                            <p className="round-table-entry game-heading">Game</p>
                         </div>
 
                         <div
