@@ -1,9 +1,36 @@
 import React, {Component} from 'react';
 
-import {redirect} from '../Backend/database';
-import {getRoundAndGame} from '../Backend/database-main';
+import {redirect, getResults} from '../Backend/database';
+import {getRoundAndGame, finishGame, reset} from '../Backend/database-main';
+import fire from '../Backend/fire';
 
 import './main-game.css';
+
+function PointCeremony(props) {
+    return (
+        <div className="point-ceremony">
+            <div className="podium-div">
+                <p className="podium-name">{props.second.name}</p>
+                <div className="podium-slot podium-slot-2">2nd</div>
+                <p className="podium-name">{props.second.points}</p>
+            </div>
+            <div className="podium-div">
+                <p className="podium-name">{props.first.name}</p>
+                <div className="podium-slot podium-slot-1">1st</div>
+                <p className="podium-name">{props.first.points}</p>
+            </div>
+            <div className="podium-div">
+                <p className="podium-name">{props.third.name}</p>
+                <div className="podium-slot podium-slot-3">3rd</div>
+                <p className="podium-name">{props.third.points}</p>
+            </div>
+            <button onClick={props.endGame} className="game-answer">
+                Done
+            </button>
+        </div>
+
+    );
+}
 
 class MainGame extends Component {
     constructor() {
@@ -12,11 +39,19 @@ class MainGame extends Component {
         this.state = {
             gameCode: "",
             round: 1,
-            currentGame: ""
+            currentGame: "",
+            finished: false,
+            first: {},
+            second: {},
+            third: {}
         }
 
         this.startGame = this
             .startGame
+            .bind(this);
+
+        this.endGame = this
+            .endGame
             .bind(this);
     }
 
@@ -31,20 +66,60 @@ class MainGame extends Component {
         getRoundAndGame(gameCode).then((snapshot) => {
             this.setState({round: snapshot.round, currentGame: snapshot.game});
         });
+
+        // Listener for if point ceremony should be played
+        fire
+            .database()
+            .ref('games')
+            .child(gameCode)
+            .child('metadata')
+            .child('pointCeremony')
+            .on('value', (snapshot) => {
+                if (snapshot.val()) {
+                    this.setState({finished: true});
+                    getResults(this.state.gameCode).then((results) => {
+                        this.setState({first: results.first, second: results.second, third: results.third})
+                    });
+                } else {
+                    this.setState({finished: false});
+                }
+            });
     }
 
     startGame() {
-        redirect(this.state.gameCode, `/play/${this.state.gameCode}/games/${this.state.currentGame}`).then((rtn) => {
-            setTimeout(() => {
-                redirect(this.state.gameCode, false);
-            }, 1);
+        if (this.state.round === 5) {
+            finishGame(this.state.gameCode);
+            this.setState({finished: true});
+        } else {
+            redirect(this.state.gameCode, `/play/${this.state.gameCode}/games/${this.state.currentGame}`).then((rtn) => {
+                setTimeout(() => {
+                    redirect(this.state.gameCode, false);
+                }, 1);
+            });
+        }
+    }
+
+    endGame() {
+        reset(this.state.gameCode).then((snapshot) => {
+            redirect(this.state.gameCode, `/play/${this.state.gameCode}/games/restart`).then((rtn) => {
+                setTimeout(() => {
+                    redirect(this.state.gameCode, false);
+                }, 1);
+            });
         });
     }
 
     render() {
         return (
             <div className="main-game">
-                <div className="main-game-content">
+
+                {this.state.finished && <PointCeremony
+                    first={this.state.first}
+                    second={this.state.second}
+                    third={this.state.third}
+                    endGame={this.endGame}/>}
+
+                {!this.state.finished && <div className="main-game-content">
 
                     <div className="round-table">
                         <div className="round-table-row">
@@ -89,8 +164,10 @@ class MainGame extends Component {
                         </div>
                     </div>
 
-                    <button className="game-answer" onClick={this.startGame}>Start Round</button>
-                </div>
+                    <button className="game-answer" onClick={this.startGame}>{this.state.round === 5
+                            ? "Finish Game"
+                            : "Start Round"}</button>
+                </div>}
             </div>
         )
     }

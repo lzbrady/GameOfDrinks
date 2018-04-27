@@ -25,3 +25,38 @@
     font-size: 1.25rem;
     font-weight: bold;
 }
+
+.podium-slot {
+    border: 1px solid black;
+    box-sizing: border-box;
+}
+
+.podium-slot-1 {
+    height: 100px;
+    border-color: #d5a500;
+    background: linear-gradient(#d5a500, #fff5d2);
+}
+
+.podium-slot-2 {
+    height: 75px;
+    border-color: #b7b7b7;
+    background: linear-gradient(#b7b7b7, #f5f5f5);
+}
+
+.podium-slot-3 {
+    height: 50px;
+    border-color: #a17419;
+    background: linear-gradient(#a17419, #f7eedc);
+}
+
+.podium-div {
+    display: inline-block;
+    width: 30%;
+    vertical-align: bottom;
+}
+
+.podium-name {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 2px;
+}

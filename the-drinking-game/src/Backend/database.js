@@ -83,6 +83,12 @@ export function createGame(playerName) {
         .child('isFullGame')
         .set(false);
 
+    // Boolean indicating point ceremony should happen
+    ref
+        .child('metadata')
+        .child('pointCeremony')
+        .set(false);
+
     return gameCode;
 }
 
@@ -329,5 +335,58 @@ export function isFullGame(gameCode) {
         .once('value')
         .then((snapshot) => {
             return snapshot.val();
+        });
+}
+
+export function getResults(gameCode) {
+    let ref = fire
+        .database()
+        .ref('games')
+        .child(gameCode);
+    return ref
+        .once('value')
+        .then((snapshot) => {
+            let first = {
+                name: "",
+                points: 0
+            };
+            let second = {
+                name: "",
+                points: 0
+            };
+            let third = {
+                name: "",
+                points: 0
+            };
+
+            snapshot.forEach((childSnapshot) => {
+                if (childSnapshot.key !== 'redirect' && childSnapshot.key !== 'metadata' && childSnapshot.key !== 'drinks' && childSnapshot.key !== 'captions') {
+                    if (childSnapshot.val() > first.points) {
+                        third.name = second.name;
+                        third.points = second.points;
+
+                        second.name = first.name;
+                        second.points = first.points;
+
+                        first.name = childSnapshot.key;
+                        first.points = childSnapshot.val();
+                    } else if (childSnapshot.val() > second.points) {
+                        third.name = second.name;
+                        third.points = second.points;
+
+                        second.name = childSnapshot.key;
+                        second.points = childSnapshot.val();
+                    } else if (childSnapshot.val() > third.points) {
+                        third.name = childSnapshot.key;
+                        third.points = childSnapshot.val();
+                    }
+                }
+            });
+            const results = {
+                first: first,
+                second: second,
+                third: third
+            };
+            return results;
         });
 }

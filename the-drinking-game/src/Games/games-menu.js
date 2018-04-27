@@ -45,7 +45,15 @@ class GamesMenu extends Component {
 
         // Listener for redirects
         gameRef.on('value', (snapshot) => {
-            if (snapshot.key === 'redirect' && snapshot.val()) {
+
+            console.log(String(snapshot.val()).includes("restart"));
+            if (snapshot.key === 'redirect' && String(snapshot.val()).includes("restart")) {
+                this.setState({showMenu: true});
+                redirect(this.state.gameCode, false);
+                window
+                    .location
+                    .reload(true);
+            } else if (snapshot.key === 'redirect' && snapshot.val()) {
                 this
                     .props
                     .history
@@ -100,7 +108,7 @@ class GamesMenu extends Component {
             <HashRouter>
                 <div className="App">
                     <div className="content">
-                        <h1>The Game</h1>
+                        <h1>The Drinking Game</h1>
                         {!this.state.playingFullGame && this.state.showMenu && <div className="games-menu-list">
                             <h3 className="title-with-tooltip">Play the Full Game</h3>
                             <MdInfoOutline data-tip data-for='main-game' className="icon"/>
@@ -172,6 +180,26 @@ class GamesMenu extends Component {
                             <Route exact path="/play/:String/games/main-game" component={MainGame}/>
                         </div>
                     </div>
+                    <form
+                        action="https://www.paypal.com/cgi-bin/webscr"
+                        method="post"
+                        target="_blank"
+                        className="paypal">
+                        <input type="hidden" name="cmd" value="_s-xclick"/>
+                        <input type="hidden" name="hosted_button_id" value="T9FJG2UANMSCW"/>
+                        <input
+                            type="image"
+                            src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif"
+                            border="0"
+                            name="submit"
+                            alt="PayPal - The safer, easier way to pay online!"/>
+                        <img
+                            alt=""
+                            border="0"
+                            src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif"
+                            width="1"
+                            height="1"/>
+                    </form>
                 </div>
             </HashRouter>
         );

@@ -80,7 +80,7 @@ class MainPage extends Component {
     render() {
         return (
             <div className="main-page">
-                <h1>The Drinking Game</h1>
+                <h1 className="title">The Drinking Game</h1>
                 <div className="new-game-div">
                     <p className="main-page-label">Name:</p>
                     <input
@@ -119,7 +119,7 @@ class MainPage extends Component {
                 <form
                     action="https://www.paypal.com/cgi-bin/webscr"
                     method="post"
-                    target="_top"
+                    target="_blank"
                     className="paypal">
                     <input type="hidden" name="cmd" value="_s-xclick"/>
                     <input type="hidden" name="hosted_button_id" value="T9FJG2UANMSCW"/>
