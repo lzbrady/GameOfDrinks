@@ -1,5 +1,5 @@
 .roll-the-dice-card {
-    width: 90%;
+    width: 80%;
     height: 200px;
     margin: 35px auto;
     padding: 20px;
@@ -7,11 +7,12 @@
     position: relative;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     background-color: #ffffff;
+    border-radius: 12px;
 }
 
 .roll-the-dice-content {
     margin: 0px;
-    font-size: 24px;
+    font-size: 32px;
     position: relative;
     top: 50%;
     transform: translateY(-50%);

@@ -36,7 +36,7 @@ class RollTheDice extends Component {
                     redirect(gameCode, false);
                 }, 1);
             });
-        }, 1500);
+        }, 5000);
     }
 
     render() {

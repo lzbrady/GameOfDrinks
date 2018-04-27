@@ -2,7 +2,7 @@ import fire from './fire';
 
 import {getPlayers} from './database';
 
-const childrenSize = 6;
+const childrenSize = 69;
 
 export function getFate(gameCode) {
     return fire

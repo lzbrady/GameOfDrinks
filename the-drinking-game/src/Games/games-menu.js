@@ -106,7 +106,7 @@ class GamesMenu extends Component {
             <HashRouter>
                 <div className="App">
                     <div className="content">
-                        <h1>The Drinking Game</h1>
+                        <h1 className="title-font">The Drinking Game</h1>
                         {!this.state.playingFullGame && this.state.showMenu && <div className="games-menu-list">
                             <h3 className="title-with-tooltip">Play the Full Game</h3>
                             <MdInfoOutline data-tip data-for='main-game' className="icon"/>

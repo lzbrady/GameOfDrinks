@@ -84,7 +84,7 @@ class GameLoad extends Component {
                     className={this.state.valid
                     ? "game_load"
                     : "hide"}>
-                    <h1>The Drinking Game</h1>
+                    <h1 className="title-font">The Drinking Game</h1>
                     <div className="player-list">
                         <img src={middlePic} alt="Logo" className="middle-icon"/>
                         <p className="game-code">{this.state.gameCode}</p>
