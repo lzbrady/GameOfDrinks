@@ -137,7 +137,7 @@ class MostLikelyTo extends Component {
                     <p className="mlt-content">{this.state.card}</p>
                 </div>
                 <div
-                    className={(this.state.answered)
+                    className={(this.state.answered || (this.state.timeLeft < 0 || this.state.timeLeft > 10))
                     ? "hide"
                     : "mlt-players"}>
                     {this
@@ -151,9 +151,9 @@ class MostLikelyTo extends Component {
                         })}
                 </div>
                 <p
-                    className={this.state.answered
-                    ? "answer-confirmation"
-                    : "hide"}>Answered
+                    className={(!this.state.answered || (this.state.timeLeft < 0 || this.state.timeLeft > 10))
+                    ? "hide"
+                    : "answer-confirmation"}>Answered
                     <span aria-labelledby="jsx-a11y/accessible-emoji" role="img">&#9989;</span>
                 </p>
             </div>

@@ -32,17 +32,37 @@ body {
     width: 300px;
     height: auto;
     margin: 20px auto;
-    background-color: #ffffff;
+    background: linear-gradient(to right, #efefef 50%, #ffffff 50%);
+    background-size: 200% 100%;
+    background-position: right bottom;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     color: #1E5199;
+    transition: all 200ms ease;
+    -webkit-transition: all 200ms ease;
 }
 
 .games-menu-list-item:hover {
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
 }
 
+.games-menu-list-item:active {
+    background-position: left bottom;
+}
+
 .link {
     text-decoration: none;
+}
+
+.game-card {
+    width: 80%;
+    height: 200px;
+    margin: 35px auto;
+    padding: 20px;
+    box-shadow: 0px 3px 10px black;
+    position: relative;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    background-color: #ffffff;
+    border-radius: 12px;
 }
 
 .game-answer {
@@ -68,10 +88,11 @@ button:focus {
 
 .timer-text {
     font-size: 36px;
+    margin: 0px;
 }
 
 .answer-confirmation {
-    font-size: 40px;
+    font-size: 30px;
 }
 
 .drink-table {
@@ -93,7 +114,7 @@ button:focus {
 .game-title {
     font-size: 26px;
     font-weight: normal;
-    margin-top: 15%;
+    margin-top: 50px;
 }
 
 .title-with-tooltip {

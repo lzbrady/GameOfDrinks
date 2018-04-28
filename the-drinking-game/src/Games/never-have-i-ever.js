@@ -132,7 +132,7 @@ class NeverHaveIEver extends Component {
                 <div
                     className={(this.state.timeLeft < 0 || this.state.timeLeft > 10)
                     ? "hide"
-                    : "nhie-card"}>
+                    : "game-card"}>
                     <h3>Drink if you have...</h3>
                     <p className="nhie-content">{this.state.card}</p>
                     <p className="nhie-catch">*If nobody has, then everybody drinks</p>

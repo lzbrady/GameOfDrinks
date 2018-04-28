@@ -101,11 +101,9 @@ class MainGame extends Component {
 
     endGame() {
         reset(this.state.gameCode).then((snapshot) => {
-            redirect(this.state.gameCode, `/play/${this.state.gameCode}/games/restart`).then((rtn) => {
-                setTimeout(() => {
-                    redirect(this.state.gameCode, false);
-                }, 1);
-            });
+            window
+                .location
+                .reload(true);
         });
     }
 

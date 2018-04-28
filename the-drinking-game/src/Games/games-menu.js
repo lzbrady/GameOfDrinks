@@ -45,13 +45,7 @@ class GamesMenu extends Component {
 
         // Listener for redirects
         gameRef.on('value', (snapshot) => {
-            if (snapshot.key === 'redirect' && String(snapshot.val()).includes("restart")) {
-                this.setState({showMenu: true});
-                redirect(this.state.gameCode, false);
-                window
-                    .location
-                    .reload(true);
-            } else if (snapshot.key === 'redirect' && snapshot.val()) {
+            if (snapshot.key === 'redirect' && snapshot.val()) {
                 this
                     .props
                     .history
