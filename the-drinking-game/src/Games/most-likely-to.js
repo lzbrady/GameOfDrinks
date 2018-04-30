@@ -133,8 +133,8 @@ class MostLikelyTo extends Component {
                 <div
                     className={(this.state.timeLeft < 0 || this.state.timeLeft > 10)
                     ? "hide"
-                    : "mlt-card"}>
-                    <p className="mlt-content">{this.state.card}</p>
+                    : "game-card"}>
+                    <p className="card-content">{this.state.card}</p>
                 </div>
                 <div
                     className={(this.state.answered || (this.state.timeLeft < 0 || this.state.timeLeft > 10))

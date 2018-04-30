@@ -160,3 +160,15 @@ function resetPointsForPlayer(gameCode, playerName) {
         .child(playerName)
         .set(0);
 }
+
+export function getRound(gameCode) {
+    let ref = fire
+        .database()
+        .ref('games')
+        .child(gameCode)
+        .child('metadata')
+        .child('round');
+    return ref.once('value').then((snapshot) => {
+        return snapshot.val();
+    });
+}

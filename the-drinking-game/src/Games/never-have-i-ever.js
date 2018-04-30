@@ -94,7 +94,11 @@ class NeverHaveIEver extends Component {
                     scores.push(key);
                 }
             }
-            this.setState({drinks: scores});
+            if (scores.includes("No One")) {
+                this.setState({drinks: ["Everyone!"]});
+            } else {
+                this.setState({drinks: scores});
+            }
         });
     }
 
@@ -133,9 +137,7 @@ class NeverHaveIEver extends Component {
                     className={(this.state.timeLeft < 0 || this.state.timeLeft > 10)
                     ? "hide"
                     : "game-card"}>
-                    <h3>Drink if you have...</h3>
-                    <p className="nhie-content">{this.state.card}</p>
-                    <p className="nhie-catch">*If nobody has, then everybody drinks</p>
+                    <p className="card-content">{this.state.card}</p>
                 </div>
                 <div
                     className={(this.state.timeLeft < 0 || this.state.timeLeft > 10)
@@ -151,12 +153,12 @@ class NeverHaveIEver extends Component {
                         className={this.state.answered
                         ? "hide"
                         : "game-answer"}
-                        onClick={e => this.finish(1)}>Yes</button>
+                        onClick={e => this.finish(1)}>I Have</button>
                     <button
                         className={this.state.answered
                         ? "hide"
                         : "game-answer"}
-                        onClick={e => this.finish(0)}>No</button>
+                        onClick={e => this.finish(0)}>I Have Not</button>
                 </div>
             </div>
         );

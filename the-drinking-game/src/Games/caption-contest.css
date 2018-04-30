@@ -18,8 +18,15 @@
     width: 65%;
     height: 87px;
     margin: 5px;
-    border: 2px solid black;
+    border: 2px solid #1e5199;
     font-size: 16px;
+    border-radius: 12px;
+    padding: 5px;
+}
+
+.cc-input:focus {
+    outline: none;
+    border: 2px solid #2a83ff;
 }
 
 .caption {

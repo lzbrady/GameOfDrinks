@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Cinzel|Noto+Sans|Raleway');
+@import url('https://fonts.googleapis.com/css?family=Cinzel|Noto+Sans|Raleway|Stylish');
 html {
     background-color: #f7f7f7;
     background: url('https://firebasestorage.googleapis.com/v0/b/the-drinking-game-1.appspot.com/o/main-background.jpg?alt=media&token=f0b48c82-276e-4c01-bf60-31dae7168058') no-repeat center center fixed;
@@ -30,6 +30,8 @@ body {
     text-decoration: none;
     padding: 15px;
     width: 300px;
+    max-width: 90%;
+    box-sizing: border-box;
     height: auto;
     margin: 20px auto;
     background: linear-gradient(to right, #efefef 50%, #ffffff 50%);
@@ -65,6 +67,14 @@ body {
     border-radius: 12px;
 }
 
+.card-content {
+    margin: 0px;
+    font-size: 32px;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
 .game-answer {
     width: 200px;
     height: 50px;
@@ -97,6 +107,30 @@ button:focus {
 
 .drink-table {
     text-align: center;
+    background-color: #ffffff;
+    border-radius: 12px;
+    width: 300px;
+    max-width: 90%;
+    min-height: 200px;
+    box-sizing: border-box;
+    margin: auto;
+    padding: 1px 0px 15px 0px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    color: white;
+    text-shadow: 0px 0px 15px black;
+    background: url('https://firebasestorage.googleapis.com/v0/b/the-drinking-game-1.appspot.com/o/beer-background-1.png?alt=media&token=24f19738-4526-4ca7-816b-747e179f5ca7');
+    background-position: center center;
+    background-repeat: no-repeat;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.drink-table h1 {
+    font-family: 'Stylish', sans-serif;
+    font-size: 3em;
+    margin: 10px;
 }
 
 .drink-table-person {
@@ -106,7 +140,7 @@ button:focus {
 
 .drink-table-person-info {
     display: block;
-    color: #555555;
+    color: #000000;
     font-size: 20px;
     font-style: italic;
 }

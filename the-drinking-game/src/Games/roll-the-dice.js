@@ -44,7 +44,7 @@ class RollTheDice extends Component {
             <div className="roll-the-dice">
                 <h1 className="game-title">Fate Says...</h1>
                 <div className="game-card">
-                    <p className="roll-the-dice-content">{this.state.card}</p>
+                    <p className="card-content">{this.state.card}</p>
                 </div>
             </div>
         )

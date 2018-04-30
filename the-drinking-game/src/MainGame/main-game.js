@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 
 import {redirect, getResults} from '../Backend/database';
-import {getRoundAndGame, finishGame, reset} from '../Backend/database-main';
+import {getRoundAndGame, finishGame, reset, getRound} from '../Backend/database-main';
 import fire from '../Backend/fire';
 
 import './main-game.css';
@@ -82,6 +82,13 @@ class MainGame extends Component {
                     });
                 } else {
                     this.setState({finished: false});
+                    getRound(gameCode).then((dbRound) => {
+                        if (this.state.round !== dbRound && dbRound === 1) {
+                            window
+                                .location
+                                .reload(true);
+                        }
+                    })
                 }
             });
     }

@@ -295,7 +295,7 @@ export function getMostVoted(gameCode) {
         .then((snapshot) => {
             let votes = [];
             let highestVoteCount = 0;
-            votes.push("No one voted, everyone drink!");
+            votes.push("Everyone!");
             if (snapshot.val() !== null) {
                 snapshot.forEach((childSnapshot) => {
                     if (highestVoteCount === childSnapshot.val()) {
