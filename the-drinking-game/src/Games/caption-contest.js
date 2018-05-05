@@ -12,7 +12,7 @@ class CaptionContest extends Component {
 
         this.state = {
             url: "",
-            timeLeft: 15,
+            timeLeft: 60,
             answered: false,
             drinks: [],
             players: [],
@@ -20,7 +20,8 @@ class CaptionContest extends Component {
             caption: "",
             captions: [],
             voted: false,
-            votable: true
+            votable: true,
+            redirectTo: ""
         }
 
         this.submitAnswer = this
@@ -72,11 +73,11 @@ class CaptionContest extends Component {
 
         setTimeout(() => {
             this.processCaptions();
-        }, 16000);
+        }, 60000);
 
         setTimeout(() => {
             this.getWinner();
-        }, 26000);
+        }, 90000);
 
         setTimeout(() => {
             clearInterval(timer);
@@ -88,7 +89,7 @@ class CaptionContest extends Component {
                     redirect(gameCode, false);
                 }, 1);
             });
-        }, 30000);
+        }, 100000);
     }
 
     processCaptions() {
@@ -153,18 +154,18 @@ class CaptionContest extends Component {
             <div className="caption-contest">
                 <h1 className="game-title">Caption Contest</h1>
                 <h3
-                    className={(this.state.timeLeft < 0 || this.state.timeLeft > 15)
+                    className={(this.state.timeLeft < 0 || this.state.timeLeft > 60)
                     ? "hide"
                     : "timer-text"}>{this.state.timeLeft}</h3>
                 <h3
-                    className={(this.state.timeLeft < -10 || this.state.timeLeft > -1)
+                    className={(this.state.timeLeft < -30 || this.state.timeLeft > -1)
                     ? "hide"
                     : "timer-text"}>{!this.state.votable
                         ? ""
-                        : (this.state.timeLeft + 10)}</h3>
+                        : (this.state.timeLeft + 30)}</h3>
 
                 <div
-                    className={(this.state.timeLeft < -10)
+                    className={(this.state.timeLeft < -30)
                     ? "drink-table"
                     : "hide"}>
                     <h1>Drink:</h1>
@@ -184,7 +185,7 @@ class CaptionContest extends Component {
                     : "error-message"}>No captions submitted...everyone drink!</h3>
 
                 <div
-                    className={(this.state.timeLeft > -10)
+                    className={(this.state.timeLeft > -30)
                     ? "cc-card"
                     : "hide"}>
                     <p className="cc-content">
@@ -192,13 +193,13 @@ class CaptionContest extends Component {
                     </p>
                     <textarea
                         onChange={this.handleChange}
-                        className={(this.state.answered || (this.state.timeLeft < 0 || this.state.timeLeft > 15))
+                        className={(this.state.answered || (this.state.timeLeft < 0 || this.state.timeLeft > 60))
                         ? "hide"
                         : "cc-input"}
                         value={this.state.caption || ""}
                         placeholder="Caption this picture!"></textarea>
                     <button
-                        className={(this.state.answered || (this.state.timeLeft < 0 || this.state.timeLeft > 15))
+                        className={(this.state.answered || (this.state.timeLeft < 0 || this.state.timeLeft > 60))
                         ? "hide"
                         : "game-answer"}
                         onClick={this.submitAnswer}>Submit</button>
@@ -210,13 +211,13 @@ class CaptionContest extends Component {
                     </p>
 
                     <p
-                        className={(this.state.timeLeft > -10 && this.state.timeLeft < 0 && this.state.voted)
+                        className={(this.state.timeLeft > -30 && this.state.timeLeft < 0 && this.state.voted)
                         ? "answer-confirmation"
                         : "hide"}>Answered
                         <span aria-labelledby="jsx-a11y/accessible-emoji" role="img">&#9989;</span>
                     </p>
                     <div
-                        className={((this.state.timeLeft < 0 || this.state.timeLeft > 15) && !this.state.voted && this.state.votable)
+                        className={((this.state.timeLeft < 0 || this.state.timeLeft > 60) && !this.state.voted && this.state.votable)
                         ? "captions"
                         : "hide"}>
                         <h3

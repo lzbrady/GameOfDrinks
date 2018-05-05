@@ -23,7 +23,8 @@ class MostLikelyTo extends Component {
             answered: false,
             drinks: [],
             players: [],
-            gameCode: ""
+            gameCode: "",
+            redirectTo: ""            
         }
 
         this.choosePlayer = this

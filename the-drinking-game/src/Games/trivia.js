@@ -19,7 +19,8 @@ class Trivia extends Component {
             question: "",
             answers: [],
             difficulty: "",
-            correctAnswer: ""
+            correctAnswer: "",
+            redirectTo: ""  
         }
 
         this.createMarkup = this

@@ -12,7 +12,8 @@ class RollTheDice extends Component {
 
         this.state = {
             card: "",
-            gameCode: ""
+            gameCode: "",
+            redirectTo: ""  
         }
     }
 
