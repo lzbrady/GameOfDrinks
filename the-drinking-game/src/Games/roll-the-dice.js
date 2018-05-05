@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 
-import {redirect} from '../Backend/database';
+import {redirect, isFullGame} from '../Backend/database';
 import {getFate, newCommand} from '../Backend/database-rtd';
+import {nextRound} from '../Backend/database-main';
 
 import './roll-the-dice.css';
 
@@ -23,13 +24,20 @@ class RollTheDice extends Component {
             .substring(6, 11);
         this.setState({gameCode: gameCode});
 
+        isFullGame(gameCode).then((isFullGame) => {
+            if (isFullGame) {
+                this.setState({redirectTo: 'main-game'});
+            }
+        });
+        nextRound(gameCode, 3);
+
         getFate(gameCode).then((snapshot) => {
             this.setState({card: snapshot});
         });
 
         // Timer for timer...
         setTimeout(() => {
-            redirect(gameCode, `/play/${gameCode}/games/`).then((rtn) => {
+            redirect(gameCode, `/play/${gameCode}/games/${this.state.redirectTo}`).then((rtn) => {
                 newCommand(gameCode);
 
                 setTimeout(() => {

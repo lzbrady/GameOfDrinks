@@ -1,4 +1,106 @@
-.player-list {
+/* Just mobile */
+
+.player-list-mobile {
+    position: relative;
+    width: 16em;
+    height: 16em;
+    padding: 2.8em;
+    /*2.8em = 2em*1.4 (2em = half the width of a link with img, 1.4 = sqrt(2))*/
+    border: dashed 1px;
+    border-radius: 50%;
+    margin: 1.75em auto 0;
+    margin-bottom: 50px;
+    box-sizing: border-box;
+}
+
+.a-player-in-list-mobile {
+    display: block;
+    position: absolute;
+    top: 57%;
+    left: 54%;
+    width: 2.5em;
+    height: 2.5em;
+    margin: -2em;
+    border-radius: 50%;
+    border: 1px dotted black;
+    line-height: 2.5em;
+    background-color: white;
+}
+
+.deg0-mobile {
+    transform: translate(8em);
+}
+
+.deg1-mobile {
+    transform: rotate(45deg) translate(8em) rotate(-45deg);
+}
+
+.deg2-mobile {
+    transform: rotate(90deg) translate(8em) rotate(-90deg);
+}
+
+.deg3-mobile {
+    transform: rotate(135deg) translate(8em) rotate(-135deg);
+}
+
+.deg4-mobile {
+    transform: translate(-8em);
+}
+
+.deg5-mobile {
+    transform: rotate(225deg) translate(8em) rotate(-225deg);
+}
+
+.deg6-mobile {
+    transform: rotate(270deg) translate(8em) rotate(-270deg);
+}
+
+.deg7-mobile {
+    transform: rotate(315deg) translate(8em) rotate(-315deg);
+}
+
+.middle-icon-mobile {
+    width: 10em;
+    height: 5.92em;
+    position: absolute;
+    top: calc(50% - 5.4em);
+    left: calc(50% - 5em);
+}
+
+.game-code-mobile {
+    font-size: 2.6rem;
+    position: relative;
+    text-align: center;
+    line-height: 4em;
+}
+
+.full-name {
+    background-color: #000000b5;
+    border-radius: 50px;
+    position: fixed;
+    color: white;
+    bottom: 0px;
+    left: 5%;
+    width: 90%;
+    padding: 8px;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.click-circle {
+    margin-top: -102px;
+    font-size: 10px;
+}
+
+/**/
+
+/**/
+
+/**/
+
+/* Just Browser */
+
+.player-list-browser {
     position: relative;
     width: 20em;
     height: 20em;
@@ -10,7 +112,7 @@
     margin-bottom: 50px;
 }
 
-.a-player-in-list {
+.a-player-in-list-browser {
     display: block;
     position: absolute;
     top: 50%;
@@ -22,47 +124,68 @@
     border: 1px dotted black;
     line-height: 4em;
     background-color: white;
+    cursor: pointer;
+    overflow: hidden;
 }
 
-.deg0 {
+.a-player-in-list-browser:hover {
+    box-shadow: 0px 0px 10px #1e5199;
+}
+
+.deg0-browser {
     transform: translate(12em);
 }
 
-.deg1 {
+.deg1-browser {
     transform: rotate(45deg) translate(12em) rotate(-45deg);
 }
 
-.deg2 {
+.deg2-browser {
     transform: rotate(90deg) translate(12em) rotate(-90deg);
 }
 
-.deg3 {
+.deg3-browser {
     transform: rotate(135deg) translate(12em) rotate(-135deg);
 }
 
-.deg4 {
+.deg4-browser {
     transform: translate(-12em);
 }
 
-.deg5 {
+.deg5-browser {
     transform: rotate(225deg) translate(12em) rotate(-225deg);
 }
 
-.deg6 {
+.deg6-browser {
     transform: rotate(270deg) translate(12em) rotate(-270deg);
 }
 
-.deg7 {
+.deg7-browser {
     transform: rotate(315deg) translate(12em) rotate(-315deg);
 }
 
-.middle-icon {
+.middle-icon-browser {
     width: 10em;
     height: 5.92em;
     position: absolute;
     top: calc(50% - 5.4em);
     left: calc(50% - 5em);
 }
+
+.game-code-browser {
+    font-size: 69px;
+    position: relative;
+    text-align: center;
+    line-height: 4em;
+}
+
+/**/
+
+/**/
+
+/**/
+
+/* Browser and Mobile */
 
 .start-game-btn,
 .leave-game-btn {
@@ -101,11 +224,4 @@
 .my-name {
     background-color: #1e5199;
     color: #f7f7f7;
-}
-
-.game-code {
-    font-size: 69px;
-    position: relative;
-    text-align: center;
-    line-height: 4em;
 }

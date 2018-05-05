@@ -102,7 +102,11 @@ class Trivia extends Component {
                     scores.push(key);
                 }
             }
-            this.setState({drinks: scores});
+            if (scores.includes("No One")) {
+                this.setState({drinks: ["Everyone"]});
+            } else {
+                this.setState({drinks: scores});
+            }
         });
         getCorrectAnswer(this.state.gameCode).then((snapshot) => {
             this.setState({correctAnswer: snapshot});
@@ -164,7 +168,7 @@ class Trivia extends Component {
                             .answers
                             .map((answer) => {
                                 return <p
-                                    className="trivia-answer"
+                                    className="game-answer"
                                     key={answer}
                                     onClick={e => this.answer(answer)}
                                     dangerouslySetInnerHTML={this.createMarkup(answer)}/>;

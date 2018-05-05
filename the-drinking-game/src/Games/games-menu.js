@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Route, HashRouter, Link} from "react-router-dom";
 import {redirect} from '../Backend/database';
+import {reset} from '../Backend/database-main';
 import ReactTooltip from 'react-tooltip'
 import fire from '../Backend/fire';
 
@@ -86,7 +87,9 @@ class GamesMenu extends Component {
     routeChange(to) {
         this.setState({showMenu: false});
         if (to === 'main-game') {
-            this.setState({playingFullGame: true});
+            reset(this.state.gameCode).then((result) => {
+                this.setState({playingFullGame: true});
+            });
         }
         redirect(this.state.gameCode, `/play/${this.state.gameCode}/games/${to}`).then((rtn) => {
             setTimeout(() => {
