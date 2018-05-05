@@ -8,6 +8,11 @@ import {rtdRandomNumber} from './database-rtd';
 const HIGHEST_VOTE_SCORE = 20;
 
 export function createGame(playerName) {
+    if (playerName === 'redirect' || playerName === 'metadata' || playerName === 'drinks' || playerName === 'captions') {
+        console.log("ERROR");
+        return {error: "Invalid Player Name"};
+    }
+
     //TODO: Ensure game code doesn't exist already
     let gameCode = generateGameCode();
     let ref = fire
@@ -93,7 +98,7 @@ export function createGame(playerName) {
 }
 
 export function joinGame(playerName, gameCode) {
-    //TODO: Check to make sure players < 8
+    // Check to make sure players < 8
     let fireRef = fire
         .database()
         .ref('games')
@@ -104,7 +109,7 @@ export function joinGame(playerName, gameCode) {
         .once('value')
         .then((snapshot) => {
             if (snapshot.val() === null) {
-                return {error: "Lobby Does Not Exist"};
+                return {error: "Invalid Game Code"};
             } else {
                 return checkPlayerNameExists(playerName, gameCode);
             }
@@ -112,24 +117,43 @@ export function joinGame(playerName, gameCode) {
 }
 
 function checkPlayerNameExists(playerName, gameCode) {
-    // TODO: make this work
-    if (playerName === 'redirect' || playerName === 'metadata' || playerName === 'drinks') {
+    if (playerName === 'redirect' || playerName === 'metadata' || playerName === 'drinks' || playerName === 'captions') {
         console.log("ERROR");
         return {error: "Invalid Player Name"};
     }
+
     // Check if player exists
     let playerRef = fire
         .database()
         .ref('games')
-        .child(gameCode)
-        .child(playerName);
+        .child(gameCode);
+
     return playerRef
         .once('value')
         .then((snapshot) => {
+            let totalPlayers = 0;
             if (snapshot.val() !== null) {
-                return {error: "Player Name Taken"};
-            } else {
-                return actuallyJoinGame(playerName, gameCode);
+                let nameTaken = false;
+                snapshot.forEach((childSnapshot) => {
+                    if (childSnapshot.key !== 'redirect' && childSnapshot.key !== 'metadata' && childSnapshot.key !== 'drinks' && childSnapshot.key !== 'captions') {
+                        console.log("Child", childSnapshot.key);
+                        console.log("Player Name", playerName);
+                        if (childSnapshot.key === playerName) {
+                            nameTaken = true;
+                        } else {}
+                        totalPlayers++;
+                    }
+                });
+                if (totalPlayers < 8) {
+                    if (nameTaken) {
+                        return {error: "Player Name Taken"};
+                    } else {
+                        return actuallyJoinGame(playerName, gameCode);
+                    }
+                } else {
+                    return {error: "Lobby Full"};
+
+                }
             }
         });
 }

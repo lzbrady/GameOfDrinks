@@ -39,23 +39,27 @@ class MainPage extends Component {
         if (!e.key || e.key === 'Enter') {
             if (typeof(Storage) !== "undefined") {
                 this.setState({error: ""});
-                localStorage.setItem("username", this.state.playerName.trim());
-                // Must attempt to read to persist
-                localStorage.getItem('username');
                 let code = createGame(this.state.playerName);
-                this.setState({error: ""});
-                this
-                    .props
-                    .history
-                    .push(`/lobby/${code}`);
+
+                if (code.error) {
+                    this.setState(code);
+                } else {
+                    localStorage.setItem("username", this.state.playerName.trim());
+                    // Must attempt to read to persist
+                    localStorage.getItem('username');
+                    this.setState({error: ""});
+                    this
+                        .props
+                        .history
+                        .push(`/lobby/${code}`);
+                }
             } else {
-                console.log("TODO: Oldies who don't have session storage browsers.")
                 // Sorry! No Web Storage support..
                 this.setState({
                     error: "Your browser does not support session storage. Try updating you current browser," +
                             " or seek a different one if the problem persits. We apologize for the inconvenie" +
                             "nce."
-                })
+                });
             }
         }
     }
@@ -77,8 +81,12 @@ class MainPage extends Component {
                 }
             });
         } else {
-            console.log("TODO: Oldies who don't have session storage browsers.")
             // Sorry! No Web Storage support..
+            this.setState({
+                error: "Your browser does not support session storage. Try updating you current browser," +
+                        " or seek a different one if the problem persits. We apologize for the inconvenie" +
+                        "nce."
+            });
         }
     }
 
@@ -86,7 +94,9 @@ class MainPage extends Component {
         return (
             <div className="main-page">
                 <h1 className="title">The Drinking Game</h1>
-                <h1>{this.state.error != "" ? "Error" : ""}</h1>
+                <h1>{this.state.error !== ""
+                        ? "Error"
+                        : ""}</h1>
                 <div className="new-game-div">
                     <p className="main-page-label">Name:</p>
                     <input

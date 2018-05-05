@@ -66,7 +66,7 @@ class MainGame extends Component {
         getRoundAndGame(gameCode).then((snapshot) => {
             this.setState({round: snapshot.round, currentGame: snapshot.game});
 
-            if (snapshot.round != 1) {
+            if (snapshot.round !== 1) {
                 redirect(this.state.gameCode, `/play/${this.state.gameCode}/games/roll-the-dice`).then((rtn) => {
                     setTimeout(() => {
                         redirect(this.state.gameCode, false);
