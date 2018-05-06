@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 
 import {redirect, isFullGame} from '../Backend/database';
 import {getFate, newCommand} from '../Backend/database-rtd';
-import {nextRound} from '../Backend/database-main';
+import {playWithFate} from '../Backend/database-main';
 
 import './roll-the-dice.css';
 
@@ -13,7 +13,7 @@ class RollTheDice extends Component {
         this.state = {
             card: "",
             gameCode: "",
-            redirectTo: ""  
+            redirectTo: ""
         }
     }
 
@@ -30,7 +30,7 @@ class RollTheDice extends Component {
                 this.setState({redirectTo: 'main-game'});
             }
         });
-        nextRound(gameCode, 3);
+        playWithFate(gameCode, false);
 
         getFate(gameCode).then((snapshot) => {
             this.setState({card: snapshot});

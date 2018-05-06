@@ -1,7 +1,14 @@
 import React, {Component} from 'react';
 
 import {redirect, getResults} from '../Backend/database';
-import {getRoundAndGame, finishGame, reset, getRound} from '../Backend/database-main';
+import {
+    getRoundAndGame,
+    finishGame,
+    reset,
+    getRound,
+    exitMainGame,
+    shouldPlayWithFate
+} from '../Backend/database-main';
 import fire from '../Backend/fire';
 
 import './main-game.css';
@@ -53,6 +60,10 @@ class MainGame extends Component {
         this.endGame = this
             .endGame
             .bind(this);
+
+        this.exitGame = this
+            .exitGame
+            .bind(this);
     }
 
     componentDidMount() {
@@ -67,10 +78,14 @@ class MainGame extends Component {
             this.setState({round: snapshot.round, currentGame: snapshot.game});
 
             if (snapshot.round !== 1) {
-                redirect(this.state.gameCode, `/play/${this.state.gameCode}/games/roll-the-dice`).then((rtn) => {
-                    setTimeout(() => {
-                        redirect(this.state.gameCode, false);
-                    }, 1);
+                shouldPlayWithFate(gameCode).then((shouldPlay) => {
+                    if (shouldPlay) {
+                        redirect(this.state.gameCode, `/play/${this.state.gameCode}/games/roll-the-dice`).then((rtn) => {
+                            setTimeout(() => {
+                                redirect(this.state.gameCode, false);
+                            }, 1);
+                        });
+                    }
                 });
             }
         });
@@ -120,6 +135,18 @@ class MainGame extends Component {
                 .location
                 .reload(true);
         });
+    }
+
+    exitGame() {
+        let answer = window.confirm("Ending the game will end it for everybody. Are you sure you want to continue?");
+        if (answer) {
+            exitMainGame(this.state.gameCode);
+            redirect(this.state.gameCode, `/play/${this.state.gameCode}/games/`).then((rtn) => {
+                setTimeout(() => {
+                    redirect(this.state.gameCode, false);
+                }, 1);
+            });
+        }
     }
 
     render() {
@@ -180,6 +207,7 @@ class MainGame extends Component {
                     <button className="game-answer" onClick={this.startGame}>{this.state.round === 5
                             ? "Finish Game"
                             : "Start Round"}</button>
+                    <button className="leave-game-btn" onClick={this.exitGame}>End Game</button>
                 </div>}
             </div>
         )

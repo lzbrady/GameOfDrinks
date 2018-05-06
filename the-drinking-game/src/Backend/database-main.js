@@ -45,6 +45,30 @@ export function nextRound(gameCode, nextRound) {
         .child('metadata')
         .child('round')
         .set(nextRound);
+    playWithFate(gameCode, true);
+}
+
+export function playWithFate(gameCode, play) {
+    fire
+        .database()
+        .ref('games')
+        .child(gameCode)
+        .child('metadata')
+        .child('playWithFate')
+        .set(play);
+}
+
+export function shouldPlayWithFate(gameCode) {
+    return fire
+        .database()
+        .ref('games')
+        .child(gameCode)
+        .child('metadata')
+        .child('playWithFate')
+        .once('value')
+        .then((snapshot) => {
+            return snapshot.val();
+        });
 }
 
 export function finishGame(gameCode) {
@@ -168,7 +192,20 @@ export function getRound(gameCode) {
         .child(gameCode)
         .child('metadata')
         .child('round');
-    return ref.once('value').then((snapshot) => {
-        return snapshot.val();
-    });
+    return ref
+        .once('value')
+        .then((snapshot) => {
+            return snapshot.val();
+        });
+}
+
+export function exitMainGame(gameCode) {
+    console.log("Game Code", gameCode);
+    return fire
+        .database()
+        .ref('games')
+        .child(gameCode)
+        .child('metadata')
+        .child('isFullGame')
+        .set(false);
 }

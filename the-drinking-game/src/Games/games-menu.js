@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Route, HashRouter, Link} from "react-router-dom";
-import {redirect} from '../Backend/database';
+import {redirect, isFullGame} from '../Backend/database';
 import {reset} from '../Backend/database-main';
 import ReactTooltip from 'react-tooltip'
 import fire from '../Backend/fire';
@@ -62,7 +62,14 @@ class GamesMenu extends Component {
             .child('isFullGame')
             .on('value', (snapshot) => {
                 if (snapshot.val()) {
-                    this.setState({playingFullGame: true});
+                    this.setState({playingFullGame: true, showMenu: false});
+                    redirect(gameCode, `/play/${gameCode}/games/main-game`).then((rtn) => {
+                        setTimeout(() => {
+                            redirect(this.state.gameCode, false);
+                        }, 1);
+                    });
+                } else {
+                    this.setState({playingFullGame: false, showMenu: true});
                 }
             });
 
@@ -78,14 +85,23 @@ class GamesMenu extends Component {
 
     onBackButtonEvent = (e) => {
         e.preventDefault();
-        console.log("BACK BUTTON");
-        this.setState({
-            showMenu: !this.state.showMenu
-        });
+        setTimeout(() => {
+            isFullGame(this.state.gameCode).then((result) => {
+                if (!result) {
+                    this.setState({
+                        playingFullGame: false,
+                        showMenu: !this.state.showMenu
+                    });
+                    window
+                        .location
+                        .reload(true);
+                }
+            });
+        }, 100);
     }
 
     routeChange(to) {
-        this.setState({showMenu: false});
+        // this.setState({showMenu: false});
         if (to === 'main-game') {
             reset(this.state.gameCode).then((result) => {
                 this.setState({playingFullGame: true});
