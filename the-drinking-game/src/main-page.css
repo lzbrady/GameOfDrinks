@@ -19,7 +19,7 @@
     height: 44px;
     font-size: 1.4rem;
     border: none;
-    border-radius: 12px;
+    border-radius: 50px;
     display: block;
     margin: 15px auto;
     background-color: #1E5199;
@@ -58,7 +58,15 @@
     margin: auto;
     height: 30px;
     font-size: 20px;
-    padding: 2px;
+    padding: 2px 8px;
+    border-radius: 100px;
+    border: 1px solid black;
+}
+
+.main-page-input:focus {
+    outline: none;
+    border-color: #1E5199;
+    box-shadow: 0px 0px 3px #1E5199;
 }
 
 .paypal {

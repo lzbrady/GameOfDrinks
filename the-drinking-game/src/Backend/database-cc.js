@@ -2,7 +2,7 @@ import fire from './fire';
 
 import {votePlayer} from './database';
 
-const childrenSize = 4;
+const childrenSize = 16;
 
 export function playRound(gameCode) {
     return fire

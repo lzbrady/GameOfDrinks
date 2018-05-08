@@ -51,6 +51,18 @@ body {
     background-position: left bottom;
 }
 
+.mobile-tooltip {
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    text-align: center;
+    width: 100%;
+    height: auto;
+    background-color: #000000e0;
+    color: white;
+    font-size: 18px;
+}
+
 .link {
     text-decoration: none;
 }

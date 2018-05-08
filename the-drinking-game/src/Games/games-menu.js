@@ -14,6 +14,7 @@ import RollTheDice from './roll-the-dice';
 import MainGame from '../MainGame/main-game';
 
 import MdInfoOutline from 'react-icons/lib/md/info-outline';
+import {MobileView, isMobile} from "react-device-detect";
 
 class GamesMenu extends Component {
 
@@ -23,7 +24,9 @@ class GamesMenu extends Component {
         this.state = {
             showMenu: true,
             gameCode: "",
-            playingFullGame: false
+            playingFullGame: false,
+            showMainTooltip: false,
+            showMiniTooltip: false
         }
 
         this.routeChange = this
@@ -122,7 +125,17 @@ class GamesMenu extends Component {
                         <h1 className="title-font">The Drinking Game</h1>
                         {!this.state.playingFullGame && this.state.showMenu && <div className="games-menu-list">
                             <h3 className="title-with-tooltip">Play the Full Game</h3>
-                            <MdInfoOutline data-tip data-for='main-game' className="icon"/>
+                            <MdInfoOutline
+                                onClick={() => {
+                                this.setState({showMiniTooltip: false});
+                                this.setState({showMainTooltip: true});
+                                setTimeout(() => {
+                                    this.setState({showMainTooltip: false});
+                                }, 3000);
+                            }}
+                                data-tip
+                                data-for='maingame'
+                                className="icon"/>
 
                             <Link
                                 onClick={(e) => this.routeChange('main-game')}
@@ -131,7 +144,7 @@ class GamesMenu extends Component {
 
                             <ReactTooltip
                                 className="tooltip"
-                                id="main-game"
+                                id="maingame"
                                 place="bottom"
                                 type="info"
                                 effect="solid">
@@ -139,8 +152,25 @@ class GamesMenu extends Component {
                                 <span>Points are tracked and drinks are drank!</span>
                             </ReactTooltip>
 
+                            {this.state.showMainTooltip && <MobileView device={isMobile}>
+                                <div className="mobile-tooltip">
+                                    <span>Cycles through the mini games.</span><br/>
+                                    <span>Points are tracked and drinks are drank!</span>
+                                </div>
+                            </MobileView>}
+
                             <h3 className="title-with-tooltip">Play a Mini Game</h3>
-                            <MdInfoOutline data-tip data-for='mini-game' className="icon"/>
+                            <MdInfoOutline
+                                onClick={() => {
+                                this.setState({showMainTooltip: false});
+                                this.setState({showMiniTooltip: true});
+                                setTimeout(() => {
+                                    this.setState({showMiniTooltip: false});
+                                }, 3000);
+                            }}
+                                data-tip
+                                data-for='mini-game'
+                                className="icon"/>
 
                             <ReactTooltip
                                 className="tooltip"
@@ -151,6 +181,13 @@ class GamesMenu extends Component {
                                 <span>Points arent tracked,</span><br/>
                                 <span>but you can still drink!</span>
                             </ReactTooltip>
+
+                            {this.state.showMiniTooltip && <MobileView device={isMobile}>
+                                <div className="mobile-tooltip">
+                                    <span>Points arent tracked,</span><br/>
+                                    <span>but you can still drink!</span>
+                                </div>
+                            </MobileView>}
 
                             <Link
                                 onClick={(e) => this.routeChange('never-have-i-ever')}

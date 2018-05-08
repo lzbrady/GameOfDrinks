@@ -8,8 +8,7 @@ import {rtdRandomNumber} from './database-rtd';
 const HIGHEST_VOTE_SCORE = 20;
 
 export function createGame(playerName) {
-    if (playerName === 'redirect' || playerName === 'metadata' || playerName === 'drinks' || playerName === 'captions') {
-        console.log("ERROR");
+    if (playerName.trim() === "" || playerName === 'redirect' || playerName === 'metadata' || playerName === 'drinks' || playerName === 'captions') {
         return {error: "Invalid Player Name"};
     }
 
@@ -19,7 +18,7 @@ export function createGame(playerName) {
         .database()
         .ref('games')
         .child(gameCode);
-    ref.set({[playerName]: 0});
+    ref.set({[playerName.trim()]: 0});
 
     // Redirect
     ref
@@ -117,7 +116,7 @@ export function joinGame(playerName, gameCode) {
 }
 
 function checkPlayerNameExists(playerName, gameCode) {
-    if (playerName === 'redirect' || playerName === 'metadata' || playerName === 'drinks' || playerName === 'captions') {
+    if (playerName.trim() === "" || playerName === 'redirect' || playerName === 'metadata' || playerName === 'drinks' || playerName === 'captions') {
         console.log("ERROR");
         return {error: "Invalid Player Name"};
     }
@@ -136,9 +135,9 @@ function checkPlayerNameExists(playerName, gameCode) {
                 let nameTaken = false;
                 snapshot.forEach((childSnapshot) => {
                     if (childSnapshot.key !== 'redirect' && childSnapshot.key !== 'metadata' && childSnapshot.key !== 'drinks' && childSnapshot.key !== 'captions') {
-                        console.log("Child", childSnapshot.key);
+                        console.log("Child", childSnapshot.key.trim());
                         console.log("Player Name", playerName);
-                        if (childSnapshot.key === playerName) {
+                        if (childSnapshot.key.trim() === playerName.trim()) {
                             nameTaken = true;
                         } else {}
                         totalPlayers++;
@@ -163,7 +162,7 @@ function actuallyJoinGame(playerName, gameCode) {
         .database()
         .ref('games')
         .child(gameCode)
-        .child(playerName)
+        .child(playerName.trim())
         .set(0);
     return {success: true};
 }

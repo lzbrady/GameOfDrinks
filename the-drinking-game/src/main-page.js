@@ -94,9 +94,6 @@ class MainPage extends Component {
         return (
             <div className="main-page">
                 <h1 className="title">The Drinking Game</h1>
-                <h1>{this.state.error !== ""
-                        ? "Error"
-                        : ""}</h1>
                 <div className="new-game-div">
                     <p className="main-page-label">Name:</p>
                     <input
