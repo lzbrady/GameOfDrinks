@@ -50,6 +50,11 @@ class GamesMenu extends Component {
         // Listener for redirects
         gameRef.on('value', (snapshot) => {
             if (snapshot.key === 'redirect' && snapshot.val()) {
+                isFullGame(gameCode).then((result) => {
+                    if (result) {
+                        this.setState({playingFullGame: true, showMenu: false});
+                    }
+                });
                 if (snapshot.val().includes("exit")) {
                     this.setState({playingFullGame: false, showMenu: true});
                     redirect(gameCode, `/play/${gameCode}/games/`).then((rtn) => {
@@ -92,12 +97,16 @@ class GamesMenu extends Component {
 
     onBackButtonEvent = (e) => {
         e.preventDefault();
-
-        if (!this.state.playingFullGame) {
-            this.setState({
-                showMenu: !this.state.showMenu
-            });
-        }
+        // if (!this.state.playingFullGame) { console.log("IN BACK IF"); this.setState({
+        //     showMenu: !this.state.showMenu }); }
+        isFullGame(this.state.gameCode).then((result) => {
+            if (!result) {
+                console.log("IN BACK IF");
+                this.setState({
+                    showMenu: !this.state.showMenu
+                });
+            }
+        });
     }
 
     routeChange(to) {

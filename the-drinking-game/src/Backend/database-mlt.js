@@ -24,13 +24,15 @@ function getCard(gameCode, num) {
     return ref
         .once('value')
         .then((snapshot) => {
-            fire
-                .database()
-                .ref('games')
-                .child(gameCode)
-                .child('metadata')
-                .child('mlt')
-                .set(mltRandomNumber());
+            setTimeout(() => {
+                fire
+                    .database()
+                    .ref('games')
+                    .child(gameCode)
+                    .child('metadata')
+                    .child('mlt')
+                    .set(mltRandomNumber());
+            }, 5000);
             return snapshot.val();
         });
 }

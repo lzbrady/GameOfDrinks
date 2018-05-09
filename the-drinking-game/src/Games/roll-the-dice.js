@@ -30,14 +30,18 @@ class RollTheDice extends Component {
                 this.setState({redirectTo: 'main-game'});
             }
         });
-        playWithFate(gameCode, false);
 
         getFate(gameCode).then((snapshot) => {
             this.setState({card: snapshot});
         });
 
+        setTimeout(() => {
+            playWithFate(gameCode, false);
+        }, 2000);
+
         // Timer for timer...
         setTimeout(() => {
+            console.log("Redircting");
             redirect(gameCode, `/play/${gameCode}/games/${this.state.redirectTo}`).then((rtn) => {
                 newCommand(gameCode);
 

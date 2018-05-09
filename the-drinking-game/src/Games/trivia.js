@@ -20,7 +20,7 @@ class Trivia extends Component {
             answers: [],
             difficulty: "",
             correctAnswer: "",
-            redirectTo: ""  
+            redirectTo: ""
         }
 
         this.createMarkup = this
@@ -64,6 +64,12 @@ class Trivia extends Component {
             var scoreTimer = setTimeout(() => {
                 this.refreshScores();
             }, ((15000 * (i + 1)) + (4000 * i)));
+
+            var correctAnswerTimer = setTimeout(() => {
+                getCorrectAnswer(gameCode).then((snapshot) => {
+                    this.setState({correctAnswer: snapshot});
+                });
+            }, (13000 * (i + 1)));
         }
 
         // Initial game
@@ -71,12 +77,13 @@ class Trivia extends Component {
             this.setState({question: triviaObject.question, answers: triviaObject.answers, difficulty: triviaObject.difficulty});
         });
 
-        // Timer to fetch a new question every 14 seconds
+        // Timer to fetch a new question every 19 seconds
         var gameTimer = setInterval(() => {
             if (i >= 2) {
                 clearInterval(timer);
-                clearInterval(scoreTimer);
+                clearTimeout(scoreTimer);
                 clearInterval(gameTimer);
+                clearTimeout(correctAnswerTimer);
                 resetValues(gameCode, 'drinks');
                 redirect(gameCode, `/play/${gameCode}/games/${this.state.redirectTo}`).then((rtn) => {
                     setTimeout(() => {
@@ -109,9 +116,6 @@ class Trivia extends Component {
                 this.setState({drinks: scores});
             }
         });
-        getCorrectAnswer(this.state.gameCode).then((snapshot) => {
-            this.setState({correctAnswer: snapshot});
-        });
     }
 
     createMarkup(toMark) {
@@ -138,7 +142,7 @@ class Trivia extends Component {
                     className={(this.state.timeLeft < 0 || this.state.timeLeft > 15)
                     ? "trivia-correct-answer"
                     : "hide"}>Correct Answer:
-                    <br/>{this.state.correctAnswer}</div>
+                    <br/><p dangerouslySetInnerHTML={this.createMarkup(this.state.correctAnswer)}/></div>
 
                 <div
                     className={(this.state.timeLeft < 0 || this.state.timeLeft > 15)
