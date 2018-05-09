@@ -1,6 +1,6 @@
 import fire from './fire';
 
-const childrenSize = 235;
+const childrenSize = 234;
 
 export function playRound(gameCode) {
     let ref = fire

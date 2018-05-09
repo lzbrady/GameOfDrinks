@@ -54,20 +54,21 @@ class GamesMenu extends Component {
                     if (result) {
                         this.setState({playingFullGame: true, showMenu: false});
                     }
+                    if (snapshot.val().includes("exit")) {
+                        console.log("Contains exit");
+                        this.setState({playingFullGame: false, showMenu: false});
+                        redirect(gameCode, `/play/${gameCode}/games/`).then((rtn) => {
+                            setTimeout(() => {
+                                redirect(gameCode, false);
+                            }, 1);
+                        });
+                    } else {
+                        this
+                            .props
+                            .history
+                            .push(snapshot.val());
+                    }
                 });
-                if (snapshot.val().includes("exit")) {
-                    this.setState({playingFullGame: false, showMenu: true});
-                    redirect(gameCode, `/play/${gameCode}/games/`).then((rtn) => {
-                        setTimeout(() => {
-                            redirect(gameCode, false);
-                        }, 1);
-                    });
-                } else {
-                    this
-                        .props
-                        .history
-                        .push(snapshot.val());
-                }
             }
         });
         // Listener for if full game is being played fire     .database() .ref('games')

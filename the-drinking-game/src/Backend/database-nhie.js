@@ -2,7 +2,7 @@ import fire from './fire';
 
 import {updateDrinks, updateScore} from './database';
 
-const childrenSize = 224;
+const childrenSize = 223;
 
 export function playRound(gameCode) {
     return fire
