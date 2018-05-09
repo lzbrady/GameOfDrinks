@@ -18,7 +18,9 @@ export function createGame(playerName) {
         .database()
         .ref('games')
         .child(gameCode);
-    ref.set({[playerName.trim()]: 0});
+    ref.set({
+        [playerName.trim()]: 0
+    });
 
     // Redirect
     ref
@@ -117,7 +119,6 @@ export function joinGame(playerName, gameCode) {
 
 function checkPlayerNameExists(playerName, gameCode) {
     if (playerName.trim() === "" || playerName === 'redirect' || playerName === 'metadata' || playerName === 'drinks' || playerName === 'captions') {
-        console.log("ERROR");
         return {error: "Invalid Player Name"};
     }
 
@@ -135,8 +136,6 @@ function checkPlayerNameExists(playerName, gameCode) {
                 let nameTaken = false;
                 snapshot.forEach((childSnapshot) => {
                     if (childSnapshot.key !== 'redirect' && childSnapshot.key !== 'metadata' && childSnapshot.key !== 'drinks' && childSnapshot.key !== 'captions') {
-                        console.log("Child", childSnapshot.key.trim());
-                        console.log("Player Name", playerName);
                         if (childSnapshot.key.trim() === playerName.trim()) {
                             nameTaken = true;
                         } else {}
@@ -384,7 +383,7 @@ export function getResults(gameCode) {
 
             snapshot.forEach((childSnapshot) => {
                 if (childSnapshot.key !== 'redirect' && childSnapshot.key !== 'metadata' && childSnapshot.key !== 'drinks' && childSnapshot.key !== 'captions') {
-                    if (childSnapshot.val() > first.points) {
+                    if (childSnapshot.val() > first.points || first.name === "") {
                         third.name = second.name;
                         third.points = second.points;
 
@@ -393,13 +392,13 @@ export function getResults(gameCode) {
 
                         first.name = childSnapshot.key;
                         first.points = childSnapshot.val();
-                    } else if (childSnapshot.val() > second.points) {
+                    } else if (childSnapshot.val() > second.points || second.name === "") {
                         third.name = second.name;
                         third.points = second.points;
 
                         second.name = childSnapshot.key;
                         second.points = childSnapshot.val();
-                    } else if (childSnapshot.val() > third.points) {
+                    } else if (childSnapshot.val() > third.points || third.name === "") {
                         third.name = childSnapshot.key;
                         third.points = childSnapshot.val();
                     }

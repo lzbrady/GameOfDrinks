@@ -141,7 +141,7 @@ class MainGame extends Component {
         let answer = window.confirm("Ending the game will end it for everybody. Are you sure you want to continue?");
         if (answer) {
             exitMainGame(this.state.gameCode);
-            redirect(this.state.gameCode, `/play/${this.state.gameCode}/games/`).then((rtn) => {
+            redirect(this.state.gameCode, `/play/${this.state.gameCode}/games/exit`).then((rtn) => {
                 setTimeout(() => {
                     redirect(this.state.gameCode, false);
                 }, 1);

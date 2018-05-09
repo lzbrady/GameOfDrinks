@@ -50,31 +50,35 @@ class GamesMenu extends Component {
         // Listener for redirects
         gameRef.on('value', (snapshot) => {
             if (snapshot.key === 'redirect' && snapshot.val()) {
-                this
-                    .props
-                    .history
-                    .push(snapshot.val());
-            }
-        });
-        // Listener for if full game is being played
-        fire
-            .database()
-            .ref('games')
-            .child(gameCode)
-            .child('metadata')
-            .child('isFullGame')
-            .on('value', (snapshot) => {
-                if (snapshot.val()) {
-                    this.setState({playingFullGame: true, showMenu: false});
-                    redirect(gameCode, `/play/${gameCode}/games/main-game`).then((rtn) => {
+                if (snapshot.val().includes("exit")) {
+                    this.setState({playingFullGame: false, showMenu: true});
+                    redirect(gameCode, `/play/${gameCode}/games/`).then((rtn) => {
                         setTimeout(() => {
-                            redirect(this.state.gameCode, false);
+                            redirect(gameCode, false);
                         }, 1);
                     });
                 } else {
-                    this.setState({playingFullGame: false, showMenu: true});
+                    this
+                        .props
+                        .history
+                        .push(snapshot.val());
                 }
-            });
+            }
+        });
+        // Listener for if full game is being played fire     .database() .ref('games')
+        // .child(gameCode)     .child('metadata') .child('isFullGame') .on('value',
+        // (snapshot) => {         if (snapshot.val()) { this.setState({playingFullGame:
+        // true, showMenu: false}); redirect(gameCode,
+        // `/play/${gameCode}/games/main-game`).then((rtn) => { setTimeout(() => {
+        // redirect(this.state.gameCode, false);               }, 1);        });   }
+        // else { this.setState({playingFullGame: false, showMenu: true});     } });
+        isFullGame(gameCode).then((result) => {
+            if (result) {
+                this.setState({playingFullGame: true, showMenu: false});
+            } else {
+                this.setState({showMenu: true});
+            }
+        });
 
         this.setState({gameCode: gameCode});
         if (this.props.location.pathname.substring(11) === '/games/') {
@@ -88,19 +92,12 @@ class GamesMenu extends Component {
 
     onBackButtonEvent = (e) => {
         e.preventDefault();
-        setTimeout(() => {
-            isFullGame(this.state.gameCode).then((result) => {
-                if (!result) {
-                    this.setState({
-                        playingFullGame: false,
-                        showMenu: !this.state.showMenu
-                    });
-                    window
-                        .location
-                        .reload(true);
-                }
+
+        if (!this.state.playingFullGame) {
+            this.setState({
+                showMenu: !this.state.showMenu
             });
-        }, 100);
+        }
     }
 
     routeChange(to) {

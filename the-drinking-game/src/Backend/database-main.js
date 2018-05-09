@@ -200,7 +200,6 @@ export function getRound(gameCode) {
 }
 
 export function exitMainGame(gameCode) {
-    console.log("Game Code", gameCode);
     return fire
         .database()
         .ref('games')

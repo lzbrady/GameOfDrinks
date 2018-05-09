@@ -15,8 +15,9 @@ class GameLoad extends Component {
             valid: true,
             players: [],
             playerName: "",
-            lastAdded: "",
-            toasting: false
+            lastAdded: "Going back/forward within the browser will interfere with gameplay, use the site" +
+                    "s buttons to navigate!",
+            toasting: true
         }
 
         this.leaveGame = this
@@ -49,6 +50,10 @@ class GameLoad extends Component {
     }
 
     componentDidMount() {
+        setTimeout(() => {
+            this.setState({toasting: false, lastAdded: ""});
+        }, 8000);
+
         if (this.state.valid && (!localStorage.getItem("username") || localStorage.getItem("username") === "")) {
             this.setState({valid: false});
         }
@@ -67,9 +72,6 @@ class GameLoad extends Component {
                     if (num < 8 && childSnapshot.key !== 'redirect' && childSnapshot.key !== 'metadata' && childSnapshot.key !== 'drinks' && childSnapshot.key !== 'captions') {
                         newPlayers.push(childSnapshot.key);
                         num++;
-                        if (!this.state.players.includes(childSnapshot.key)) {
-                            this.setState({lastAdded: childSnapshot.key});
-                        }
                     } else if (childSnapshot.key === 'redirect' && childSnapshot.val()) {
                         this
                             .props
@@ -87,12 +89,12 @@ class GameLoad extends Component {
     displayNameInToast(nameToToast) {
         if (!this.state.toasting) {
             this.setState({toasting: true, lastAdded: nameToToast});
-            setTimeout(() => {
-                this.setState({toasting: false, lastAdded: ""});
-            }, 3000);
         } else {
             this.setState({lastAdded: nameToToast});
         }
+        setTimeout(() => {
+            this.setState({toasting: false, lastAdded: ""});
+        }, 3000);
     }
 
     render() {
