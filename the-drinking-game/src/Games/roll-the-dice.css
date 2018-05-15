@@ -1,0 +1,27 @@
+.fate-title {
+    font-size: 4rem;
+    opacity: 1;
+    animation: fading 3s infinite;
+}
+
+/* Chrome, Safari, Opera */
+
+@-webkit-keyframes fading {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+/* Standard syntax */
+
+@keyframes fading {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}

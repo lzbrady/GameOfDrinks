@@ -13,7 +13,8 @@ class RollTheDice extends Component {
         this.state = {
             card: "",
             gameCode: "",
-            redirectTo: ""
+            redirectTo: "",
+            showFate: false
         }
     }
 
@@ -36,12 +37,15 @@ class RollTheDice extends Component {
         });
 
         setTimeout(() => {
+            this.setState({showFate: true});
+        }, 3000);
+
+        setTimeout(() => {
             playWithFate(gameCode, false);
-        }, 2000);
+        }, 5000);
 
         // Timer for timer...
         setTimeout(() => {
-            console.log("Redircting");
             redirect(gameCode, `/play/${gameCode}/games/${this.state.redirectTo}`).then((rtn) => {
                 newCommand(gameCode);
 
@@ -49,14 +53,20 @@ class RollTheDice extends Component {
                     redirect(gameCode, false);
                 }, 1);
             });
-        }, 5000);
+        }, 8000);
     }
 
     render() {
         return (
             <div className="roll-the-dice">
-                <h1 className="game-title">Fate Says...</h1>
-                <div className="game-card">
+                <h1
+                    className={this.state.showFate
+                    ? "hide"
+                    : "fate-title"}>Fate Says...</h1>
+                <div
+                    className={this.state.showFate
+                    ? "game-card"
+                    : "hide"}>
                     <p className="card-content">{this.state.card}</p>
                 </div>
             </div>
