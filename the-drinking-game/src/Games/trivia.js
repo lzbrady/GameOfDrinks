@@ -12,7 +12,7 @@ class Trivia extends Component {
 
         this.state = {
             card: "",
-            timeLeft: 15,
+            timeLeft: 25,
             answered: false,
             drinks: [],
             gameCode: "",
@@ -63,13 +63,13 @@ class Trivia extends Component {
         for (let i = 0; i < 3; i++) {
             var scoreTimer = setTimeout(() => {
                 this.refreshScores();
-            }, ((15000 * (i + 1)) + (4000 * i)));
+            }, ((25000 * (i + 1)) + (12000 * i)));
 
             var correctAnswerTimer = setTimeout(() => {
                 getCorrectAnswer(gameCode).then((snapshot) => {
                     this.setState({correctAnswer: snapshot});
                 });
-            }, (13000 * (i + 1)));
+            }, ((23000 * (i + 1)) + (12000 * i)));
         }
 
         // Initial game
@@ -94,12 +94,12 @@ class Trivia extends Component {
                 resetValues(gameCode, 'drinks');
                 getTriviaInfo(gameCode).then((triviaObject) => {
                     this.setState({question: triviaObject.question, answers: triviaObject.answers, difficulty: triviaObject.difficulty});
-                    this.setState({timeLeft: 15});
+                    this.setState({timeLeft: 25});
                     this.setState({answered: false});
                 });
             }
             i++;
-        }, 19000);
+        }, 37000);
     }
 
     refreshScores() {
@@ -134,18 +134,22 @@ class Trivia extends Component {
                 <h1 className="game-title">Trivia</h1>
 
                 <h3
-                    className={(this.state.timeLeft < 0 || this.state.timeLeft > 15)
+                    className={(this.state.timeLeft < 0 || this.state.timeLeft > 25)
                     ? "hide"
                     : "timer-text"}>{this.state.timeLeft}</h3>
+                <h3
+                    className={this.state.timeLeft > -1
+                    ? "hide"
+                    : "timer-text"}>{this.state.timeLeft + 12}</h3>
 
                 <div
-                    className={(this.state.timeLeft < 0 || this.state.timeLeft > 15)
+                    className={(this.state.timeLeft < 0 || this.state.timeLeft > 25)
                     ? "trivia-correct-answer"
                     : "hide"}>Correct Answer:
                     <br/><p dangerouslySetInnerHTML={this.createMarkup(this.state.correctAnswer)}/></div>
 
                 <div
-                    className={(this.state.timeLeft < 0 || this.state.timeLeft > 15)
+                    className={(this.state.timeLeft < 0 || this.state.timeLeft > 25)
                     ? "drink-table"
                     : "hide"}>
                     <h1>Drink:</h1>
@@ -158,7 +162,7 @@ class Trivia extends Component {
                 </div>
 
                 <div
-                    className={(this.state.timeLeft >= 0 && this.state.timeLeft <= 15)
+                    className={(this.state.timeLeft >= 0 && this.state.timeLeft <= 25)
                     ? "trivia-card"
                     : "hide"}>
                     <p

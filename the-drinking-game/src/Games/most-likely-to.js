@@ -19,12 +19,12 @@ class MostLikelyTo extends Component {
 
         this.state = {
             card: "",
-            timeLeft: 15,
+            timeLeft: 30,
             answered: false,
             drinks: [],
             players: [],
             gameCode: "",
-            redirectTo: ""            
+            redirectTo: ""
         }
 
         this.choosePlayer = this
@@ -79,7 +79,7 @@ class MostLikelyTo extends Component {
 
         let i = 0;
         var gameTimer = setInterval(() => {
-            if (i >= 2) {
+            if (i >= 4) {
                 clearInterval(timer);
                 clearInterval(gameTimer);
                 redirect(gameCode, `/play/${gameCode}/games/${this.state.redirectTo}`).then((rtn) => {
@@ -91,13 +91,13 @@ class MostLikelyTo extends Component {
             } else {
                 playRound(gameCode).then((card) => {
                     this.setState({card: card});
-                    this.setState({timeLeft: 15});
+                    this.setState({timeLeft: 30});
                     this.setState({answered: false});
                 });
                 resetVotes(this.state.gameCode);
             }
             i++;
-        }, 19000);
+        }, 42000);
     }
 
     getVotes() {
@@ -116,11 +116,15 @@ class MostLikelyTo extends Component {
             <div className="most-likely-to">
                 <h1 className="game-title">Most Likely To</h1>
                 <h3
-                    className={(this.state.timeLeft < 0 || this.state.timeLeft > 15)
+                    className={(this.state.timeLeft < 0 || this.state.timeLeft > 30)
                     ? "hide"
                     : "timer-text"}>{this.state.timeLeft}</h3>
+                <h3
+                    className={this.state.timeLeft > -1
+                    ? "hide"
+                    : "timer-text"}>{this.state.timeLeft + 12}</h3>
                 <div
-                    className={(this.state.timeLeft < 0 || this.state.timeLeft > 15)
+                    className={this.state.timeLeft < 0
                     ? "drink-table"
                     : "hide"}>
                     <h1>Drink:</h1>
@@ -132,13 +136,13 @@ class MostLikelyTo extends Component {
                         })}
                 </div>
                 <div
-                    className={(this.state.timeLeft < 0 || this.state.timeLeft > 15)
+                    className={(this.state.timeLeft < 0 || this.state.timeLeft > 30)
                     ? "hide"
                     : "game-card"}>
                     <p className="card-content">{this.state.card}</p>
                 </div>
                 <div
-                    className={(this.state.answered || (this.state.timeLeft < 0 || this.state.timeLeft > 15))
+                    className={(this.state.answered || (this.state.timeLeft < 0 || this.state.timeLeft > 30))
                     ? "hide"
                     : "mlt-players"}>
                     {this
@@ -152,7 +156,7 @@ class MostLikelyTo extends Component {
                         })}
                 </div>
                 <p
-                    className={(!this.state.answered || (this.state.timeLeft < 0 || this.state.timeLeft > 15))
+                    className={(!this.state.answered || (this.state.timeLeft < 0 || this.state.timeLeft > 30))
                     ? "hide"
                     : "answer-confirmation"}>Answered
                     <span aria-labelledby="jsx-a11y/accessible-emoji" role="img">&#9989;</span>

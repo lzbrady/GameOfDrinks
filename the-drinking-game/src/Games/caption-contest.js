@@ -89,7 +89,7 @@ class CaptionContest extends Component {
                     redirect(gameCode, false);
                 }, 1);
             });
-        }, 100000);
+        }, 102000);
     }
 
     processCaptions() {
@@ -163,6 +163,10 @@ class CaptionContest extends Component {
                     : "timer-text"}>{!this.state.votable
                         ? ""
                         : (this.state.timeLeft + 30)}</h3>
+                <h3
+                    className={this.state.timeLeft > -31
+                    ? "hide"
+                    : "timer-text"}>{this.state.timeLeft + 42}</h3>
 
                 <div
                     className={(this.state.timeLeft < -30)

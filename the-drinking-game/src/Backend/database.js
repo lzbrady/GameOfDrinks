@@ -98,7 +98,8 @@ export function createGame(playerName) {
     return gameCode;
 }
 
-export function joinGame(playerName, gameCode) {
+export function joinGame(playerName, gc) {
+    let gameCode = gc.toLowerCase();
     // Check to make sure players < 8
     let fireRef = fire
         .database()
@@ -177,7 +178,7 @@ export function removePlayer(playerName, gameCode) {
 
 function generateGameCode() {
     var text = "";
-    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
     for (var i = 0; i < 5; i++) 
         text += possible.charAt(Math.floor(Math.random() * possible.length));
