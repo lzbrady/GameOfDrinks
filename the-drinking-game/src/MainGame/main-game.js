@@ -79,13 +79,18 @@ class MainGame extends Component {
 
             if (snapshot.round !== 1) {
                 shouldPlayWithFate(gameCode).then((shouldPlay) => {
-                    console.log("Should Play", shouldPlay);
                     if (shouldPlay) {
                         redirect(this.state.gameCode, `/play/${this.state.gameCode}/games/roll-the-dice`).then((rtn) => {
                             setTimeout(() => {
                                 redirect(this.state.gameCode, false);
                             }, 1);
                         });
+                    } else {
+                        let id = window.setTimeout(function () {}, 0);
+
+                        while (id--) {
+                            window.clearTimeout(id);
+                        }
                     }
                 });
             }

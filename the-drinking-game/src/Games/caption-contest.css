@@ -9,7 +9,7 @@
 }
 
 .cc-picture {
-    width: 96%;
+    max-width: 96%;
     margin: auto;
     max-height: 500px;
 }

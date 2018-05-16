@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Route, HashRouter, Link} from "react-router-dom";
-import {redirect, isFullGame} from '../Backend/database';
+import {redirect} from '../Backend/database';
 import {reset} from '../Backend/database-main';
 import ReactTooltip from 'react-tooltip'
 import fire from '../Backend/fire';
@@ -50,41 +50,41 @@ class GamesMenu extends Component {
         // Listener for redirects
         gameRef.on('value', (snapshot) => {
             if (snapshot.key === 'redirect' && snapshot.val()) {
-                isFullGame(gameCode).then((result) => {
-                    if (result) {
-                        this.setState({playingFullGame: true, showMenu: false});
-                    }
-                    if (snapshot.val().includes("exit")) {
-                        console.log("Contains exit");
-                        this.setState({playingFullGame: false, showMenu: false});
-                        redirect(gameCode, `/play/${gameCode}/games/`).then((rtn) => {
-                            setTimeout(() => {
-                                redirect(gameCode, false);
-                            }, 1);
-                        });
-                    } else {
-                        this
-                            .props
-                            .history
-                            .push(snapshot.val());
-                    }
-                });
+                if (snapshot.val().includes("exit")) {
+                    console.log("Contains exit");
+                    this.setState({playingFullGame: false, showMenu: false});
+                    redirect(gameCode, `/play/${gameCode}/games/`).then((rtn) => {
+                        setTimeout(() => {
+                            redirect(gameCode, false);
+                        }, 1);
+                    });
+                } else {
+                    this
+                        .props
+                        .history
+                        .push(snapshot.val());
+                }
             }
         });
-        // Listener for if full game is being played fire     .database() .ref('games')
-        // .child(gameCode)     .child('metadata') .child('isFullGame') .on('value',
-        // (snapshot) => {         if (snapshot.val()) { this.setState({playingFullGame:
-        // true, showMenu: false}); redirect(gameCode,
-        // `/play/${gameCode}/games/main-game`).then((rtn) => { setTimeout(() => {
-        // redirect(this.state.gameCode, false);               }, 1);        });   }
-        // else { this.setState({playingFullGame: false, showMenu: true});     } });
-        isFullGame(gameCode).then((result) => {
-            if (result) {
-                this.setState({playingFullGame: true, showMenu: false});
-            } else {
-                this.setState({showMenu: true});
-            }
-        });
+        // Listener for if full game is being played
+        fire
+            .database()
+            .ref('games')
+            .child(gameCode)
+            .child('metadata')
+            .child('isFullGame')
+            .on('value', (snapshot) => {
+                if (snapshot.val()) {
+                    this.setState({playingFullGame: true});
+                    redirect(gameCode, `/play/${gameCode}/games/main-game/`).then((rtn) => {
+                        setTimeout(() => {
+                            redirect(gameCode, false);
+                        }, 1);
+                    });
+                } else {
+                    this.setState({playingFullGame: false});
+                }
+            });
 
         this.setState({gameCode: gameCode});
         if (this.props.location.pathname.substring(11) === '/games/') {
@@ -100,13 +100,9 @@ class GamesMenu extends Component {
         e.preventDefault();
         // if (!this.state.playingFullGame) { console.log("IN BACK IF"); this.setState({
         //     showMenu: !this.state.showMenu }); }
-        isFullGame(this.state.gameCode).then((result) => {
-            if (!result) {
-                console.log("IN BACK IF");
-                this.setState({
-                    showMenu: !this.state.showMenu
-                });
-            }
+        console.log("Back button");
+        this.setState({
+            showMenu: !this.state.showMenu
         });
     }
 
@@ -130,7 +126,7 @@ class GamesMenu extends Component {
                 <div className="App">
                     <div className="content">
                         <h1 className="title-font">The Drinking Game</h1>
-                        {!this.state.playingFullGame && this.state.showMenu && <div className="games-menu-list">
+                        {(!this.state.playingFullGame) && this.state.showMenu && <div className="games-menu-list">
                             <h3 className="title-with-tooltip">Play the Full Game</h3>
                             <MdInfoOutline
                                 onClick={() => {

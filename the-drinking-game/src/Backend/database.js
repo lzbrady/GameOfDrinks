@@ -99,7 +99,7 @@ export function createGame(playerName) {
 }
 
 export function joinGame(playerName, gc) {
-    let gameCode = gc.toLowerCase();
+    let gameCode = gc.toUpperCase();
     // Check to make sure players < 8
     let fireRef = fire
         .database()
