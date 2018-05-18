@@ -204,7 +204,7 @@ function gameIsEmpty(gameCode) {
                         totalPlayers++;
                     }
                 });
-                if (totalPlayers == 0) {
+                if (totalPlayers === 0) {
                     return true;
                 }
                 return false;

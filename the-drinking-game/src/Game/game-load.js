@@ -53,11 +53,8 @@ class GameLoad extends Component {
             this.setState({toasting: false, lastAdded: ""});
         }, 8000);
 
-        console.log("Local storage:", localStorage.getItem("username"));
-
         let gameCode = this.props.match.params.String;
         if (this.state.valid && (!localStorage.getItem("username") || localStorage.getItem("username") === "")) {
-            console.log("HERERERE");
             this.setState({valid: false});
         } else {
             isActuallyInGame(gameCode, localStorage.getItem("username")).then((inGame) => {
