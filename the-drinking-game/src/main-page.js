@@ -25,6 +25,9 @@ class MainPage extends Component {
         this.joinGameSubmit = this
             .joinGameSubmit
             .bind(this);
+        this.contact = this
+            .contact
+            .bind(this);
     }
 
     handleChange(event) {
@@ -90,6 +93,11 @@ class MainPage extends Component {
         }
     }
 
+    contact() {
+        let win = window.open(`${window.location}contact`, ' _blank ');
+        win.focus();
+    }
+
     render() {
         return (
             <div className="main-page">
@@ -129,6 +137,9 @@ class MainPage extends Component {
                     className={this.state.error === ""
                     ? "hide"
                     : "error-message"}>{this.state.error}</p>
+                <button className="contact-button" onClick={this.contact}>
+                    Feedback / Suggestions
+                </button>
                 <form
                     action="https://www.paypal.com/cgi-bin/webscr"
                     method="post"

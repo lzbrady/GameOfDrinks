@@ -4,7 +4,6 @@
     margin: 10px auto;
     padding: 10px;
     box-sizing: border-box;
-    
 }
 
 .main-page-label {
@@ -70,5 +69,24 @@
 }
 
 .paypal {
-    margin: 45px auto;
+    margin: 10px auto 45px auto;
+}
+
+.contact-button {
+    width: 100%;
+    font-size: 1.3rem;
+    border: none;
+    padding: 3px;
+    display: block;
+    position: absolute;
+    background-color: #062b50;
+    color: #fff;
+    top: 0px;
+    left: 0px;
+}
+
+.contact-button:hover {
+    cursor: pointer;
+    background-color: #051e38;
+    color: #dcdcdc;
 }
