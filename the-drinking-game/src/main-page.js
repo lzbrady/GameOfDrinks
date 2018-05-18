@@ -122,10 +122,11 @@ class MainPage extends Component {
                     <p className="main-page-label">Game Code:</p>
                     <input
                         type="text"
+                        id="game-code-input"
                         className="main-page-input"
                         onChange={this.gameCodeChange}
                         name="name"
-                        placeholder="Game Code (qWlp4)"/>
+                        placeholder="Game Code (ab123)"/>
                     <button
                         className={(this.state.playerName === "" || this.state.gameCode === "")
                         ? "main-page-disabled-button"

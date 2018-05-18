@@ -174,6 +174,69 @@ export function removePlayer(playerName, gameCode) {
         .child(gameCode)
         .child(playerName)
         .remove();
+
+    localStorage.setItem("username", "");
+
+    gameIsEmpty(gameCode).then((isEmpty) => {
+        if (isEmpty) {
+            fire
+                .database()
+                .ref('games')
+                .child(gameCode)
+                .remove();
+        }
+    })
+}
+
+function gameIsEmpty(gameCode) {
+    let ref = fire
+        .database()
+        .ref('games')
+        .child(gameCode);
+
+    return ref
+        .once('value')
+        .then((snapshot) => {
+            if (snapshot.val() !== null) {
+                let totalPlayers = 0;
+                snapshot.forEach((childSnapshot) => {
+                    if (childSnapshot.key !== 'redirect' && childSnapshot.key !== 'metadata' && childSnapshot.key !== 'drinks' && childSnapshot.key !== 'captions') {
+                        totalPlayers++;
+                    }
+                });
+                if (totalPlayers == 0) {
+                    return true;
+                }
+                return false;
+            } else {
+                return true;
+            }
+        });
+}
+
+export function isActuallyInGame(gameCode, playerName) {
+    let ref = fire
+        .database()
+        .ref('games')
+        .child(gameCode);
+
+    return ref
+        .once('value')
+        .then((snapshot) => {
+            if (snapshot.val() !== null) {
+                let nameExists = false;
+                snapshot.forEach((childSnapshot) => {
+                    if (childSnapshot.key !== 'redirect' && childSnapshot.key !== 'metadata' && childSnapshot.key !== 'drinks' && childSnapshot.key !== 'captions') {
+                        if (childSnapshot.key === playerName) {
+                            nameExists = true;
+                        }
+                    }
+                });
+                return nameExists;
+            } else {
+                return true;
+            }
+        });
 }
 
 function generateGameCode() {

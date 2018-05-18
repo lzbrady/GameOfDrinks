@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import fire from '../Backend/fire';
-import {removePlayer, redirect} from '../Backend/database';
+import {removePlayer, redirect, isActuallyInGame} from '../Backend/database';
 import middlePic from '../Images/middle-icon.png';
 import {BrowserView, MobileView, isBrowser, isMobile} from "react-device-detect";
 
@@ -14,7 +14,6 @@ class GameLoad extends Component {
             gameCode: "",
             valid: true,
             players: [],
-            playerName: "",
             lastAdded: "Going back/forward within the browser will interfere with gameplay, use the site" +
                     "s buttons to navigate!",
             toasting: true
@@ -54,11 +53,23 @@ class GameLoad extends Component {
             this.setState({toasting: false, lastAdded: ""});
         }, 8000);
 
-        if (this.state.valid && (!localStorage.getItem("username") || localStorage.getItem("username") === "")) {
-            this.setState({valid: false});
-        }
-        this.setState({playerName: this.props.playerName});
+        console.log("Local storage:", localStorage.getItem("username"));
+
         let gameCode = this.props.match.params.String;
+        if (this.state.valid && (!localStorage.getItem("username") || localStorage.getItem("username") === "")) {
+            console.log("HERERERE");
+            this.setState({valid: false});
+        } else {
+            isActuallyInGame(gameCode, localStorage.getItem("username")).then((inGame) => {
+                if (!inGame) {
+                    this
+                        .props
+                        .history
+                        .push('/');
+                }
+            });
+        }
+
         this.setState({gameCode: gameCode});
         let gameRef = fire
             .database()

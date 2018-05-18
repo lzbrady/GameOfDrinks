@@ -14,13 +14,13 @@
 
 .main-page-button,
 .main-page-disabled-button {
-    width: 175px;
+    width: 96%;
     font-size: 1.4rem;
     border: none;
-    border-radius: 50px;
+    border-radius: 0px 0px 13px 13px;
     display: block;
     padding: 5px;
-    margin: 15px auto;
+    margin: 0px auto 15px auto;
     background-color: #1E5199;
 }
 
@@ -33,7 +33,6 @@
 .main-page-disabled-button {
     background-color: #4c607b;
     color: #c2c2c2;
-    cursor: not-allowed;
 }
 
 .main-page-button:hover {
@@ -55,10 +54,10 @@
     width: 96%;
     box-sizing: border-box;
     margin: auto;
-    height: 30px;
+    height: 35px;
     font-size: 20px;
     padding: 2px 8px;
-    border-radius: 100px;
+    border-radius: 13px 13px 0px 0px;
     border: 1px solid black;
 }
 
@@ -66,6 +65,10 @@
     outline: none;
     border-color: #1E5199;
     box-shadow: 0px 0px 3px #1E5199;
+}
+
+#game-code-input {
+    text-transform: uppercase;
 }
 
 .paypal {
@@ -79,7 +82,7 @@
     padding: 3px;
     display: block;
     position: absolute;
-    background-color: #062b50;
+    background-color: #1E5199;
     color: #fff;
     top: 0px;
     left: 0px;
@@ -87,6 +90,6 @@
 
 .contact-button:hover {
     cursor: pointer;
-    background-color: #051e38;
+    background-color: #13335f;
     color: #dcdcdc;
 }
