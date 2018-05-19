@@ -101,6 +101,12 @@ export function createGame(playerName) {
         .child('showPattern')
         .set(true);
 
+    // Hardcoded pattern for dev purposes
+    ref
+        .child('metadata')
+        .child('pattern')
+        .set(1234);
+
     return gameCode;
 }
 
