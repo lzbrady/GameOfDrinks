@@ -6,7 +6,7 @@
     padding: 20px 10px;
     box-sizing: border-box;
     min-width: 280px;
-    background-color: #fcfcfcde;
+    /* background-color: #fcfcfcde; */
     border-radius: 13px;
 }
 
@@ -145,7 +145,7 @@
 
 .slide_in-enter.slide_in-enter-active {
     height: 235px;
-    transition: height 500ms ease-out;
+    transition: height 200ms ease-out;
 }
 
 .slide_in-leave {
@@ -154,7 +154,7 @@
 
 .slide_in-leave.slide_in-leave-active {
     height: 0.01px;
-    transition: height 500ms ease-out;
+    transition: height 200ms ease-out;
 }
 
 .saber-handle-main {
@@ -305,4 +305,39 @@
     left: 16.5px;
     z-index: 10;
     border-radius: 1px 2px 2px 2px;
+}
+
+.saber-color-indicator {
+    position: absolute;
+    bottom: -20px;
+    left: 0px;
+    width: 50px;
+    height: 10px;
+    filter: blur(3px);
+    border-radius: 50%;
+    transform: rotateX(55deg);
+}
+
+.saber-color-indicator-1 {
+    background-color: rgb(127, 223, 76)
+}
+
+.saber-color-indicator-2 {
+    background-color: rgb(117, 209, 255);
+}
+
+.saber-color-indicator-3 {
+    background-color: rgba(148, 30, 226, 0.816);
+}
+
+.saber-color-indicator-4 {
+    background-color: rgba(255, 0, 0, 0.9);
+}
+
+.sabers-result {
+    font-size: 32px;
+    position: absolute;
+    width: 100%;
+    font-weight: bold;
+    left: 0px;
 }
