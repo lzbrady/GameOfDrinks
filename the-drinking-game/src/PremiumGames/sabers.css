@@ -1,0 +1,308 @@
+.all-sabers-container {
+    width: 96%;
+    border: 1px solid black;
+    height: 370px;
+    margin: auto;
+    padding: 20px 10px;
+    box-sizing: border-box;
+    min-width: 280px;
+    background-color: #fcfcfcde;
+    border-radius: 13px;
+}
+
+#saber-1,
+#saber-2,
+#saber-3,
+#saber-4 {
+    display: inline-block;
+    margin: 0px 2%;
+    box-sizing: border-box;
+}
+
+#blade-1 {
+    background: linear-gradient(to right, rgb(127, 223, 76) 0%, rgb(206, 243, 206) 50%, rgb(135, 220, 90) 100%);
+    box-shadow: 0px 0px 20px rgb(63, 177, 63);
+    animation: pulsing_1 1s infinite;
+    animation-direction: alternate;
+}
+
+@-webkit-keyframes pulsing_1 {
+    from {
+        box-shadow: 0px 0px 20px rgb(32, 179, 32);
+    }
+    to {
+        box-shadow: 0px 0px 12px rgb(32, 179, 32);
+    }
+}
+
+@keyframes pulsing_1 {
+    from {
+        box-shadow: 0px 0px 20px rgb(32, 179, 32);
+    }
+    to {
+        box-shadow: 0px 0px 12px rgb(32, 179, 32);
+    }
+}
+
+#blade-2 {
+    background: linear-gradient(to right, rgb(117, 209, 255) 0%, rgb(185, 233, 255) 50%, rgb(117, 209, 255) 100%);
+    box-shadow: 0px 0px 20px rgb(65, 192, 255);
+    animation: pulsing_2 1s infinite;
+    animation-direction: alternate;
+}
+
+@-webkit-keyframes pulsing_2 {
+    from {
+        box-shadow: 0px 0px 20px rgb(65, 192, 255);
+    }
+    to {
+        box-shadow: 0px 0px 12px rgb(65, 192, 255);
+    }
+}
+
+@keyframes pulsing_2 {
+    from {
+        box-shadow: 0px 0px 20px rgb(65, 192, 255);
+    }
+    to {
+        box-shadow: 0px 0px 12px rgb(65, 192, 255);
+    }
+}
+
+#blade-3 {
+    background: linear-gradient(to right, rgba(148, 30, 226, 0.816) 0%, rgb(210, 192, 223) 50%, rgba(148, 30, 226, 0.816) 100%);
+    box-shadow: 0px 0px 20px rgb(63, 177, 63);
+    animation: pulsing_3 1s infinite;
+    animation-direction: alternate;
+}
+
+@-webkit-keyframes pulsing_3 {
+    from {
+        box-shadow: 0px 0px 20px rgb(125, 9, 203);
+    }
+    to {
+        box-shadow: 0px 0px 12px rgb(125, 9, 203);
+    }
+}
+
+@keyframes pulsing_3 {
+    from {
+        box-shadow: 0px 0px 20px rgb(125, 9, 203);
+    }
+    to {
+        box-shadow: 0px 0px 12px rgb(125, 9, 203);
+    }
+}
+
+#blade-4 {
+    background: linear-gradient(to right, rgba(255, 0, 0, 0.9) 0%, rgb(255, 195, 195) 50%, rgba(255, 0, 0, 0.9) 100%);
+    box-shadow: 0px 0px 20px rgb(63, 177, 63);
+    animation: pulsing_4 1s infinite;
+    animation-direction: alternate;
+}
+
+@-webkit-keyframes pulsing_4 {
+    from {
+        box-shadow: 0px 0px 20px rgb(255, 0, 0);
+    }
+    to {
+        box-shadow: 0px 0px 12px rgb(255, 0, 0);
+    }
+}
+
+@keyframes pulsing_4 {
+    from {
+        box-shadow: 0px 0px 20px rgb(255, 0, 0);
+    }
+    to {
+        box-shadow: 0px 0px 12px rgb(255, 0, 0);
+    }
+}
+
+.saber-container {
+    position: relative;
+    width: 50px;
+    height: 320px;
+}
+
+.saber-handle-container {
+    cursor: pointer;
+}
+
+.saber-blade {
+    width: 12px;
+    height: 235px;
+    position: absolute;
+    bottom: 66px;
+    left: 19px;
+    border-radius: 100px;
+    filter: blur(0.6px);
+}
+
+.slide_in-enter {
+    height: 0.01px;
+}
+
+.slide_in-enter.slide_in-enter-active {
+    height: 235px;
+    transition: height 500ms ease-out;
+}
+
+.slide_in-leave {
+    height: 235px;
+}
+
+.slide_in-leave.slide_in-leave-active {
+    height: 0.01px;
+    transition: height 500ms ease-out;
+}
+
+.saber-handle-main {
+    width: 16px;
+    height: 58px;
+    background: linear-gradient(to right, rgb(174, 174, 174) 8%, rgb(241, 241, 241) 20%, rgb(152, 152, 152) 40%, rgb(241, 241, 241) 85%);
+    position: absolute;
+    bottom: 7px;
+    left: 17px;
+    filter: blur(0.2px);
+    z-index: 5;
+}
+
+.saber-handle-top-top {
+    background: linear-gradient(to right, rgb(174, 174, 174) 8%, rgb(241, 241, 241) 20%, rgb(152, 152, 152) 40%, rgb(241, 241, 241) 85%);
+    width: 14px;
+    height: 5px;
+    bottom: 65px;
+    position: absolute;
+    left: 18px;
+    z-index: 5;
+    border-radius: 0px 0px 6px 6px;
+    filter: blur(0.2px);
+}
+
+.saber-handle-top-bottom {
+    background: linear-gradient(to right, rgb(174, 174, 174) 8%, rgb(241, 241, 241) 20%, rgb(152, 152, 152) 40%, rgb(241, 241, 241) 85%);
+    width: 15px;
+    height: 2px;
+    bottom: 65px;
+    position: absolute;
+    left: 17.5px;
+    border-radius: 6px 6px 0px 0px;
+    z-index: 8;
+    -webkit-filter: blur(0.2px);
+    filter: blur(0.2px);
+    border-bottom: 0.3px solid black;
+}
+
+.saber-handle-top-pattern-container {
+    width: 16px;
+    height: 15px;
+    bottom: 50px;
+    position: absolute;
+    left: 17px;
+    z-index: 10;
+}
+
+.saber-handle-top-pattern-1,
+.saber-handle-top-pattern-2,
+.saber-handle-top-pattern-3 {
+    background-color: black;
+    position: absolute;
+    height: 15px;
+    z-index: 10;
+    box-shadow: 0px 0px 1px black;
+}
+
+.saber-handle-top-pattern-1 {
+    width: 3px;
+    left: -2px;
+    border-radius: 4px 0px 0px 4px;
+}
+
+.saber-handle-top-pattern-2 {
+    width: 6px;
+    left: 5px;
+}
+
+.saber-handle-top-pattern-3 {
+    width: 3px;
+    left: 15px;
+    border-radius: 0px 4px 4px 0px;
+}
+
+.saber-middle-cover {
+    width: 16px;
+    height: 20px;
+    bottom: 26px;
+    position: absolute;
+    left: 17px;
+    z-index: 10;
+    background: linear-gradient(to right, black 5%, rgb(241, 241, 241) 20%, black 40%);
+    filter: blur(0.2px);
+}
+
+.saber-middle-button-cover {
+    width: 16px;
+    height: 17px;
+    bottom: 27px;
+    position: absolute;
+    left: 19px;
+    z-index: 10;
+    background: linear-gradient(to bottom, black 90%, rgb(241, 241, 241) 98%, black 100%);
+    filter: blur(0.2px);
+    z-index: 3;
+}
+
+.saber-middle-button-button {
+    width: 2.5px;
+    height: 7px;
+    bottom: 30px;
+    position: absolute;
+    left: 35px;
+    filter: blur(0.2px);
+    z-index: 1;
+}
+
+.saber-bottom-stem {
+    position: absolute;
+    bottom: -4px;
+    width: 10px;
+    left: 17px;
+    border-bottom: 12px solid black;
+    border-left: 3px solid transparent;
+    border-right: 3px solid transparent;
+    height: 0;
+}
+
+.saber-bottom-left {
+    position: absolute;
+    height: 9px;
+    width: 1px;
+    background-color: rgb(167, 167, 167);
+    bottom: 3px;
+    left: 16.5px;
+    z-index: 10;
+    border-radius: 10px 0px 0px 10px;
+}
+
+.saber-bottom-screw {
+    position: absolute;
+    height: 2px;
+    width: 2px;
+    background: linear-gradient(to bottom, rgb(241, 241, 241) 30%, rgb(152, 152, 152) 40%, rgb(241, 241, 241));
+    bottom: 8.5px;
+    left: 15px;
+    z-index: 10;
+    border-radius: 1px 2px 2px 2px;
+}
+
+.saber-bottom-bottom {
+    position: absolute;
+    height: 5px;
+    width: 13px;
+    background: linear-gradient(to right, rgb(152, 152, 152) 10%, rgb(241, 241, 241) 30%, rgb(152, 152, 152));
+    bottom: 0px;
+    left: 16.5px;
+    z-index: 10;
+    border-radius: 1px 2px 2px 2px;
+}

@@ -9,7 +9,8 @@
     "react-dom": "^16.2.0",
     "react-icons": "^2.2.7",
     "react-scripts": "1.1.1",
-    "react-tooltip": "^3.4.0"
+    "react-tooltip": "^3.4.0",
+    "react-transition-group": "^1.2.1"
   },
   "scripts": {
     "start": "react-scripts start",

@@ -10,6 +10,7 @@ import MostLikelyTo from './most-likely-to';
 import CaptionContest from './caption-contest';
 import Trivia from './trivia';
 import RollTheDice from './roll-the-dice';
+import Sabers from '../PremiumGames/sabers';
 
 import MainGame from '../MainGame/main-game';
 
@@ -212,6 +213,41 @@ class GamesMenu extends Component {
                                 onClick={(e) => this.routeChange('roll-the-dice')}
                                 to={`/play/${this.state.gameCode}/games/roll-the-dice`}
                                 className="games-menu-list-item">Play with Fate</Link>
+
+                            <h3 className="title-with-tooltip">Premium Games</h3>
+                            <MdInfoOutline
+                                onClick={() => {
+                                this.setState({showMainTooltip: false});
+                                this.setState({showMiniTooltip: true});
+                                setTimeout(() => {
+                                    this.setState({showMiniTooltip: false});
+                                }, 3000);
+                            }}
+                                data-tip
+                                data-for='premium-game'
+                                className="icon"/>
+
+                            <ReactTooltip
+                                className="tooltip"
+                                id="premium-game"
+                                place="bottom"
+                                type="info"
+                                effect="solid">
+                                <span>All new premium games!</span><br/>
+                                <span>One time payment of $5</span>
+                            </ReactTooltip>
+
+                            {this.state.showMiniTooltip && <MobileView device={isMobile}>
+                                <div className="mobile-tooltip">
+                                    <span>All new premium games!</span><br/>
+                                    <span>One time payment of $5</span>
+                                </div>
+                            </MobileView>}
+
+                            <Link
+                                onClick={(e) => this.routeChange('sabers')}
+                                to={`/play/${this.state.gameCode}/games/sabers`}
+                                className="premium-games-menu-list-item games-menu-list-item">Sabers</Link>
                         </div>}
                         <div>
                             <Route
@@ -229,6 +265,7 @@ class GamesMenu extends Component {
                             <Route exact path="/play/:String/games/trivia" component={Trivia}/>
                             <Route exact path="/play/:String/games/roll-the-dice" component={RollTheDice}/>
                             <Route exact path="/play/:String/games/main-game" component={MainGame}/>
+                            <Route exact path="/play/:String/games/sabers" component={Sabers}/>
                         </div>
                     </div>
                     <form
