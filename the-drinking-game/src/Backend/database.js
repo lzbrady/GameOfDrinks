@@ -95,6 +95,12 @@ export function createGame(playerName) {
         .child('pointCeremony')
         .set(false);
 
+    // Boolean indicating whether to show the saber pattern or not
+    ref
+        .child('metadata')
+        .child('showPattern')
+        .set(true);
+
     return gameCode;
 }
 
@@ -315,6 +321,16 @@ export function updateDrinks(gameCode, username) {
         .child('drinks')
         .child('No One')
         .set(false);
+}
+
+export function removeDrinks(gameCode, username) {
+    fire
+        .database()
+        .ref('games')
+        .child(gameCode)
+        .child('drinks')
+        .child(username)
+        .remove();
 }
 
 export function resetValues(gameCode, value) {

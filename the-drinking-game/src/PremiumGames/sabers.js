@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import {CSSTransitionGroup} from 'react-transition-group';
 
-import {redirect, isFullGame, getResults} from '../Backend/database';
-import {displayPattern, checkPath, getSaberResults} from '../Backend/database-sabers';
+import {redirect, isFullGame, resetValues} from '../Backend/database';
+import {displayPattern, checkPath, getSaberResults, stopPattern} from '../Backend/database-sabers';
 
 import './sabers.css';
 
@@ -32,6 +32,9 @@ class Sabers extends Component {
         this.getResults = this
             .getResults
             .bind(this);
+        this.setupGame = this
+            .setupGame
+            .bind(this);
     }
 
     componentDidMount() {
@@ -48,70 +51,115 @@ class Sabers extends Component {
             }
         });
 
-        displayPattern(gameCode).then((pattern) => {
-            if (pattern) {
-                console.log("Pattern", pattern);
-                for (let i = 0; i <= pattern.length; i++) {
-                    // This is to make them flash grey first
-                    setTimeout(() => {
-                        this.setState({bgColor: "#fcfcfcde"});
-                    }, 800 * i + (200 * (i - 1)));
-
-                    // This loops through the actual colors
-                    setTimeout(() => {
-                        let newColor = "#fcfcfcde";
-                        switch (pattern[i]) {
-                            case 1:
-                                newColor = "green";
-                                break;
-                            case 2:
-                                newColor = "blue";
-                                break;
-                            case 3:
-                                newColor = "purple";
-                                break;
-                            case 4:
-                                newColor = "red";
-                                break;
-                            default:
-                                this.setState({allowClicks: true});
-                                break;
-                        }
-                        this.setState({bgColor: newColor});
-                    }, 1000 * i);
-                }
-            }
-        });
+        this.setupGame(gameCode);
 
         var timer = setInterval(() => {
-            if (this.state.timeLeft < 1) {
+            if (this.state.timeLeft === 0) {
                 console.log("Get drinks");
+                this.getResults();
             }
             this.setState({
                 timeLeft: this.state.timeLeft - 1
             });
         }, 1000);
 
-        // setTimeout(() => {     resetValues(gameCode, 'drinks'); redirect(gameCode,
-        // `/play/${gameCode}/games/${this.state.redirectTo}`).then((rtn) => {
-        // setTimeout(() => {             redirect(gameCode, false);         }, 1); });
-        // }, 0);
+        for (let i = 0; i < 3; i++) {
+            // 20, 25, 30 sec round times, 12 sec drink table times (really 11)
+            let timeOutTime = 32000;
+            if (i === 1) {
+                timeOutTime = 69000;
+            } else if (i === 2) {
+                timeOutTime = 111000;
+            }
+
+            setTimeout(() => {
+                console.log("In Timeout");
+                if (i >= 2) {
+                    clearInterval(timer);
+                    resetValues(gameCode, 'drinks');
+                    redirect(gameCode, `/play/${gameCode}/games/${this.state.redirectTo}`).then((rtn) => {
+                        setTimeout(() => {
+                            redirect(gameCode, false);
+                        }, 1);
+                    });
+                } else {
+                    resetValues(gameCode, 'drinks');
+                    this.setupGame(gameCode);
+                    this.setState({
+                        timeLeft: (20 + ((i + 1) * 5))
+                    });
+                }
+            }, timeOutTime);
+        }
+    }
+
+    setupGame(gameCode) {
+        // Add one second timeout in beginning to make sure you dont miss the pattern
         setTimeout(() => {
-            this.getResults();
-        }, 500);
+            displayPattern(gameCode).then((pattern) => {
+                this.setState({showBlade1: false, showBlade2: false, showBlade3: false, showBlade4: false, showResult: false});
+                let newPath = this.state.chosenPath;
+                newPath.length = 0;
+                this.setState({chosenPath: newPath});
+
+                if (pattern) {
+                    console.log("Pattern", pattern);
+                    for (let i = 0; i <= pattern.length; i++) {
+                        // This is to make them flash grey first
+                        setTimeout(() => {
+                            this.setState({bgColor: "#fcfcfcde"});
+                        }, 800 * i + (200 * (i - 1)));
+
+                        // This loops through the actual colors
+                        setTimeout(() => {
+                            let newColor = "#fcfcfcde";
+                            switch (pattern[i]) {
+                                case "1":
+                                    newColor = "green";
+                                    break;
+                                case "2":
+                                    newColor = "blue";
+                                    break;
+                                case "3":
+                                    newColor = "purple";
+                                    break;
+                                case "4":
+                                    newColor = "red";
+                                    break;
+                                default:
+                                    this.setState({allowClicks: true});
+
+                                    // Leave one second for network speed
+                                    setTimeout(() => {
+                                        stopPattern(gameCode);
+                                    }, 1000);
+                                    break;
+                            }
+                            this.setState({bgColor: newColor});
+                        }, 1000 * i);
+                    }
+                } else {
+                    this.setState({allowClicks: true});
+                }
+            });
+        }, 1000);
     }
 
     getResults() {
-        console.log("Code", this.state.gameCode);
         getSaberResults(this.state.gameCode).then((results) => {
             console.log("Results", results);
+            this.setState({showBlade1: false, showBlade2: false, showBlade3: false, showBlade4: false, showResult: false});
+            let newPath = this.state.chosenPath;
+            newPath.length = 0;
+            this.setState({chosenPath: newPath});
+
             let scores = [];
             for (let key in results) {
                 if (results.hasOwnProperty(key) && results[key]) {
                     scores.push(key);
                 }
             }
-            if (scores.includes("No One")) {
+            if (scores.length === 0) {
                 this.setState({drinks: ["Everyone!"]});
             } else {
                 this.setState({drinks: scores});
@@ -133,7 +181,7 @@ class Sabers extends Component {
 
                     setTimeout(() => {
                         this.setState({showResult: true});
-                    }, 1000);
+                    }, 500);
                 } else if (result < 0) {} else {
                     this.setState({showResult: false});
                 }
@@ -179,7 +227,7 @@ class Sabers extends Component {
                     ? "hide"
                     : "timer-text"}>{this.state.timeLeft + 12}</h3>
                 <div
-                    className={this.state.timeLeft < 0
+                    className={(this.state.timeLeft < 0)
                     ? "drink-table"
                     : "hide"}>
                     <h1>Drink:</h1>
@@ -191,7 +239,7 @@ class Sabers extends Component {
                         })}
                 </div>
 
-                {this.state.timeLeft >= 0 && <div
+                {(this.state.timeLeft >= 0) && <div
                     className="all-sabers-container"
                     style={{
                     backgroundColor: this.state.bgColor

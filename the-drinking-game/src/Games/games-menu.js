@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {Route, HashRouter, Link} from "react-router-dom";
-import {redirect} from '../Backend/database';
+import {redirect, isFullGame} from '../Backend/database';
 import {reset} from '../Backend/database-main';
+import {showPattern} from '../Backend/database-sabers';
 import ReactTooltip from 'react-tooltip'
 import fire from '../Backend/fire';
 
@@ -53,6 +54,7 @@ class GamesMenu extends Component {
             if (snapshot.key === 'redirect' && snapshot.val()) {
                 if (snapshot.val().includes("exit")) {
                     this.setState({playingFullGame: false});
+                    this.setState({showMenu: true});
                     redirect(gameCode, `/play/${gameCode}/games/`).then((rtn) => {
                         setTimeout(() => {
                             redirect(gameCode, false).then((rtn) => {
@@ -63,10 +65,32 @@ class GamesMenu extends Component {
                         }, 1);
                     });
                 } else {
-                    this
-                        .props
-                        .history
-                        .push(snapshot.val());
+                    isFullGame(gameCode).then((result) => {
+                        if (result) {
+                            this.setState({playingFullGame: true});
+                            this.setState({showMenu: false});
+                            this
+                                .props
+                                .history
+                                .push(snapshot.val());
+                        } else {
+                            if (snapshot.val() === `/play/${gameCode}/games/`) {
+                                console.log("Setting true");
+                                this.setState({showMenu: true});
+                                this
+                                    .props
+                                    .history
+                                    .push(snapshot.val());
+                            } else {
+                                console.log("Setting false");
+                                this.setState({showMenu: false});
+                                this
+                                    .props
+                                    .history
+                                    .push(snapshot.val());
+                            }
+                        }
+                    });
                 }
             }
         });
@@ -103,9 +127,8 @@ class GamesMenu extends Component {
     onBackButtonEvent = (e) => {
         e.preventDefault();
 
-        this.setState({
-            showMenu: !this.state.showMenu
-        });
+        // console.log("Reverse"); this.setState({     showMenu: !this.state.showMenu
+        // });
     }
 
     routeChange(to) {
@@ -113,6 +136,8 @@ class GamesMenu extends Component {
             reset(this.state.gameCode).then((result) => {
                 this.setState({playingFullGame: true});
             });
+        } else if (to === 'sabers') {
+            showPattern(this.state.gameCode);
         }
         redirect(this.state.gameCode, `/play/${this.state.gameCode}/games/${to}`).then((rtn) => {
             setTimeout(() => {
