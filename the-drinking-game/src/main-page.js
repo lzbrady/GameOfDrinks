@@ -30,6 +30,12 @@ class MainPage extends Component {
             .bind(this);
     }
 
+    componentDidMount() {
+        localStorage.setItem("username", "");
+        //Must attempt to read to persist
+        localStorage.getItem('username');
+    }
+
     handleChange(event) {
         this.setState({playerName: event.target.value});
     }
