@@ -75,14 +75,12 @@ class GamesMenu extends Component {
                                 .push(snapshot.val());
                         } else {
                             if (snapshot.val() === `/play/${gameCode}/games/`) {
-                                console.log("Setting true");
                                 this.setState({showMenu: true});
                                 this
                                     .props
                                     .history
                                     .push(snapshot.val());
                             } else {
-                                console.log("Setting false");
                                 this.setState({showMenu: false});
                                 this
                                     .props

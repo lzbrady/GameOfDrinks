@@ -108,14 +108,15 @@ class GameLoad extends Component {
     render() {
         return (
             <div className="game-page">
-                <h1>{!this.state.valid
-                        ? "Invalid Game Code or Player Name"
-                        : ""}</h1>
                 <div
                     className={this.state.valid
                     ? "game_load"
                     : "hide"}>
                     <h1 className="title-font">The Drinking Game</h1>
+
+                    <h1>{!this.state.valid
+                            ? "Invalid Game Code or Player Name"
+                            : ""}</h1>
 
                     <MobileView device={isMobile}>
                         <div className="player-list-mobile">
