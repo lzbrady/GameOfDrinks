@@ -54,18 +54,18 @@ class GameLoad extends Component {
         }, 8000);
 
         let gameCode = this.props.match.params.String;
-        if (this.state.valid && (!localStorage.getItem("username") || localStorage.getItem("username") === "")) {
-            this.setState({valid: false});
-        } else {
-            isActuallyInGame(gameCode, localStorage.getItem("username")).then((inGame) => {
-                if (!inGame) {
-                    this
-                        .props
-                        .history
-                        .push('/');
-                }
-            });
-        }
+        // if (this.state.valid && (!localStorage.getItem("username") || localStorage.getItem("username") === "")) {
+        //     this.setState({valid: false});
+        // } else {
+        //     isActuallyInGame(gameCode, localStorage.getItem("username")).then((inGame) => {
+        //         if (!inGame) {
+        //             this
+        //                 .props
+        //                 .history
+        //                 .push('/');
+        //         }
+        //     });
+        // }
 
         this.setState({gameCode: gameCode});
         let gameRef = fire

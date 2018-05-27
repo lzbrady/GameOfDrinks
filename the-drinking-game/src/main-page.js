@@ -31,7 +31,7 @@ class MainPage extends Component {
     }
 
     componentDidMount() {
-        localStorage.setItem("username", "");
+        localStorage.setItem("username", "Loading...");
         //Must attempt to read to persist
         localStorage.getItem('username');
     }
