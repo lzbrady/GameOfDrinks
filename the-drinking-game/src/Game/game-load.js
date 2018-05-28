@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import fire from '../Backend/fire';
 import {removePlayer, redirect, isActuallyInGame} from '../Backend/database';
 import middlePic from '../Images/middle-icon.png';
-import {BrowserView, MobileView, isBrowser, isMobile} from "react-device-detect";
 
 import './game-load.css';
 
@@ -16,7 +15,8 @@ class GameLoad extends Component {
             players: [],
             lastAdded: "Going back/forward within the browser will interfere with gameplay, use the site" +
                     "s buttons to navigate!",
-            toasting: true
+            toasting: true,
+            width: 0
         }
 
         this.leaveGame = this
@@ -29,6 +29,10 @@ class GameLoad extends Component {
 
         this.displayNameInToast = this
             .displayNameInToast
+            .bind(this);
+
+        this.updateWindowDimensions = this
+            .updateWindowDimensions
             .bind(this);
     }
 
@@ -54,18 +58,21 @@ class GameLoad extends Component {
         }, 8000);
 
         let gameCode = this.props.match.params.String;
-        // if (this.state.valid && (!localStorage.getItem("username") || localStorage.getItem("username") === "")) {
-        //     this.setState({valid: false});
-        // } else {
-        //     isActuallyInGame(gameCode, localStorage.getItem("username")).then((inGame) => {
-        //         if (!inGame) {
-        //             this
-        //                 .props
-        //                 .history
-        //                 .push('/');
-        //         }
-        //     });
-        // }
+        this.updateWindowDimensions();
+        window.addEventListener('resize', this.updateWindowDimensions);
+
+        if (this.state.valid && (!localStorage.getItem("username") || localStorage.getItem("username") === "")) {
+            this.setState({valid: false});
+        } else {
+            isActuallyInGame(gameCode, localStorage.getItem("username")).then((inGame) => {
+                if (!inGame) {
+                    this
+                        .props
+                        .history
+                        .push('/');
+                }
+            });
+        }
 
         this.setState({gameCode: gameCode});
         let gameRef = fire
@@ -94,6 +101,14 @@ class GameLoad extends Component {
         });
     }
 
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.updateWindowDimensions);
+    }
+
+    updateWindowDimensions() {
+        this.setState({width: window.innerWidth});
+    }
+
     displayNameInToast(nameToToast) {
         if (!this.state.toasting) {
             this.setState({toasting: true, lastAdded: nameToToast});
@@ -118,36 +133,32 @@ class GameLoad extends Component {
                             ? "Invalid Game Code or Player Name"
                             : ""}</h1>
 
-                    <MobileView device={isMobile}>
-                        <div className="player-list-mobile">
-                            <img src={middlePic} alt="Logo" className="middle-icon-mobile"/>
-                            <p className="game-code-mobile">{this.state.gameCode}</p>
-                            <p className="click-circle">*Press a circle for full name</p>
-                            {(this.state.players.map((player, index) => {
-                                return <p
-                                    className={(localStorage.getItem("username") === player
-                                    ? `a-player-in-list-mobile deg${index}-mobile my-name`
-                                    : `a-player-in-list-mobile deg${index}-mobile`)}
-                                    key={player}
-                                    onClick={() => this.displayNameInToast(player)}>{player.substring(0, 1)}</p>
-                            }))}
-                        </div>
-                    </MobileView>
-
-                    <BrowserView device={isBrowser}>
-                        <div className="player-list-browser">
-                            <img src={middlePic} alt="Logo" className="middle-icon-browser"/>
-                            <p className="game-code-browser">{this.state.gameCode}</p>
-                            {(this.state.players.map((player, index) => {
-                                return <p
-                                    className={(localStorage.getItem("username") === player
-                                    ? `a-player-in-list-browser deg${index}-browser my-name`
-                                    : `a-player-in-list-browser deg${index}-browser`)}
-                                    key={player}
-                                    onClick={() => this.displayNameInToast(player)}>{player}</p>
-                            }))}
-                        </div>
-                    </BrowserView >
+                    {this.state.width < 475 && <div className="player-list-mobile">
+                        <img src={middlePic} alt="Logo" className="middle-icon-mobile"/>
+                        <p className="game-code-mobile">{this.state.gameCode}</p>
+                        <p className="click-circle">*Press a circle for full name</p>
+                        {(this.state.players.map((player, index) => {
+                            return <p
+                                className={(localStorage.getItem("username") === player
+                                ? `a-player-in-list-mobile deg${index}-mobile my-name`
+                                : `a-player-in-list-mobile deg${index}-mobile`)}
+                                key={player}
+                                onClick={() => this.displayNameInToast(player)}>{player.substring(0, 1)}</p>
+                        }))}
+                    </div>
+}
+                    {this.state.width >= 475 && <div className="player-list-browser">
+                        <img src={middlePic} alt="Logo" className="middle-icon-browser"/>
+                        <p className="game-code-browser">{this.state.gameCode}</p>
+                        {(this.state.players.map((player, index) => {
+                            return <p
+                                className={(localStorage.getItem("username") === player
+                                ? `a-player-in-list-browser deg${index}-browser my-name`
+                                : `a-player-in-list-browser deg${index}-browser`)}
+                                key={player}
+                                onClick={() => this.displayNameInToast(player)}>{player}</p>
+                        }))}
+                    </div>}
 
                     <p
                         className={this.state.toasting

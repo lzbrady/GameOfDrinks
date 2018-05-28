@@ -16,7 +16,6 @@ import Sabers from '../PremiumGames/sabers';
 import MainGame from '../MainGame/main-game';
 
 import MdInfoOutline from 'react-icons/lib/md/info-outline';
-import {MobileView, isMobile} from "react-device-detect";
 
 class GamesMenu extends Component {
 
@@ -179,13 +178,6 @@ class GamesMenu extends Component {
                                 <span>Points are tracked and drinks are drank!</span>
                             </ReactTooltip>
 
-                            {this.state.showMainTooltip && <MobileView device={isMobile}>
-                                <div className="mobile-tooltip">
-                                    <span>Cycles through the mini games.</span><br/>
-                                    <span>Points are tracked and drinks are drank!</span>
-                                </div>
-                            </MobileView>}
-
                             <h3 className="title-with-tooltip">Play a Mini Game</h3>
                             <MdInfoOutline
                                 onClick={() => {
@@ -208,13 +200,6 @@ class GamesMenu extends Component {
                                 <span>Points arent tracked,</span><br/>
                                 <span>but you can still drink!</span>
                             </ReactTooltip>
-
-                            {this.state.showMiniTooltip && <MobileView device={isMobile}>
-                                <div className="mobile-tooltip">
-                                    <span>Points arent tracked,</span><br/>
-                                    <span>but you can still drink!</span>
-                                </div>
-                            </MobileView>}
 
                             <Link
                                 onClick={(e) => this.routeChange('never-have-i-ever')}
@@ -259,13 +244,6 @@ class GamesMenu extends Component {
                                 <span>All new premium games!</span><br/>
                                 <span>One time payment of $5</span>
                             </ReactTooltip>
-
-                            {this.state.showMiniTooltip && <MobileView device={isMobile}>
-                                <div className="mobile-tooltip">
-                                    <span>All new premium games!</span><br/>
-                                    <span>One time payment of $5</span>
-                                </div>
-                            </MobileView>}
 
                             <Link
                                 onClick={(e) => this.routeChange('sabers')}
