@@ -30,18 +30,17 @@ class MainPage extends Component {
             .bind(this);
     }
 
-    componentDidMount() {
-        localStorage.setItem("username", "Loading...");
-        //Must attempt to read to persist
-        localStorage.getItem('username');
-    }
-
     handleChange(event) {
         this.setState({playerName: event.target.value});
     }
 
     gameCodeChange(event) {
-        this.setState({gameCode: event.target.value});
+        this.setState({
+            gameCode: event
+                .target
+                .value
+                .toUpperCase()
+        });
     }
 
     newGameSubmit(e) {
@@ -54,8 +53,12 @@ class MainPage extends Component {
                     this.setState(code);
                 } else {
                     localStorage.setItem("username", this.state.playerName.trim());
+
                     // Must attempt to read to persist
-                    localStorage.getItem('username');
+                    while (localStorage.getItem('username') === null) {
+                        // Loop until the localstorage item is set
+                    }
+
                     this.setState({error: ""});
                     this
                         .props
@@ -77,8 +80,13 @@ class MainPage extends Component {
         if (typeof(Storage) !== "undefined") {
             this.setState({error: ""});
             localStorage.setItem("username", this.state.playerName.trim());
+
             // Must attempt to read to persist
-            localStorage.getItem('username');
+            while (localStorage.getItem('username') === null) {
+                // Loop until the localstorage item is set
+                console.log("Loop: ", localStorage.getItem('username'));
+            }
+
             joinGame(this.state.playerName, this.state.gameCode).then((rtn) => {
                 if (rtn.success) {
                     this

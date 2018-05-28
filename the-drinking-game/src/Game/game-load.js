@@ -96,6 +96,7 @@ class GameLoad extends Component {
                 });
                 this.setState({players: newPlayers});
             } else {
+                console.log("Invalid 2");
                 this.setState({valid: false});
             }
         });
