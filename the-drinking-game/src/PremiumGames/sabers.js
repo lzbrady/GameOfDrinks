@@ -23,6 +23,7 @@ class Sabers extends Component {
             result: "You Have Not Finished Yet Fam",
             showResult: false,
             timeLeft: 20,
+            ogTimeLeft: 20,
             drinks: []
         }
 
@@ -86,7 +87,8 @@ class Sabers extends Component {
                     resetValues(gameCode, 'drinks');
                     this.setupGame(gameCode);
                     this.setState({
-                        timeLeft: (20 + ((i + 1) * 5))
+                        timeLeft: (20 + ((i + 1) * 5)),
+                        ogTimeLeft: (20 + ((i + 1) * 5))
                     });
                 }
             }, timeOutTime);
@@ -146,7 +148,7 @@ class Sabers extends Component {
     }
 
     getResults() {
-        getSaberResults(this.state.gameCode).then((results) => {
+        getSaberResults(this.state.gameCode, this.state.ogTimeLeft).then((results) => {
             console.log("Results", results);
             this.setState({showBlade1: false, showBlade2: false, showBlade3: false, showBlade4: false, showResult: false});
             let newPath = this.state.chosenPath;

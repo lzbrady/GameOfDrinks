@@ -58,7 +58,7 @@ export function stopPattern(gameCode) {
         .set(false);
 }
 
-export function getSaberResults(gameCode) {
+export function getSaberResults(gameCode, ogTimeLeft) {
     return getDrinks(gameCode).then((snapshot) => {
         fire
             .database()
@@ -68,55 +68,84 @@ export function getSaberResults(gameCode) {
             .child("showPattern")
             .set(true);
 
+        newPattern(gameCode, ogTimeLeft);
+
         return snapshot.val();
     })
+}
+
+function newPattern(gameCode, ogTimeLeft) {
+    fire
+        .database()
+        .ref('games')
+        .child(gameCode)
+        .child("metadata")
+        .child("pattern")
+        .once('value')
+        .then((snapshot) => {
+            let newPat = 0;
+            let oldPat = ("" + snapshot.val()).split("");
+
+            let patternLength = 5;
+            if (ogTimeLeft === 25) {
+                patternLength += 1;
+            } else if (ogTimeLeft === 30) {
+                patternLength = 4;
+            }
+            console.log("TEST", ogTimeLeft);
+
+            for (let i = 0; i < patternLength; i++) {
+                newPat += (randomPatternNumber() * (Math.pow(10, i)));
+            }
+            fire
+                .database()
+                .ref('games')
+                .child(gameCode)
+                .child("metadata")
+                .child("pattern")
+                .set(newPat);
+        });
+}
+
+function randomPatternNumber() {
+    return (Math.floor(Math.random() * 4) + 1);
 }
 
 export function checkPath(gameCode, currentPath, lastChosen, username) {
     let ref = fire
         .database()
         .ref('games')
-        .child(gameCode);
+        .child(gameCode)
+        .child("metadata")
+        .child("pattern");
 
     return ref
         .once('value')
         .then((snapshot) => {
             let answer = currentPath;
             answer.push(lastChosen);
+            let correct = ("" + snapshot.val()).split("");
 
-            let ref = fire
-                .database()
-                .ref('games')
-                .child(gameCode)
-                .child("metadata")
-                .child("pattern");
+            if (correct.length < answer.length) {
+                // Already got it right, ignore
+                return correct.length - answer.length;
+            }
 
-            return ref
-                .once('value')
-                .then((snapshot) => {
-                    let correct = ("" + snapshot.val()).split("");
+            for (let i = 0; i < answer.length; i++) {
+                if (("" + answer[i]) !== correct[i]) {
+                    answer.length = 0;
+                    // Incorrect somewhere
+                    return 10;
+                }
+            }
 
-                    if (correct.length < answer.length) {
-                        // Already got it right, ignore
-                        return correct.length - answer.length;
-                    }
+            // Correct, finished
+            if (answer.length === correct.length) {
+                removeDrinks(gameCode, localStorage.getItem('username'));
+                return 0;
+            }
 
-                    for (let i = 0; i < answer.length; i++) {
-                        if (("" + answer[i]) !== correct[i]) {
-                            answer.length = 0;
-                            // Incorrect somewhere
-                            return 10;
-                        }
-                    }
-
-                    // Correct, finished
-                    if (answer.length === correct.length) {
-                        removeDrinks(gameCode, localStorage.getItem('username'));
-                        return 0;
-                    }
-
-                    // Correct, still in progress
-                    return correct.length - answer.length;
-                })
+            // Correct, still in progress
+            return correct.length - answer.length;
         });
 }

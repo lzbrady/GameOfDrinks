@@ -164,7 +164,7 @@
     position: absolute;
     bottom: 7px;
     left: 17px;
-    filter: blur(0.2px);
+    /* filter: blur(0.2px); */
     z-index: 5;
 }
 
@@ -177,7 +177,7 @@
     left: 18px;
     z-index: 5;
     border-radius: 0px 0px 6px 6px;
-    filter: blur(0.2px);
+    /* filter: blur(0.2px); */
 }
 
 .saber-handle-top-bottom {
@@ -189,8 +189,8 @@
     left: 17.5px;
     border-radius: 6px 6px 0px 0px;
     z-index: 8;
-    -webkit-filter: blur(0.2px);
-    filter: blur(0.2px);
+    /* -webkit-filter: blur(0.2px); */
+    /* filter: blur(0.2px); */
     border-bottom: 0.3px solid black;
 }
 
@@ -238,7 +238,7 @@
     left: 17px;
     z-index: 10;
     background: linear-gradient(to right, black 5%, rgb(241, 241, 241) 20%, black 40%);
-    filter: blur(0.2px);
+    /* filter: blur(0.2px); */
 }
 
 .saber-middle-button-cover {
@@ -249,7 +249,7 @@
     left: 19px;
     z-index: 10;
     background: linear-gradient(to bottom, black 90%, rgb(241, 241, 241) 98%, black 100%);
-    filter: blur(0.2px);
+    /* filter: blur(0.2px); */
     z-index: 3;
 }
 
@@ -259,7 +259,7 @@
     bottom: 30px;
     position: absolute;
     left: 35px;
-    filter: blur(0.2px);
+    /* filter: blur(0.2px); */
     z-index: 1;
 }
 
