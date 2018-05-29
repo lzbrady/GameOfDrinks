@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 
 import {createGame, joinGame} from './Backend/database';
 import './main-page.css';
+import Intro from './Animations/intro';
 
 class MainPage extends Component {
     constructor() {

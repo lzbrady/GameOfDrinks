@@ -84,7 +84,6 @@ function newPattern(gameCode, ogTimeLeft) {
         .once('value')
         .then((snapshot) => {
             let newPat = 0;
-            let oldPat = ("" + snapshot.val()).split("");
 
             let patternLength = 5;
             if (ogTimeLeft === 25) {
@@ -92,7 +91,6 @@ function newPattern(gameCode, ogTimeLeft) {
             } else if (ogTimeLeft === 30) {
                 patternLength = 4;
             }
-            console.log("TEST", ogTimeLeft);
 
             for (let i = 0; i < patternLength; i++) {
                 newPat += (randomPatternNumber() * (Math.pow(10, i)));
